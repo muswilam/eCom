@@ -8,7 +8,7 @@ using eCom.Entities;
 
 namespace eCom.Data
 {
-    class eComContext : DbContext
+    public class eComContext : DbContext
     {
         public eComContext()
             : base("name=eComContext")
