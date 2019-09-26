@@ -55,4 +55,16 @@
             alert("Fail");
         })
     });
+
+    $("#newBtn").click(function () {
+        $.ajax({
+            url: '/Product/Create',
+        })
+        .done(function (result) {
+            $("#actionContainer").html(result);
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    })
 </script>
