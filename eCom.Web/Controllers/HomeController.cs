@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using eCom.Services;
+using eCom.Web.ViewModels;
 
 namespace eCom.Web.Controllers
 {
     public class HomeController : Controller
     {
+        HomeViewModel model = new HomeViewModel();
+        CategoriesService CatServices = new CategoriesService();
+
         public ActionResult Index()
         {
-            return View();
+            model.Categories = CatServices.GetCategories();
+
+            return View(model);
         }
 
         public ActionResult About()
