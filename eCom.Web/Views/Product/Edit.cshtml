@@ -1,0 +1,47 @@
+﻿@model Product
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Edit Product</h2>
+
+<form id="editProductForm">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <label>Name</label>
+    <input name="name" value="@Model.Name"/>
+
+    <br />
+
+    <label>Description</label>
+    <input name="description" value="@Model.Description"/>
+
+    <br />
+
+    <label>Price</label>
+    <input name="Price" value="@Model.Price"/>
+
+    <br />
+
+    <button type="button" id="updateBtn">Update</button>
+
+</form>
+
+<script>
+    $("#updateBtn").click(function () {
+        $.ajax({
+            url: '/Product/Edit',
+            data: $("#editProductForm").serialize(),
+            type: 'Post',
+        })
+        .done(function (result) {
+            $("#tableContainer").html(result);
+            $("#actionContainer").empty();
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    });
+</script>

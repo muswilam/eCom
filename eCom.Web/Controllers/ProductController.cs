@@ -40,5 +40,28 @@ namespace eCom.Web.Controllers
 
             return RedirectToAction("ProductTable");
         }
+
+        [HttpGet]
+        public PartialViewResult Edit(int id)
+        {
+            var product = PServices.GetProduct(id);
+            return PartialView(product);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Product product)
+        {
+            PServices.UpdateProduct(product);
+
+            return RedirectToAction("ProductTable");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            PServices.DeleteProduct(id);
+
+            return RedirectToAction("ProductTable");
+        }
     }
 }
