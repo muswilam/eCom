@@ -33,6 +33,8 @@
         <script src="javascript/respond.min.js"></script>
     <![endif]-->
 
+    <script src="~/Content/javascript/jquery.min.js"></script>
+
 </head>
 <body class="header_sticky header-style-1 has-menu-extra">
     <!-- Preloader -->
@@ -47,7 +49,7 @@
                 <div class="container-fluid clearfix container-width-93" id="site-header-inner">
                     <div id="logo" class="logo float-left">
                         <a href="index.html" title="logo">
-                            <img src="~/Content/images/logo.png" alt="image" width="107" height="24" data-retina="~/Content/images/logo@2x.png" data-width="107" data-height="24">
+                            <img src="/Content/images/logo.png" alt="image" width="107" height="24" data-retina="/Content/images/logo@2x.png" data-width="107" data-height="24">
                         </a>
                     </div><!-- /.logo -->
                     <div class="mobile-button"><span></span></div>
@@ -242,7 +244,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="copyright text-center">Copyright @@ @DateTime.Now <a href="#">Modaz</a></p>
+                        <p class="copyright text-center">Copyright @@ @DateTime.Now.Year <a href="#">Modaz</a></p>
                     </div>
                 </div>
             </div>
@@ -255,7 +257,6 @@
     </div>
 
     <!-- Javascript -->
-    <script src="~/Content/javascript/jquery.min.js"></script>
     <script src="~/Content/javascript/tether.min.js"></script>
     <script src="~/Content/javascript/bootstrap.min.js"></script>
     <script src="~/Content/javascript/jquery.easing.js"></script>

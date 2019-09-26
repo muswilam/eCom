@@ -17,6 +17,47 @@
 
     <br />
 
-    <button type="submit">Submit</button>
+    <label>Image</label>
+    <input id="selectImage" name="Image" type="file" accept=".png, .jpg"/>
+    <input id="imageUrl" type="hidden" name="ImageUrl" />
+
+    <div class="thumb">
+        <img id="categoryImage" style="width:400px;" src="" />
+    </div>
+    <br />
+
+    <button type="submit">Save</button>
 
 </form>
+
+<script>
+    $("#selectImage").change(function () {
+        var element = this;
+
+        var formData = new FormData();
+        var totalFiles = element.files.length;
+
+        for (var i = 0; i < totalFiles; i++) {
+            var file = element.files[i];
+            formData.append("Picture", file);
+        }
+
+        $.ajax({
+            type: 'Post',
+            url: '/Shared/UploadImage',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false
+        })
+        .done(function (response) {
+            if (response.success) {
+                $("#categoryImage").attr("src", response.imageURL);
+                $("#imageUrl").val(response.imageURL);
+            }
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    })
+</script>

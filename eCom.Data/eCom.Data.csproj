@@ -54,6 +54,10 @@
     <Compile Include="Migrations\201909251330388_InitializeDB.Designer.cs">
       <DependentUpon>201909251330388_InitializeDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909261745573_AddImageUrlColumnInCategoriesTable.cs" />
+    <Compile Include="Migrations\201909261745573_AddImageUrlColumnInCategoriesTable.Designer.cs">
+      <DependentUpon>201909261745573_AddImageUrlColumnInCategoriesTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -72,6 +76,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201909251330388_InitializeDB.resx">
       <DependentUpon>201909251330388_InitializeDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909261745573_AddImageUrlColumnInCategoriesTable.resx">
+      <DependentUpon>201909261745573_AddImageUrlColumnInCategoriesTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

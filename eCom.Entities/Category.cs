@@ -8,6 +8,8 @@ namespace eCom.Entities
 {
     public class Category : BaseEntity
     {
+        public string ImageUrl { get; set; }
+
         //nav prop
         public List<Product> Products { get; set; }
     }
