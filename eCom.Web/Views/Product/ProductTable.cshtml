@@ -4,16 +4,18 @@
     ViewBag.Title = "ProductTable";
 }
 
-<div>
-    <form method="post" action="/Product/ProductTable">
-        <input id="searchTxt" name="Search" />
-        <button type="button" id="searchBtn">Search</button>
-    </form>
-    <button type="button" id="newBtn">New</button>
+<form>
+    <div class="input-group mt-3 mb-3">
+        <input id="searchTxt" name="Search" class="form-control" placeholder="Search..." />
+        <div class="input-group-append" id="button-addon4">
+            <button type="button" id="searchBtn" class="btn btn-primary">Search</button>
+            <button type="button" id="newBtn" class="btn btn-primary">New</button>
+        </div>
+    </div>
+</form>
 
-</div>
 
-<table>
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Product Name</th>
@@ -52,6 +54,7 @@
 
 <script>
     $("#searchBtn").click(function () {
+        debugger;
         var searchValue = $("#searchTxt").val();
         $.ajax({
             url: '/Product/ProductTable',
@@ -62,10 +65,12 @@
         })
         .done(function (result) {
             $("#tableContainer").html(result);
+            debugger;
         })
         .fail(function () {
             alert("Fail");
         })
+        debugger;
     });
 
     $("#newBtn").click(function () {

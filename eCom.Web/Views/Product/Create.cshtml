@@ -6,34 +6,36 @@
 
 <h2>Create Product</h2>
 
+
 <form id="createProductForm">
-    <label>Category</label>
-    <select name="CategoryId">
-        @foreach (var category in Model)
-        {
-            <option value="@category.Id">@category.Name</option>
-        }
-    </select>
-    <br />
+    <div class="form-group">
+        <label>Category</label>
+        <select name="CategoryId" class="form-control">
+            @foreach (var category in Model)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+    </div>
 
-    <label>Name</label>
-    <input name="name" />
+    <div class="form-group">
+        <label>Name</label>
+        <input name="name" class="form-control" placeholder="Product name..." />
+    </div>
 
-    <br />
+    <div class="form-group">
+        <label>Description</label>
+        <input name="Description" class="form-control" placeholder="Description..." />
+    </div>
 
-    <label>Description</label>
-    <input name="description" />
+    <div class="form-group">
+        <label>Price</label>
+        <input type="number" name="Price" class="form-control" placeholder="Price..." />
+    </div>
 
-    <br />
-
-    <label>Price</label>
-    <input name="Price" />
-
-    <br />
-
-    <button type="button" id="saveBtn">Save</button>
-
+    <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
 </form>
+
 
 <script>
     $("#saveBtn").click(function () {
