@@ -15,7 +15,7 @@ namespace eCom.Web.Controllers
 
         public ActionResult Index()
         {
-            model.Categories = CatServices.GetCategories();
+            model.FeaturedCategories = CatServices.GetFeaturedCategories();
 
             return View(model);
         }

@@ -2,6 +2,9 @@
 
 @{
     ViewBag.Title = "Edit";
+    
+    var trueChecked = Model.IsFeatured ? "checked" : string.Empty;
+    var falseChecked = !Model.IsFeatured ? "checked" : string.Empty;
 }
 
 <h2>Edit</h2>
@@ -16,6 +19,13 @@
 
     <label>Description</label>
     <input name="description" value="@Model.Description" />
+
+    <br />
+
+
+    <label>Is featured ?</label>
+    <input type="radio" name="IsFeatured" value="true" @trueChecked/>True
+    <input type="radio" name="IsFeatured" value="false" @falseChecked/>False
 
     <br />
 

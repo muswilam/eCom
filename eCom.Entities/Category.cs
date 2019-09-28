@@ -10,6 +10,8 @@ namespace eCom.Entities
     {
         public string ImageUrl { get; set; }
 
+        public bool IsFeatured { get; set; }
+
         //nav prop
         public List<Product> Products { get; set; }
     }
