@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using eCom.Services;
 using eCom.Entities;
+using eCom.Web.ViewModels;
 
 namespace eCom.Web.Controllers
 {
@@ -30,13 +31,25 @@ namespace eCom.Web.Controllers
         [HttpGet]
         public PartialViewResult Create()
         {
-            return PartialView();
+            CategoriesService CatServices = new CategoriesService();
+
+            var categories = CatServices.GetCategories();
+
+            return PartialView(categories);
         }
 
         [HttpPost]
-        public ActionResult Create(Product product)
+        public ActionResult Create(NewCategoryViewModel productModel)
         {
-            PServices.SaveProduct(product);
+            CategoriesService CatServices = new CategoriesService();
+
+            var newProduct = new Product();
+            newProduct.Name = productModel.Name;
+            newProduct.Description = productModel.Description;
+            newProduct.Price = productModel.Price;
+            newProduct.Category = CatServices.GetCategory(productModel.CategoryId);
+
+            PServices.SaveProduct(newProduct);
 
             return RedirectToAction("ProductTable");
         }

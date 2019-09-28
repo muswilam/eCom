@@ -23,7 +23,7 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
-                return context.Products.ToList();
+                return context.Products.Include(p => p.Category).ToList();
             }
         }
 
@@ -31,6 +31,8 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
+                context.Entry(product.Category).State = EntityState.Unchanged; //prevent adding category again with different id
+
                 context.Products.Add(product);
                 context.SaveChanges();
             }

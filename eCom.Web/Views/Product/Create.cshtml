@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<Category>
+
 @{
     ViewBag.Title = "Create";
 }
@@ -6,6 +7,15 @@
 <h2>Create Product</h2>
 
 <form id="createProductForm">
+    <label>Category</label>
+    <select name="CategoryId">
+        @foreach (var category in Model)
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+    </select>
+    <br />
+
     <label>Name</label>
     <input name="name" />
 
