@@ -55,19 +55,34 @@ namespace eCom.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public PartialViewResult Edit(int id)
         {
-            var category = CatServices.GetCategory(id);
+            EditCategoryViewModel editModel = new EditCategoryViewModel();
 
-            return View(category);
+            var categoryFromDb = CatServices.GetCategory(id);
+
+            editModel.Id = categoryFromDb.Id;
+            editModel.Name = categoryFromDb.Name;
+            editModel.Description = categoryFromDb.Description;
+            editModel.ImageUrl = categoryFromDb.ImageUrl;
+            editModel.IsFeatured = categoryFromDb.IsFeatured;
+
+            return PartialView(editModel);
         }
 
         [HttpPost]
-        public ActionResult Edit(Category category)
+        public ActionResult Edit(EditCategoryViewModel categoryModel)
         {
-            CatServices.UpdateCategory(category);
+            var categoryFromDb = CatServices.GetCategory(categoryModel.Id);
 
-            return RedirectToAction("Index");
+            categoryFromDb.Name = categoryModel.Name;
+            categoryFromDb.Description = categoryModel.Description;
+            categoryFromDb.ImageUrl = categoryModel.ImageUrl;
+            categoryFromDb.IsFeatured = categoryModel.IsFeatured;
+
+            CatServices.UpdateCategory(categoryFromDb);
+
+            return RedirectToAction("CategoryTable");
         }
 
         [HttpGet]

@@ -29,8 +29,8 @@
                 <td>@category.Name</td>
                 <td>@category.Products.Count</td>
                 <td>
-                    <button class="editCategoryBtn" data-id="@category.Id">Edit</button>
-                    <button class="deleteCategoryBtn" data-id="@category.Id">Delete</button>
+                    <button class="editBtn" data-id="@category.Id">Edit</button>
+                    <button class="deleteBtn" data-id="@category.Id">Delete</button>
                 </td>
             </tr>
         }
@@ -60,6 +60,19 @@
     $("#newCategoryBtn").click(function () {
         $.ajax({
             url: '@Url.Action("Create","Category")',
+        })
+        .done(function (result) {
+            $("#actionContainer").html(result);
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    });
+
+    $(".editBtn").click(function () {
+        var id = $(this).attr("data-id");
+        $.ajax({
+            url: '/Category/Edit/' + id,
         })
         .done(function (result) {
             $("#actionContainer").html(result);

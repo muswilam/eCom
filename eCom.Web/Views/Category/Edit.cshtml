@@ -1,34 +1,103 @@
-﻿@model eCom.Entities.Category
+﻿@model eCom.Web.ViewModels.EditCategoryViewModel
 
 @{
     ViewBag.Title = "Edit";
     
     var trueChecked = Model.IsFeatured ? "checked" : string.Empty;
     var falseChecked = !Model.IsFeatured ? "checked" : string.Empty;
+    var imageUrl = Model.ImageUrl != null ? Model.ImageUrl : "/content/images/default.jpg";
+    
 }
 
-<h2>Edit</h2>
+<h2>Edit Category</h2>
 
-<form method="post">
-    <input type="hidden" name="Id" value="@Model.Id" />
+<form id="editCategoryForm">
+    <div class="row mt-2">
+        <div class="col-md-8">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <div class="form-group">
+                <label>Name</label>
+                <input name="name" class="form-control" value="@Model.Name" placeholder="Category name..." />
+            </div>
 
-    <label>Name</label>
-    <input name="name" value="@Model.Name" />
+            <div class="form-group">
+                <label>Description</label>
+                <input name="Description" class="form-control" value="@Model.Description" placeholder="Description..." />
+            </div>
 
-    <br />
+            <div class="form-group">
+                <label>Image</label>
+                <input id="selectImage" class="form-control" name="Image" type="file" accept=".png, .jpg" />
+                <input id="imageUrl" type="hidden" value="@Model.ImageUrl" name="ImageUrl" />
 
-    <label>Description</label>
-    <input name="description" value="@Model.Description" />
+            </div>
 
-    <br />
+            <div class="form-group">
+                <label>Is featured ?</label>
+                <div class="input-group">
+                    <div class="radio form-control">
+                        <label><input type="radio" name="IsFeatured" value="true" @trueChecked /> True</label>
+                    </div>
+                    <div class="radio form-control">
+                        <label><input type="radio" name="IsFeatured" value="false" @falseChecked /> False</label>
+                    </div>
+                </div>
+            </div>
 
+            <button type="button" class="btn btn-primary" id="updateBtn">Update</button>
+        </div>
 
-    <label>Is featured ?</label>
-    <input type="radio" name="IsFeatured" value="true" @trueChecked/>True
-    <input type="radio" name="IsFeatured" value="false" @falseChecked/>False
-
-    <br />
-
-    <button type="submit">Submit</button>
-
+        <div class="col-md-4">
+            <div class="thumb">
+                <img id="categoryImage" class="img-thumbnail img-fluid" src="@imageUrl" />
+            </div>
+        </div>
+    </div>
 </form>
+
+<script>
+    $("#selectImage").change(function () {
+        var element = this;
+
+        var formData = new FormData();
+        var totalFiles = element.files.length;
+
+        for (var i = 0; i < totalFiles; i++) {
+            var file = element.files[i];
+            formData.append("Picture", file);
+        }
+
+        $.ajax({
+            type: 'Post',
+            url: '/Shared/UploadImage',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false
+        })
+        .done(function (response) {
+            if (response.success) {
+                $("#categoryImage").attr("src", response.imageURL);
+                $("#imageUrl").val(response.imageURL);
+            }
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    })
+
+    $("#updateBtn").click(function () {
+        $.ajax({
+            url: '/Category/Edit',
+            data: $("#editCategoryForm").serialize(),
+            type: 'Post',
+        })
+        .done(function (response) {
+            $("#tableContainer").html(response);
+            $("#actionContainer").empty();
+        })
+          .fail(function () {
+              alert("Fail");
+          })
+    })
+</script>
