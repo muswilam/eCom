@@ -12,6 +12,7 @@ namespace eCom.Web.Controllers
     public class ProductController : Controller
     {
         ProductService PServices = new ProductService();
+        CategoriesService CatServices = new CategoriesService();
 
         public ActionResult Index()
         {
@@ -20,29 +21,33 @@ namespace eCom.Web.Controllers
 
         public PartialViewResult ProductTable(string search)
         {
-            var products = PServices.GetProducts();
+            ProductSearchViewModel productModel = new ProductSearchViewModel();
+
+            productModel.Products = PServices.GetProducts();
 
             if(!string.IsNullOrEmpty(search))
-                products = products.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToList();
+            {
+                productModel.Products = productModel.Products.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToList();
+
+                productModel.SearchTerm = search;
+            }
             
-            return PartialView(products);
+            return PartialView(productModel);
         }
 
         [HttpGet]
         public PartialViewResult Create()
         {
-            CategoriesService CatServices = new CategoriesService();
+            NewProductViewModel productModel = new NewProductViewModel();
+             
+            productModel.AvailableCategories = CatServices.GetCategories();
 
-            var categories = CatServices.GetCategories();
-
-            return PartialView(categories);
+            return PartialView(productModel);
         }
 
         [HttpPost]
         public ActionResult Create(NewProductViewModel productModel)
         {
-            CategoriesService CatServices = new CategoriesService();
-
             var newProduct = new Product();
             newProduct.Name = productModel.Name;
             newProduct.Description = productModel.Description;
@@ -57,14 +62,32 @@ namespace eCom.Web.Controllers
         [HttpGet]
         public PartialViewResult Edit(int id)
         {
-            var product = PServices.GetProduct(id);
-            return PartialView(product);
+            EditProductViewModel editModel = new EditProductViewModel();
+
+            var productFromDb = PServices.GetProduct(id);
+
+            editModel.Id = productFromDb.Id;
+            editModel.Name = productFromDb.Name;
+            editModel.Description = productFromDb.Description;
+            editModel.Price = productFromDb.Price;
+            editModel.CategoryId = productFromDb.Category.Id;
+
+            editModel.Categories = CatServices.GetCategories();
+
+            return PartialView(editModel);
         }
 
         [HttpPost]
-        public ActionResult Edit(Product product)
+        public ActionResult Edit(EditProductViewModel productModel)
         {
-            PServices.UpdateProduct(product);
+            var productFromDb = PServices.GetProduct(productModel.Id);
+
+            productFromDb.Name = productModel.Name;
+            productFromDb.Description = productModel.Description;
+            productFromDb.Price = productModel.Price;
+            productFromDb.Category = CatServices.GetCategory(productModel.CategoryId);
+
+            PServices.UpdateProduct(productFromDb);
 
             return RedirectToAction("ProductTable");
         }

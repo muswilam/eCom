@@ -4,41 +4,49 @@
     ViewBag.Title = "Category Table";
 }
 
-
-
-<form>
-    <div class="input-group mt-3 mb-3">
-        <input id="searchTxt" name="Search" class="form-control mr-1" value="@Model.SearchTerm" placeholder="Search..." />
-        <div class="input-group-append">
-            <button type="button" id="searchBtn" class="btn btn-primary">Search</button>
-            <button type="button" id="newCategoryBtn" class="btn btn-primary">New</button>
+<div>
+    <form>
+        <div class="input-group mt-3 mb-3">
+            <input id="searchTxt" name="Search" class="form-control mr-1" value="@Model.SearchTerm" placeholder="Search..." />
+            <div class="input-group-append">
+                <button type="button" id="searchBtn" class="btn btn-primary">Search</button>
+                <button type="button" id="newCategoryBtn" class="btn btn-primary">New</button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Category</th>
-            <th>Products</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var category in Model.Categories)
-        {
+<div>
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@category.Name</td>
-                <td>@category.Products.Count</td>
-                <td>
-                    <button class="editBtn" data-id="@category.Id">Edit</button>
-                    <button class="deleteBtn" data-id="@category.Id">Delete</button>
-                </td>
+                <th>Category</th>
+                <th>Products</th>
+                <th>Action</th>
             </tr>
-        }
-    </tbody>
-</table>
-
+        </thead>
+        <tbody>
+            @if (Model.Categories != null && Model.Categories.Count > 0)
+            {
+                foreach (var category in Model.Categories)
+                {
+                    <tr>
+                        <td>@category.Name</td>
+                        <td>@category.Products.Count</td>
+                        <td>
+                            <button class="editBtn" data-id="@category.Id">Edit</button>
+                            <button class="deleteBtn" data-id="@category.Id">Delete</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="3" class="text-danger">No categories found.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <script>
     $("#searchBtn").click(function () {
@@ -65,12 +73,12 @@
         })
         .done(function (result) {
             $("#actionContainer").html(result);
+
+            focusAction();
         })
         .fail(function () {
             alert("Fail");
         })
-
-        focusAction();
     });
 
     $(".editBtn").click(function () {
@@ -80,12 +88,12 @@
         })
         .done(function (result) {
             $("#actionContainer").html(result);
+
+            focusAction();
         })
         .fail(function () {
             alert("Fail");
         })
-
-        focusAction();
     });
 
     $(".deleteBtn").click(function () {
@@ -111,6 +119,5 @@
         $('html, body').animate({
             scrollTop: $("#actionContainer").offset().top - 100
         }, 700);
-        debugger;
     }
 </script>

@@ -1,7 +1,7 @@
-﻿@model Product
+﻿@model eCom.Web.ViewModels.EditProductViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
 }
 
 <h2>Edit Product</h2>
@@ -10,23 +10,41 @@
 
     <input type="hidden" name="Id" value="@Model.Id" />
 
-    <label>Name</label>
-    <input name="name" value="@Model.Name"/>
+    <div class="form-group">
+        <label>Category</label>
+        <select name="CategoryId" class="form-control">
+            @if (Model.Categories != null && Model.Categories.Count > 0)
+            {
+                foreach (var category in Model.Categories)
+                {
+                    
+                    var selectedCategory = category.Id == Model.CategoryId ? "selected" : string.Empty;
+                    
+                    <option value="@category.Id" @selectedCategory>@category.Name</option>
+                }
+            }
+        </select>
 
-    <br />
 
-    <label>Description</label>
-    <input name="description" value="@Model.Description"/>
 
-    <br />
+    </div>
 
-    <label>Price</label>
-    <input name="Price" value="@Model.Price"/>
+    <div class="form-group">
+        <label>Name</label>
+        <input name="name" class="form-control" value="@Model.Name" placeholder="Product name..." />
+    </div>
 
-    <br />
+    <div class="form-group">
+        <label>Description</label>
+        <input name="Description" class="form-control" value="@Model.Description" placeholder="Description..." />
+    </div>
 
-    <button type="button" id="updateBtn">Update</button>
+    <div class="form-group">
+        <label>Price</label>
+        <input type="number" name="Price" class="form-control" value="@Model.Price" placeholder="Price..." />
+    </div>
 
+    <button type="button" class="btn btn-primary" id="updateBtn">Update</button>
 </form>
 
 <script>

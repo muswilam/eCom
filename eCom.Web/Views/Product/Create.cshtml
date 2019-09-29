@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Category>
+﻿@model eCom.Web.ViewModels.NewProductViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -11,7 +11,7 @@
     <div class="form-group">
         <label>Category</label>
         <select name="CategoryId" class="form-control">
-            @foreach (var category in Model)
+            @foreach (var category in Model.AvailableCategories)
             {
                 <option value="@category.Id">@category.Name</option>
             }

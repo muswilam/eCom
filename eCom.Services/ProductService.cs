@@ -15,7 +15,7 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
-                return context.Products.Where(c => c.Id == id).FirstOrDefault();
+                return context.Products.Include(p => p.Category).Where(c => c.Id == id).FirstOrDefault();
             }
         }
 
@@ -42,6 +42,8 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
+                context.Entry(product.Category).State = EntityState.Unchanged; //prevent adding category again with different id
+
                 context.Entry(product).State = EntityState.Modified;
                 context.SaveChanges();
             }
