@@ -85,6 +85,7 @@ namespace eCom.Web.Controllers
             productFromDb.Name = productModel.Name;
             productFromDb.Description = productModel.Description;
             productFromDb.Price = productModel.Price;
+            productFromDb.CategoryId = productModel.CategoryId;
             productFromDb.Category = CatServices.GetCategory(productModel.CategoryId);
 
             PServices.UpdateProduct(productFromDb);

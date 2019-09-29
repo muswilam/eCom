@@ -95,9 +95,16 @@
         .done(function (response) {
             $("#tableContainer").html(response);
             $("#actionContainer").empty();
+            focusTable();
         })
           .fail(function () {
               alert("Fail");
           })
-    })
+    });
+
+    function focusTable() {
+        $('html, body').animate({
+            scrollTop: $("#tableContainer").offset().top - 100
+        }, 700);
+    }
 </script>

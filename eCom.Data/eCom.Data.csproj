@@ -62,6 +62,10 @@
     <Compile Include="Migrations\201909281930487_AddIsFeaturedColumnInCategoriesTable.Designer.cs">
       <DependentUpon>201909281930487_AddIsFeaturedColumnInCategoriesTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909292002128_AddCategoryIdColumnInProductsTable.cs" />
+    <Compile Include="Migrations\201909292002128_AddCategoryIdColumnInProductsTable.Designer.cs">
+      <DependentUpon>201909292002128_AddCategoryIdColumnInProductsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -86,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909281930487_AddIsFeaturedColumnInCategoriesTable.resx">
       <DependentUpon>201909281930487_AddIsFeaturedColumnInCategoriesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909292002128_AddCategoryIdColumnInProductsTable.resx">
+      <DependentUpon>201909292002128_AddCategoryIdColumnInProductsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

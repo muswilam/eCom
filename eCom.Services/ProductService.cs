@@ -42,8 +42,6 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
-                context.Entry(product.Category).State = EntityState.Unchanged; //prevent adding category again with different id
-
                 context.Entry(product).State = EntityState.Modified;
                 context.SaveChanges();
             }
