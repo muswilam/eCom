@@ -23,7 +23,7 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
-                return context.Categories.ToList();
+                return context.Categories.Include(c => c.Products).ToList();
             }
         }
 

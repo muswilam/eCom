@@ -1,12 +1,12 @@
-﻿@model IEnumerable<eCom.Entities.Category>
-
+﻿
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Categories</h2>
-
-@foreach (var Category in Model)
-{
-    <h3>@Category.Name</h3>
-}
+<div class="container">
+    <div id="tableContainer">
+        @{
+            Html.RenderAction("CategoryTable", "Category");
+        }
+    </div>
+</div>

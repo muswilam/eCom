@@ -14,9 +14,17 @@ namespace eCom.Web.Controllers
 
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public PartialViewResult CategoryTable(string search)
+        {
             var categories = CatServices.GetCategories();
 
-            return View(categories);
+            if (!string.IsNullOrEmpty(search))
+                categories = categories.Where(c => c.Name.ToLower().Contains(search.ToLower())).ToList();
+
+            return PartialView(categories);
         }
 
         [HttpGet]
