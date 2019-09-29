@@ -39,7 +39,7 @@ namespace eCom.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(NewCategoryViewModel productModel)
+        public ActionResult Create(NewProductViewModel productModel)
         {
             CategoriesService CatServices = new CategoriesService();
 

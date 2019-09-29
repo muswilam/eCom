@@ -175,6 +175,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CategoryViewModels.cs" />
+    <Compile Include="ViewModels\ProductViewModels.cs" />
     <Compile Include="ViewModels\HomeViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +218,7 @@
     <Content Include="Content\images\blog\new-lastest-8-370x280.jpg" />
     <Content Include="Content\images\blog\new-lastest-9-370x280.jpg" />
     <Content Include="Content\images\blog\search_icon.png" />
+    <Content Include="Content\images\default.jpg" />
     <Content Include="Content\images\gallery\gallery-1-870x377.jpg" />
     <Content Include="Content\images\gallery\gallery-2-870x377.jpg" />
     <Content Include="Content\images\image-box\imgbox-1-1173x620.jpg" />
@@ -522,7 +524,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Category\Create.cshtml" />
-    <Content Include="Views\Category\CategoryTable.cshtml" />
+    <Content Include="Views\Category\_CategoryTable.cshtml" />
     <Content Include="Views\Category\Edit.cshtml" />
     <Content Include="Views\Category\Delete.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />

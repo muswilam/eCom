@@ -1,39 +1,53 @@
 ﻿
 @{
     ViewBag.Title = "Create";
+
+    var imageUrl = "/Content/Images/default.jpg";
 }
 
 <h2>Create Category</h2>
 
-<form method="post">
-    <label>Name</label>
-    <input name="name" />
+<form id="createCategoryForm">
+    <div class="row mt-2">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>Name</label>
+                <input name="name" class="form-control" placeholder="Category name..." />
+            </div>
 
+            <div class="form-group">
+                <label>Description</label>
+                <input name="Description" class="form-control" placeholder="Description..." />
+            </div>
 
-    <br />
+            <div class="form-group">
+                <label>Image</label>
+                <input id="selectImage" class="form-control" name="Image" type="file" accept=".png, .jpg" />
+                <input id="imageUrl" type="hidden" name="ImageUrl" />
 
-    <label>Description</label>
-    <input name="description" />
+            </div>
 
-    <br />
+            <div class="form-group">
+                <label>Is featured ?</label>
+                <div class="input-group">
+                    <div class="radio form-control">
+                        <label><input type="radio" name="IsFeatured" value="true" />True</label>
+                    </div>
+                    <div class="radio form-control">
+                        <label><input type="radio" name="IsFeatured" value="false" />False</label>
+                    </div>
+                </div>
+            </div>
 
-    <label>Image</label>
-    <input id="selectImage" name="Image" type="file" accept=".png, .jpg"/>
-    <input id="imageUrl" type="hidden" name="ImageUrl" />
+            <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
+        </div>
 
-    <div class="thumb">
-        <img id="categoryImage" style="width:400px;" src="" />
+        <div class="col-md-4">
+            <div class="thumb">
+                <img id="categoryImage" class="img-thumbnail img-fluid" src="@imageUrl" />
+            </div>
+        </div>
     </div>
-    <br />
-
-    <label>Is featured ?</label>
-    <input type="radio" name="IsFeatured" value="true"/>True
-    <input type="radio" name="IsFeatured" value="false"/>False
-
-    <br />
-
-    <button type="submit">Save</button>
-
 </form>
 
 <script>
@@ -66,4 +80,19 @@
             alert("Fail");
         })
     })
+
+    $("#saveBtn").click(function () {
+        $.ajax({
+            url: '/Category/Create',
+            data: $("#createCategoryForm").serialize(),
+            type: 'Post',
+        })
+        .done(function (result) {
+            $("#tableContainer").html(result);
+            $("#actionContainer").empty();
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    });
 </script>

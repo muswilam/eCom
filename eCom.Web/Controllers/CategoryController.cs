@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using eCom.Entities;
 using eCom.Services;
+using eCom.Web.ViewModels;
 
 namespace eCom.Web.Controllers
 {
@@ -19,26 +20,38 @@ namespace eCom.Web.Controllers
 
         public PartialViewResult CategoryTable(string search)
         {
-            var categories = CatServices.GetCategories();
+            CategorySearchViewModel catModel = new CategorySearchViewModel();
+
+            catModel.Categories = CatServices.GetCategories();
 
             if (!string.IsNullOrEmpty(search))
-                categories = categories.Where(c => c.Name.ToLower().Contains(search.ToLower())).ToList();
+            {
+                catModel.Categories = catModel.Categories.Where(c => c.Name.ToLower().Contains(search.ToLower())).ToList();
 
-            return PartialView(categories);
+                catModel.SearchTerm = search;
+            }
+
+            return PartialView("_CategoryTable", catModel);
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public PartialViewResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
-        public ActionResult Create(Category category)
-        {
-            CatServices.SaveCategory(category);
+        public ActionResult Create(NewCategoryViewModel categoryModel)
+         {
+            Category newCategory = new Category();
+            newCategory.Name = categoryModel.Name;
+            newCategory.Description = categoryModel.Description;
+            newCategory.ImageUrl = categoryModel.ImageUrl;
+            newCategory.IsFeatured = categoryModel.IsFeatured;
 
-            return RedirectToAction("Index");
+            CatServices.SaveCategory(newCategory);
+
+            return RedirectToAction("CategoryTable");
         }
 
         [HttpGet]
