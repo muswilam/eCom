@@ -85,20 +85,12 @@ namespace eCom.Web.Controllers
             return RedirectToAction("CategoryTable");
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult Delete(int id)
         {
-            var category = CatServices.GetCategory(id);
+            CatServices.DeleteCategory(id);
 
-            return View(category);
-        }
-
-        [HttpPost]
-        public ActionResult Delete(Category categoryModel)
-        {
-            CatServices.DeleteCategory(categoryModel.Id);
-
-            return RedirectToAction("Index");
+            return RedirectToAction("CategoryTable");
         }
     }
 }

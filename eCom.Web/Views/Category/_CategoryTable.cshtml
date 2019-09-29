@@ -4,6 +4,8 @@
     ViewBag.Title = "Category Table";
 }
 
+
+
 <form>
     <div class="input-group mt-3 mb-3">
         <input id="searchTxt" name="Search" class="form-control mr-1" value="@Model.SearchTerm" placeholder="Search..." />
@@ -67,6 +69,8 @@
         .fail(function () {
             alert("Fail");
         })
+
+        focusAction();
     });
 
     $(".editBtn").click(function () {
@@ -80,5 +84,33 @@
         .fail(function () {
             alert("Fail");
         })
+
+        focusAction();
+    });
+
+    $(".deleteBtn").click(function () {
+        var id = $(this).attr("data-id");
+
+        var confirmDelete = confirm("Are you sure. you wanna delete this product?");
+
+        if (confirmDelete) {
+            $.ajax({
+                url: '/Category/Delete/' + id,
+                type: 'Post'
+            })
+             .done(function (result) {
+                 $("#tableContainer").html(result);
+             })
+             .fail(function () {
+                 alert("Fail");
+             })
+        }
     })
+
+    function focusAction() {
+        $('html, body').animate({
+            scrollTop: $("#actionContainer").offset().top - 100
+        }, 700);
+        debugger;
+    }
 </script>
