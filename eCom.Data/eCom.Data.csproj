@@ -66,6 +66,10 @@
     <Compile Include="Migrations\201909292002128_AddCategoryIdColumnInProductsTable.Designer.cs">
       <DependentUpon>201909292002128_AddCategoryIdColumnInProductsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909301714085_CreateConfigurationsTable.cs" />
+    <Compile Include="Migrations\201909301714085_CreateConfigurationsTable.Designer.cs">
+      <DependentUpon>201909301714085_CreateConfigurationsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -93,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909292002128_AddCategoryIdColumnInProductsTable.resx">
       <DependentUpon>201909292002128_AddCategoryIdColumnInProductsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909301714085_CreateConfigurationsTable.resx">
+      <DependentUpon>201909301714085_CreateConfigurationsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
