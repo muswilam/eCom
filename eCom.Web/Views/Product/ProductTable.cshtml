@@ -47,6 +47,7 @@
                         <td>
                             <button class="editBtn" data-id="@product.Id">Edit</button>
                             <button class="deleteBtn" data-id="@product.Id">Delete</button>
+                            <button class="addToCart" data-id="@product.Id">Add To Cart</button>
                         </td>
                     </tr>
                 }
@@ -92,7 +93,7 @@
         .fail(function () {
             alert("Fail");
         })
-    })
+    });
 
     $(".editBtn").click(function () {
         var id = $(this).attr("data-id");
@@ -126,7 +127,19 @@
              })
         }
     });
+
+    var products = [];
     
+    $(".addToCart").click(function () {
+        var productId = $(this).attr("data-id");
+        products.push(productId);
+
+        $.cookie('cartProduct', products.join('-')); // { path: '/'} to allow cookie in others controllers
+
+        alert("Product added to cart.");
+      
+    });
+
     function focusAction(){
         $('html, body').animate({
             scrollTop: $("#actionContainer").offset().top - 100

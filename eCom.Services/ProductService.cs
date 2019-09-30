@@ -11,6 +11,7 @@ namespace eCom.Services
 {
     public class ProductService
     {
+        //get product by id
         public Product GetProduct(int id)
         {
             using (var context = new eComContext())
@@ -19,6 +20,16 @@ namespace eCom.Services
             }
         }
 
+        //get products by list of ids
+        public List<Product> GetProducts(List<int> ids)
+        {
+            using (var context = new eComContext())
+            {
+                return context.Products.Where(p => ids.Contains(p.Id)).ToList();
+            }
+        }
+
+        //get products 
         public List<Product> GetProducts()
         {
             using (var context = new eComContext())
@@ -27,6 +38,7 @@ namespace eCom.Services
             }
         }
 
+        //add product 
         public void SaveProduct(Product product)
         {
             using (var context = new eComContext())
@@ -38,6 +50,7 @@ namespace eCom.Services
             }
         }
 
+        //edit product
         public void UpdateProduct(Product product)
         {
             using (var context = new eComContext())
@@ -47,6 +60,7 @@ namespace eCom.Services
             }
         }
 
+        //delete product
         public void DeleteProduct(int id)
         {
             using (var context = new eComContext())
