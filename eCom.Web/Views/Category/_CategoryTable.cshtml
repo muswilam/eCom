@@ -35,7 +35,7 @@
                         <td>@category.Products.Count</td>
                         <td>
                             <button class="editBtn" data-id="@category.Id">Edit</button>
-                            <button class="deleteBtn" data-id="@category.Id">Delete</button>
+                            <button class="deleteBtn" data-id="@category.Id" data-name="@category.Name">Delete</button>
                         </td>
                     </tr>
                 }
@@ -98,22 +98,35 @@
 
     $(".deleteBtn").click(function () {
         var id = $(this).attr("data-id");
+        var name = $(this).attr("data-name");
 
-        var confirmDelete = confirm("Are you sure. you wanna delete this product?");
+        swal({
+            title: "Confirm!",
+            text: "Are you sure. you wanna delete " + name + " ?" ,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then(function (willDelete) {
+            if (willDelete) {
+                $.ajax({
+                    url: '/Category/Delete/' + id,
+                    type: 'Post'
+                })
+                .done(function (result) {
 
-        if (confirmDelete) {
-            $.ajax({
-                url: '/Category/Delete/' + id,
-                type: 'Post'
-            })
-             .done(function (result) {
-                 $("#tableContainer").html(result);
-             })
-             .fail(function () {
-                 alert("Fail");
-             })
-        }
-    })
+                    swal( name + " deleted successfuly.", {
+                        icon: "success",
+                    });
+
+                    $("#tableContainer").html(result);
+                })
+                .fail(function () {
+                    alert("Fail");
+                });
+            }
+        });
+    });
 
     function focusAction() {
         $('html, body').animate({

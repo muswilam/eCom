@@ -46,7 +46,7 @@
                         <td>@product.Price</td>
                         <td>
                             <button class="editBtn" data-id="@product.Id">Edit</button>
-                            <button class="deleteBtn" data-id="@product.Id">Delete</button>
+                            <button class="deleteBtn" data-id="@product.Id" data-name="@product.Name">Delete</button>
                             <button class="addToCart" data-id="@product.Id">Add To Cart</button>
                         </td>
                     </tr>
@@ -111,21 +111,34 @@
 
     $(".deleteBtn").click(function () {
         var id = $(this).attr("data-id");
+        var name = $(this).attr("data-name");
+        swal({
+            title: "Confirm!",
+            text: "Are you sure. you wanna delete " + name + " ?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then(function(willDelete) {
+            if (willDelete) {
 
-        var confirmDelete = confirm("Are you sure. you wanna delete this product?");
-
-        if (confirmDelete) {
             $.ajax({
                 url: '/Product/Delete/' + id,
                 type: 'Post'
             })
              .done(function (result) {
+
+                 swal( name + " deleted successfuly.", {
+                     icon: "success",
+                 });
+
                  $("#tableContainer").html(result);
              })
              .fail(function () {
                  alert("Fail");
              })
-        }
+            }
+       });
     });
 
     var products = [];
