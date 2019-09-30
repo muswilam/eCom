@@ -34,6 +34,7 @@ namespace eCom.Web.Controllers
             return PartialView("_CategoryTable", catModel);
         }
 
+        #region Creation
         [HttpGet]
         public PartialViewResult Create()
         {
@@ -53,7 +54,9 @@ namespace eCom.Web.Controllers
 
             return RedirectToAction("CategoryTable");
         }
+        #endregion
 
+        #region Updation
         [HttpGet]
         public PartialViewResult Edit(int id)
         {
@@ -84,6 +87,7 @@ namespace eCom.Web.Controllers
 
             return RedirectToAction("CategoryTable");
         }
+        #endregion
 
         [HttpPost]
         public ActionResult Delete(int id)

@@ -11,6 +11,22 @@ namespace eCom.Services
 {
     public class ProductService
     {
+        #region Singleton
+        public static ProductService Instance
+        {
+            get
+            {
+                if (instance == null) instance = new ProductService();
+
+                return instance;
+            }
+        }
+        private static ProductService instance { get; set; }
+        private ProductService()
+        {
+        }
+        #endregion
+
         //get product by id
         public Product GetProduct(int id)
         {

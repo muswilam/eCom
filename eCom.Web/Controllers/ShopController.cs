@@ -10,7 +10,7 @@ namespace eCom.Web.Controllers
 {
     public class ShopController : Controller
     {
-        ProductService PServices = new ProductService();
+        //ProductService PServices = new ProductService();
 
         public ActionResult Checkout()
         {
@@ -22,7 +22,7 @@ namespace eCom.Web.Controllers
             {
                 checkoutModel.CartProductIds = cartProductsCookie.Value.Split('-').Select(int.Parse).ToList(); //total numbers
 
-                checkoutModel.CartProducts = PServices.GetProducts(checkoutModel.CartProductIds); //products with the same ids (distinct)
+                checkoutModel.CartProducts = ProductService.Instance.GetProducts(checkoutModel.CartProductIds); //products with the same ids (distinct)
             }
 
             return View(checkoutModel);

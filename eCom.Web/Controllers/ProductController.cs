@@ -11,7 +11,7 @@ namespace eCom.Web.Controllers
 {
     public class ProductController : Controller
     {
-        ProductService PServices = new ProductService();
+        //ProductService PServices = new ProductService();
         CategoriesService CatServices = new CategoriesService();
 
         public ActionResult Index()
@@ -23,7 +23,7 @@ namespace eCom.Web.Controllers
         {
             ProductSearchViewModel productModel = new ProductSearchViewModel();
 
-            productModel.Products = PServices.GetProducts();
+            productModel.Products =  ProductService.Instance.GetProducts();
 
             if(!string.IsNullOrEmpty(search))
             {
@@ -34,6 +34,8 @@ namespace eCom.Web.Controllers
             
             return PartialView(productModel);
         }
+
+        #region Creation
 
         [HttpGet]
         public PartialViewResult Create()
@@ -54,17 +56,20 @@ namespace eCom.Web.Controllers
             newProduct.Price = productModel.Price;
             newProduct.Category = CatServices.GetCategory(productModel.CategoryId);
 
-            PServices.SaveProduct(newProduct);
+            ProductService.Instance.SaveProduct(newProduct);
 
             return RedirectToAction("ProductTable");
         }
+        #endregion
+
+        #region Updation
 
         [HttpGet]
         public PartialViewResult Edit(int id)
         {
             EditProductViewModel editModel = new EditProductViewModel();
 
-            var productFromDb = PServices.GetProduct(id);
+            var productFromDb = ProductService.Instance.GetProduct(id);
 
             editModel.Id = productFromDb.Id;
             editModel.Name = productFromDb.Name;
@@ -80,7 +85,7 @@ namespace eCom.Web.Controllers
         [HttpPost]
         public ActionResult Edit(EditProductViewModel productModel)
         {
-            var productFromDb = PServices.GetProduct(productModel.Id);
+            var productFromDb = ProductService.Instance.GetProduct(productModel.Id);
 
             productFromDb.Name = productModel.Name;
             productFromDb.Description = productModel.Description;
@@ -88,15 +93,17 @@ namespace eCom.Web.Controllers
             productFromDb.CategoryId = productModel.CategoryId;
             productFromDb.Category = CatServices.GetCategory(productModel.CategoryId);
 
-            PServices.UpdateProduct(productFromDb);
+            ProductService.Instance.UpdateProduct(productFromDb);
 
             return RedirectToAction("ProductTable");
         }
 
+        #endregion
+
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            PServices.DeleteProduct(id);
+            ProductService.Instance.DeleteProduct(id);
 
             return RedirectToAction("ProductTable");
         }
