@@ -10,6 +10,7 @@
             <input id="searchTxt" name="Search" class="form-control mr-1" value="@Model.SearchTerm" placeholder="Search..." />
             <div class="input-group-append">
                 <button type="button" id="searchBtn" class="btn btn-primary">Search</button>
+                <button type="button" id="resetBtn" class="btn btn-primary">Reset</button>
                 <button type="button" id="newCategoryBtn" class="btn btn-primary">New</button>
             </div>
         </div>
@@ -66,6 +67,19 @@
         })
     });
 
+    $("#resetBtn").click(function () {
+        $.ajax({
+            url: '@Url.Action("CategoryTable", "Category")',
+            type: 'Get',
+        })
+        .done(function (result) {
+            $("#tableContainer").html(result);
+            $("#actionContainer").empty();
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    });
 
     $("#newCategoryBtn").click(function () {
         $.ajax({
@@ -84,7 +98,10 @@
     $(".editBtn").click(function () {
         var id = $(this).attr("data-id");
         $.ajax({
-            url: '/Category/Edit/' + id,
+            url: '@Url.Action("Edit", "Category")',
+            data: {
+                id: id
+            }
         })
         .done(function (result) {
             $("#actionContainer").html(result);
@@ -110,7 +127,10 @@
         .then(function (willDelete) {
             if (willDelete) {
                 $.ajax({
-                    url: '/Category/Delete/' + id,
+                    url: '@Url.Action("Delete","Category")',
+                    data: {
+                        id: id
+                    },
                     type: 'Post'
                 })
                 .done(function (result) {

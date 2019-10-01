@@ -13,6 +13,7 @@
             <input id="searchTxt" name="Search" class="form-control mr-1" value="@Model.SearchTerm" placeholder="Search..." />
             <div class="input-group-append">
                 <button type="button" id="searchBtn" class="btn btn-primary">Search</button>
+                <button type="button" id="resetBtn" class="btn btn-primary">Reset</button>
                 <button type="button" id="newBtn" class="btn btn-primary">New</button>
             </div>
         </div>
@@ -61,40 +62,55 @@
         </tbody>
 
     </table>
-    <div>
-        @*@if (Model.PageNo != 1)
+    @*<div>
+        @if (Model.PageNo != 1)
         {
             <button class="pgaeButtons" data-pageno="@(Model.PageNo - 1)">Previous</button>
         }
-        <button class="pgaeButtons" data-pageno="@(Model.PageNo + 1)">Next</button>*@
-    </div>
+        <button class="pgaeButtons" data-pageno="@(Model.PageNo + 1)">Next</button>
+    </div>*@
 </div>
 
 <script>
 
-    $("#productsTable").DataTable();
+    $("#productsTable").dataTable();
 
-    $(".pgaeButtons").click(function () {
+    //$(".pgaeButtons").click(function () {
+    //    $.ajax({
+    //        url: '@Url.Action("ProductTable","Product")',
+    //        data: {
+    //            pageNo: $(this).attr("data-pageno")
+    //        },
+    //    })
+    //    .done(function (result) {
+    //        focusTable();
+    //        $("#tableContainer").html(result);
+    //    })
+    //    .fail(function () {
+    //        alert("Fail");
+    //    })
+    //});
+
+    $("#resetBtn").click(function () {
         $.ajax({
-            url: '/Product/ProductTable',
-            data: {
-                pageNo: $(this).attr("data-pageno")
-            },
+            url: '@Url.Action("ProductTable","Product")'
         })
-        .done(function (result) {
-            focusTable();
-            $("#tableContainer").html(result);
+        .done(function (response) {
+            $("#tableContainer").html(response);
+            $("#actionContainer").empty();
+            debugger;
         })
         .fail(function () {
             alert("Fail");
         })
-    });
+        debugger;
+    })
 
     $("#searchBtn").click(function () {
         debugger;
         var searchValue = $("#searchTxt").val();
         $.ajax({
-            url: '/Product/ProductTable',
+            url: '@Url.Action("ProductTable","Product")',
             data: {
                 search: searchValue
             },
@@ -112,7 +128,7 @@
 
     $("#newBtn").click(function () {
         $.ajax({
-            url: '/Product/Create',
+            url: '@Url.Action("Create","Product")',
         })
         .done(function (result) {
             $("#actionContainer").html(result);
@@ -126,7 +142,10 @@
     $(".editBtn").click(function () {
         var id = $(this).attr("data-id");
         $.ajax({
-            url: '/Product/Edit/' + id,
+            url: '@Url.Action("Edit","Product")',
+            data: {
+                id: id
+            }
         })
         .done(function (result) {
             $("#actionContainer").html(result);
@@ -151,7 +170,10 @@
             if (willDelete) {
 
                 $.ajax({
-                    url: '/Product/Delete/' + id,
+                    url: '@Url.Action("Delete","Product")',
+                    data: {
+                        id: id
+                    },
                     type: 'Post'
                 })
                  .done(function (result) {

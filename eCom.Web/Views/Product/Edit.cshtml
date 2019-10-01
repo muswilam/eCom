@@ -50,7 +50,7 @@
 <script>
     $("#updateBtn").click(function () {
         $.ajax({
-            url: '/Product/Edit',
+            url: '@Url.Action("Edit","Product")',
             data: $("#editProductForm").serialize(),
             type: 'Post',
         })

@@ -40,7 +40,7 @@
 <script>
     $("#saveBtn").click(function () {
         $.ajax({
-            url: '/Product/Create',
+            url: '@Url.Action("Create","Product")',
             data: $("#createProductForm").serialize(),
             type: 'Post',
         })
