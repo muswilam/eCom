@@ -19,11 +19,13 @@ namespace eCom.Web.Controllers
             return View();
         }
 
-        public PartialViewResult ProductTable(string search)
+        public PartialViewResult ProductTable(string search, int? pageNo)
         {
             ProductSearchViewModel productModel = new ProductSearchViewModel();
 
-            productModel.Products =  ProductService.Instance.GetProducts();
+            productModel.PageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
+
+            productModel.Products = ProductService.Instance.GetProducts(productModel.PageNo);
 
             if(!string.IsNullOrEmpty(search))
             {

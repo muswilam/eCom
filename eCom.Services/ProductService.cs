@@ -46,10 +46,14 @@ namespace eCom.Services
         }
 
         //get products 
-        public List<Product> GetProducts()
+        public List<Product> GetProducts(int pageNo)
         {
+            int pageSize = 5;
+
             using (var context = new eComContext())
             {
+                //return context.Products.OrderBy(p => p.Id).Skip((pageNo-1)*pageSize).Take(pageSize).Include(p => p.Category).ToList();
+
                 return context.Products.Include(p => p.Category).ToList();
             }
         }
