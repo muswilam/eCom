@@ -21,9 +21,9 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Category</th>
-                <th>Products</th>
-                <th>Action</th>
+                <th  class="font-weight-bold">Category</th>
+                <th  class="font-weight-bold">Products</th>
+                <th  class="font-weight-bold">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -88,7 +88,7 @@
         .done(function (result) {
             $("#actionContainer").html(result);
 
-            focusAction();
+            focusElement("actionContainer");
         })
         .fail(function () {
             alert("Fail");
@@ -106,7 +106,7 @@
         .done(function (result) {
             $("#actionContainer").html(result);
 
-            focusAction();
+            focusElement("actionContainer");
         })
         .fail(function () {
             alert("Fail");
@@ -148,10 +148,4 @@
             }
         });
     });
-
-    function focusAction() {
-        $('html, body').animate({
-            scrollTop: $("#actionContainer").offset().top - 100
-        }, 700);
-    }
 </script>

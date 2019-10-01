@@ -24,10 +24,10 @@
     <table id="productsTable" class="table table-striped">
         <thead>
             <tr>
-                <th>Product Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Actions</th>
+                <th class="font-weight-bold">Product Name</th>
+                <th class="font-weight-bold">Category</th>
+                <th class="font-weight-bold">Price</th>
+                <th class="font-weight-bold">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -132,7 +132,7 @@
         })
         .done(function (result) {
             $("#actionContainer").html(result);
-            focusAction()
+            focusElement("actionContainer");
         })
         .fail(function () {
             alert("Fail");
@@ -149,7 +149,7 @@
         })
         .done(function (result) {
             $("#actionContainer").html(result);
-            focusAction();
+            focusElement("actionContainer");
         })
         .fail(function () {
             alert("Fail");
@@ -203,16 +203,4 @@
         alert("Product added to cart.");
 
     });
-
-    function focusAction() {
-        $('html, body').animate({
-            scrollTop: $("#actionContainer").offset().top - 100
-        }, 700);
-    }
-
-    function focusTable() {
-        $('html, body').animate({
-            scrollTop: $("#tableContainer").offset().top - 100
-        }, 700);
-    }
 </script>

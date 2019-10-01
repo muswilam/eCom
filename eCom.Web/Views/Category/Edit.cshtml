@@ -45,6 +45,7 @@
             </div>
 
             <button type="button" class="btn btn-primary" id="updateBtn">Update</button>
+            <button type="button" class="btn btn-primary" id="cancelBtn">Cancel</button>
         </div>
 
         <div class="col-md-4">
@@ -95,16 +96,17 @@
         .done(function (response) {
             $("#tableContainer").html(response);
             $("#actionContainer").empty();
-            focusTable();
+            focusElement("tableContainer");
         })
           .fail(function () {
               alert("Fail");
           })
     });
 
-    function focusTable() {
-        $('html, body').animate({
-            scrollTop: $("#tableContainer").offset().top - 100
-        }, 700);
-    }
+    $("#cancelBtn").click(function () {
+        $("#actionContainer").empty();
+        focusElement("tableContainer");
+    })
+
+    
 </script>
