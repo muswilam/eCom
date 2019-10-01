@@ -11,9 +11,6 @@ namespace eCom.Web.Controllers
 {
     public class ProductController : Controller
     {
-        //ProductService PServices = new ProductService();
-        CategoriesService CatServices = new CategoriesService();
-
         public ActionResult Index()
         {
             return View();
@@ -37,14 +34,13 @@ namespace eCom.Web.Controllers
             return PartialView(productModel);
         }
 
-        #region Creation
-
+        #region Product Creation
         [HttpGet]
         public PartialViewResult Create()
         {
             NewProductViewModel productModel = new NewProductViewModel();
              
-            productModel.AvailableCategories = CatServices.GetCategories();
+            productModel.AvailableCategories = CategoriesService.Instance.GetCategories();
 
             return PartialView(productModel);
         }
@@ -56,7 +52,7 @@ namespace eCom.Web.Controllers
             newProduct.Name = productModel.Name;
             newProduct.Description = productModel.Description;
             newProduct.Price = productModel.Price;
-            newProduct.Category = CatServices.GetCategory(productModel.CategoryId);
+            newProduct.Category = CategoriesService.Instance.GetCategory(productModel.CategoryId);
 
             ProductService.Instance.SaveProduct(newProduct);
 
@@ -64,8 +60,7 @@ namespace eCom.Web.Controllers
         }
         #endregion
 
-        #region Updation
-
+        #region Product Updation
         [HttpGet]
         public PartialViewResult Edit(int id)
         {
@@ -79,7 +74,7 @@ namespace eCom.Web.Controllers
             editModel.Price = productFromDb.Price;
             editModel.CategoryId = productFromDb.Category.Id;
 
-            editModel.Categories = CatServices.GetCategories();
+            editModel.Categories = CategoriesService.Instance.GetCategories();
 
             return PartialView(editModel);
         }
@@ -93,7 +88,7 @@ namespace eCom.Web.Controllers
             productFromDb.Description = productModel.Description;
             productFromDb.Price = productModel.Price;
             productFromDb.CategoryId = productModel.CategoryId;
-            productFromDb.Category = CatServices.GetCategory(productModel.CategoryId);
+            productFromDb.Category = CategoriesService.Instance.GetCategory(productModel.CategoryId);
 
             ProductService.Instance.UpdateProduct(productFromDb);
 

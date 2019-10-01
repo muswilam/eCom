@@ -10,21 +10,21 @@ namespace eCom.Services
 {
     public class ConfigurationService
     {
-        //public static ConfigurationService ClassObject
-        //{
+        #region Singleton Non-Thread Safety
+        public static ConfigurationService Instance
+        {
+            get
+            {
+                if (instance == null) instance = new ConfigurationService();
 
-        //    get
-        //    {
-        //        if (privateInMemory == null) privateInMemory = new ConfigurationService();
-
-        //        return privateInMemory;
-        //    }
-        //}
-        //private static ConfigurationService privateInMemory { get; set; }
-
-        //private ConfigurationService()
-        //{
-        //}
+                return instance;
+            }
+        }
+        private static ConfigurationService instance { get; set; }
+        private ConfigurationService()
+        {
+        }
+        #endregion
 
         public Config GetConfig(string key)
         {

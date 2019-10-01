@@ -11,11 +11,10 @@ namespace eCom.Web.Controllers
     public class HomeController : Controller
     {
         HomeViewModel model = new HomeViewModel();
-        CategoriesService CatServices = new CategoriesService();
 
         public ActionResult Index()
         {
-            model.FeaturedCategories = CatServices.GetFeaturedCategories();
+            model.FeaturedCategories = CategoriesService.Instance.GetFeaturedCategories();
 
             return View(model);
         }

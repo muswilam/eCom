@@ -11,7 +11,7 @@ namespace eCom.Services
 {
     public class ProductService
     {
-        #region Singleton
+        #region Singleton Non-Thread Safety 
         public static ProductService Instance
         {
             get

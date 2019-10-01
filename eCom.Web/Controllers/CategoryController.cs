@@ -11,8 +11,6 @@ namespace eCom.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        CategoriesService CatServices = new CategoriesService();
-
         public ActionResult Index()
         {
             return View();
@@ -22,7 +20,7 @@ namespace eCom.Web.Controllers
         {
             CategorySearchViewModel catModel = new CategorySearchViewModel();
 
-            catModel.Categories = CatServices.GetCategories();
+            catModel.Categories = CategoriesService.Instance.GetCategories();
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -34,7 +32,7 @@ namespace eCom.Web.Controllers
             return PartialView("_CategoryTable", catModel);
         }
 
-        #region Creation
+        #region Category Creation
         [HttpGet]
         public PartialViewResult Create()
         {
@@ -50,19 +48,19 @@ namespace eCom.Web.Controllers
             newCategory.ImageUrl = categoryModel.ImageUrl;
             newCategory.IsFeatured = categoryModel.IsFeatured;
 
-            CatServices.SaveCategory(newCategory);
+            CategoriesService.Instance.SaveCategory(newCategory);
 
             return RedirectToAction("CategoryTable");
         }
         #endregion
 
-        #region Updation
+        #region Category Updation
         [HttpGet]
         public PartialViewResult Edit(int id)
         {
             EditCategoryViewModel editModel = new EditCategoryViewModel();
 
-            var categoryFromDb = CatServices.GetCategory(id);
+            var categoryFromDb = CategoriesService.Instance.GetCategory(id);
 
             editModel.Id = categoryFromDb.Id;
             editModel.Name = categoryFromDb.Name;
@@ -76,14 +74,14 @@ namespace eCom.Web.Controllers
         [HttpPost]
         public ActionResult Edit(EditCategoryViewModel categoryModel)
         {
-            var categoryFromDb = CatServices.GetCategory(categoryModel.Id);
+            var categoryFromDb = CategoriesService.Instance.GetCategory(categoryModel.Id);
 
             categoryFromDb.Name = categoryModel.Name;
             categoryFromDb.Description = categoryModel.Description;
             categoryFromDb.ImageUrl = categoryModel.ImageUrl;
             categoryFromDb.IsFeatured = categoryModel.IsFeatured;
 
-            CatServices.UpdateCategory(categoryFromDb);
+            CategoriesService.Instance.UpdateCategory(categoryFromDb);
 
             return RedirectToAction("CategoryTable");
         }
@@ -92,7 +90,7 @@ namespace eCom.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            CatServices.DeleteCategory(id);
+            CategoriesService.Instance.DeleteCategory(id);
 
             return RedirectToAction("CategoryTable");
         }
