@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 using eCom.Entities;
 using eCom.Services;
 using eCom.Web.ViewModels;
@@ -16,20 +17,25 @@ namespace eCom.Web.Controllers
             return View();
         }
 
-        public PartialViewResult CategoryTable(string search)
+        public ActionResult CategoryTable(string search, int? pageNo)
         {
             CategorySearchViewModel catModel = new CategorySearchViewModel();
+    
+            catModel.SearchTerm = search;
+            pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
 
-            catModel.Categories = CategoriesService.Instance.GetCategories();
+            var totalRecords = CategoriesService.Instance.GetCategoriesCount(search);
 
-            if (!string.IsNullOrEmpty(search))
+            catModel.Categories = CategoriesService.Instance.GetCategories(search , pageNo.Value);
+
+            if (catModel.Categories != null)
             {
-                catModel.Categories = catModel.Categories.Where(c => c.Name.ToLower().Contains(search.ToLower())).ToList();
+                catModel.Pager = new Pager(totalRecords, pageNo, 2);
 
-                catModel.SearchTerm = search;
+                return PartialView("_CategoryTable", catModel);
             }
 
-            return PartialView("_CategoryTable", catModel);
+            return HttpNotFound();
         }
 
         #region Category Creation

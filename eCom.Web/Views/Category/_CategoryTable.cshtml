@@ -21,9 +21,9 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th  class="font-weight-bold">Category</th>
-                <th  class="font-weight-bold">Products</th>
-                <th  class="font-weight-bold">Action</th>
+                <th class="font-weight-bold">Category</th>
+                <th class="font-weight-bold">Products</th>
+                <th class="font-weight-bold">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -47,13 +47,71 @@
             }
         </tbody>
     </table>
+
+    <div>
+        @if (Model.Pager != null)
+        {
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    @if (Model.Pager.CurrentPage != 1)
+                    {
+                        <li class="page-item">
+                            <a class="pageButtons page-link" data-pageno="1">&laquo;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage -1)">Previous</a>
+                        </li>
+                    }
+                    
+                    @for (int page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                    {
+                        string activeClass = Model.Pager.CurrentPage == page ? "bg-info" : string.Empty;
+
+                        <li class="page-item">
+                            <a class="pageButtons page-link @activeClass" data-pageno="@page">@page</a>
+                        </li>
+                    }
+                 
+                  
+                    @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage +1)">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="pageButtons page-link" data-pageno="@Model.Pager.EndPage">&raquo;</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    </div>
 </div>
 
 <script>
+    $(".pageButtons").click(function () {
+        var searchValue = $("#searchTxt").val();
+        $.ajax({
+            url: '@Url.Action("CategoryTable","Category")',
+            data: {
+                pageNo: $(this).attr("data-pageNo"),
+                search: searchValue
+            },
+        })
+        .done(function (result) {
+            $("#tableContainer").html(result);
+            focusElement("tableContainer");
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+        debugger;
+    });
+
     $("#searchBtn").click(function () {
         var searchValue = $("#searchTxt").val();
         $.ajax({
-            url: '@Url.Action("CategoryTable", "Category")', 
+            url: '@Url.Action("CategoryTable", "Category")',
             data: {
                 search: searchValue
             },
@@ -119,7 +177,7 @@
 
         swal({
             title: "Confirm!",
-            text: "Are you sure. you wanna delete " + name + " ?" ,
+            text: "Are you sure. you wanna delete " + name + " ?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -135,7 +193,7 @@
                 })
                 .done(function (result) {
 
-                    swal( name + " deleted successfuly.", {
+                    swal(name + " deleted successfuly.", {
                         icon: "success",
                     });
 

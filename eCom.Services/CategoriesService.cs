@@ -9,6 +9,7 @@ using eCom.Data;
 
 namespace eCom.Services
 {
+    [System.Runtime.InteropServices.GuidAttribute("891707B3-DC63-483D-8CEB-3261A81925CD")]
     public class CategoriesService
     {
         #region Singleton Non-Thread Safety
@@ -27,6 +28,7 @@ namespace eCom.Services
         }
         #endregion
 
+        //get category by id
         public Category GetCategory(int id)
         {
             using (var context = new eComContext())
@@ -35,6 +37,7 @@ namespace eCom.Services
             }
         }
 
+        //get all categoies 
         public List<Category> GetCategories()
         {
             using (var context = new eComContext())
@@ -43,6 +46,40 @@ namespace eCom.Services
             }
         }
 
+        //get categories by search and pageNo if exist
+        public List<Category> GetCategories(string search, int pageNo)
+        {
+            int pageSize = 2; //int.Parse(ConfigurationService.Instance.GetConfig("ListingPageSize").Value);
+            using (var context = new eComContext())
+            {
+                if (!string.IsNullOrEmpty(search))
+                {
+                    return context.Categories
+                        .Where(c => c.Name != null && c.Name.ToLower().Contains(search.ToLower()))
+                        .OrderBy(c => c.Id).Skip((pageNo - 1) * pageSize)
+                        .Take(pageSize)
+                        .Include(c => c.Products)
+                        .ToList();
+                }
+                return context.Categories.OrderBy(c => c.Id).Skip((pageNo -1)* pageSize).Take(pageSize).Include(c => c.Products).ToList();
+            }
+        }
+
+        //get categories count
+        public int GetCategoriesCount(string search)
+        {
+            using (var context = new eComContext())
+            {
+                if (!string.IsNullOrEmpty(search))
+                {
+                    return context.Categories
+                        .Where(c => c.Name != null && c.Name.ToLower().Contains(search.ToLower())).Count();
+                }
+                return context.Categories.Count();
+            }
+        }
+
+        //get list of featured categoriess
         public List<Category> GetFeaturedCategories()
         {
             using (var context = new eComContext())
@@ -51,6 +88,7 @@ namespace eCom.Services
             }
         }
 
+        //create category
         public void SaveCategory(Category category)
         {
             using (var context = new eComContext())
@@ -60,6 +98,7 @@ namespace eCom.Services
             }
         }
 
+        //edit category
         public void UpdateCategory(Category category)
         {
             using (var context = new eComContext())
@@ -69,6 +108,7 @@ namespace eCom.Services
             }
         }
 
+        //delete category
         public void DeleteCategory(int id)
         {
             using (var context = new eComContext())

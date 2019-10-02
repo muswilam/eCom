@@ -52,9 +52,9 @@ namespace eCom.Services
 
             using (var context = new eComContext())
             {
-                //return context.Products.OrderBy(p => p.Id).Skip((pageNo-1)*pageSize).Take(pageSize).Include(p => p.Category).ToList();
+                return context.Products.OrderBy(p => p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize).Include(p => p.Category).ToList();
 
-                return context.Products.Include(p => p.Category).ToList();
+                //return context.Products.Include(p => p.Category).ToList();
             }
         }
 
