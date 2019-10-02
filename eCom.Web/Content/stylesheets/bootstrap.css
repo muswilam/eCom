@@ -2069,7 +2069,7 @@ pre code {
 
 .table {
   width: 100%;
-  max-width: 100%;
+  max-width: 180%;
   margin-bottom: 1rem;
 }
 
@@ -2078,7 +2078,7 @@ pre code {
   padding: 0.75rem;
   vertical-align: top;
   border-top: 1px solid #eceeef;
-  width: 1%;
+  width: 40%;  /*so important to make table wide and fit all columns*/
   white-space: nowrap;
 }
 

@@ -66,6 +66,7 @@ namespace eCom.Services
             }
         }
 
+        //get products count
         public int GetProductsCount(string search)
         {
             using (var context = new eComContext())

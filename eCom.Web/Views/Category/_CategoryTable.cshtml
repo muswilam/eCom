@@ -4,7 +4,7 @@
     ViewBag.Title = "Category Table";
 }
 
-<div>
+<div class="col-md-12">
     <form>
         <div class="input-group mt-3 mb-3">
             <input id="searchTxt" name="Search" class="form-control mr-1" value="@Model.SearchTerm" placeholder="Search..." />
@@ -17,10 +17,10 @@
     </form>
 </div>
 
-<div>
-    <table class="table table-striped">
+<div class=" table-responsive">
+    <table class="table table-striped" >
         <thead>
-            <tr>
+            <tr style="width:1%">
                 <th class="font-weight-bold">Category</th>
                 <th class="font-weight-bold">Products</th>
                 <th class="font-weight-bold">Action</th>

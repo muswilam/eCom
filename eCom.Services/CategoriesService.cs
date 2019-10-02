@@ -56,7 +56,8 @@ namespace eCom.Services
                 {
                     return context.Categories
                         .Where(c => c.Name != null && c.Name.ToLower().Contains(search.ToLower()))
-                        .OrderBy(c => c.Id).Skip((pageNo - 1) * pageSize)
+                        .OrderBy(c => c.Id)
+                        .Skip((pageNo - 1) * pageSize)
                         .Take(pageSize)
                         .Include(c => c.Products)
                         .ToList();
