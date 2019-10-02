@@ -52,6 +52,7 @@ namespace eCom.Web.Controllers
             newProduct.Name = productModel.Name;
             newProduct.Description = productModel.Description;
             newProduct.Price = productModel.Price;
+            newProduct.ImageUrl = productModel.ImageUrl;
             newProduct.Category = CategoriesService.Instance.GetCategory(productModel.CategoryId);
 
             ProductService.Instance.SaveProduct(newProduct);
@@ -72,7 +73,8 @@ namespace eCom.Web.Controllers
             editModel.Name = productFromDb.Name;
             editModel.Description = productFromDb.Description;
             editModel.Price = productFromDb.Price;
-            editModel.CategoryId = productFromDb.Category.Id;
+            editModel.ImageUrl = productFromDb.ImageUrl;
+            editModel.CategoryId = productFromDb.Category != null ? productFromDb.Category.Id : 0;
 
             editModel.Categories = CategoriesService.Instance.GetCategories();
 
@@ -87,6 +89,7 @@ namespace eCom.Web.Controllers
             productFromDb.Name = productModel.Name;
             productFromDb.Description = productModel.Description;
             productFromDb.Price = productModel.Price;
+            productFromDb.ImageUrl = productModel.ImageUrl;
             productFromDb.CategoryId = productModel.CategoryId;
             productFromDb.Category = CategoriesService.Instance.GetCategory(productModel.CategoryId);
 

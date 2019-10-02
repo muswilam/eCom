@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201909301714085_CreateConfigurationsTable.Designer.cs">
       <DependentUpon>201909301714085_CreateConfigurationsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910021632219_AddImageUrlColumnInProductsTable.cs" />
+    <Compile Include="Migrations\201910021632219_AddImageUrlColumnInProductsTable.Designer.cs">
+      <DependentUpon>201910021632219_AddImageUrlColumnInProductsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -100,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909301714085_CreateConfigurationsTable.resx">
       <DependentUpon>201909301714085_CreateConfigurationsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910021632219_AddImageUrlColumnInProductsTable.resx">
+      <DependentUpon>201910021632219_AddImageUrlColumnInProductsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

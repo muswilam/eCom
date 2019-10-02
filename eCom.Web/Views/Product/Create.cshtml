@@ -2,35 +2,59 @@
 
 @{
     ViewBag.Title = "Create";
+    var imageUrl = "/Content/Images/default.jpg";
 }
 
 <h2>Create Product</h2>
 
-
 <form id="createProductForm">
-    <div class="form-group">
-        <label>Category</label>
-        <select name="CategoryId" class="form-control">
-            @foreach (var category in Model.AvailableCategories)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </select>
-    </div>
+    <div class="row mt-2">
+        <div class="col-md-8">
 
-    <div class="form-group">
-        <label>Name</label>
-        <input name="name" class="form-control" placeholder="Product name..." />
-    </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="CategoryId" class="form-control">
+                            @foreach (var category in Model.AvailableCategories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
 
-    <div class="form-group">
-        <label>Description</label>
-        <input name="Description" class="form-control" placeholder="Description..." />
-    </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input name="name" class="form-control" placeholder="Product name..." />
+                    </div>
+                </div>
+            </div>
 
-    <div class="form-group">
-        <label>Price</label>
-        <input type="number" name="Price" class="form-control" placeholder="Price..." />
+            <div class="form-group">
+                <label>Description</label>
+                <input name="Description" class="form-control" placeholder="Description..." />
+            </div>
+
+            <div class="form-group">
+                <label>Price</label>
+                <input type="number" name="Price" class="form-control" placeholder="Price..." />
+            </div>
+
+            <div class="form-group">
+                <label>Image</label>
+                <input id="selectImage" class="form-control" name="Image" type="file" accept=".png, .jpg" />
+                <input id="imageUrl" type="hidden" name="ImageUrl" />
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="thumb">
+                <img id="productImage" class="img-thumbnail img-fluid" src="@imageUrl" />
+            </div>
+        </div>
     </div>
 
     <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
@@ -40,6 +64,36 @@
 
 
 <script>
+    $("#selectImage").change(function () {
+        var element = this;
+
+        var formData = new FormData();
+        var totalFiles = element.files.length;
+
+        for (var i = 0; i < totalFiles; i++) {
+            var file = element.files[i];
+            formData.append("Picture", file);
+        }
+
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("UploadImage","Shared")',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false
+        })
+        .done(function (response) {
+            if (response.success) {
+                $("#productImage").attr("src", response.imageURL);
+                $("#imageUrl").val(response.imageURL);
+            }
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    })
+
     $("#saveBtn").click(function () {
         $.ajax({
             url: '@Url.Action("Create","Product")',

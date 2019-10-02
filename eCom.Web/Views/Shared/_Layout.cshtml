@@ -297,3 +297,11 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>
+
+<script>
+    function focusElement(elementToFocus) {
+        $('html, body').animate({
+            scrollTop: $("#" + elementToFocus).offset().top - 100
+        }, 700);
+    }
+</script>
