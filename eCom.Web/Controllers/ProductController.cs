@@ -16,22 +16,25 @@ namespace eCom.Web.Controllers
             return View();
         }
 
-        public PartialViewResult ProductTable(string search, int? pageNo)
+        public ActionResult ProductTable(string search, int? pageNo)
         {
             ProductSearchViewModel productModel = new ProductSearchViewModel();
 
-            productModel.PageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
+            pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
 
-            productModel.Products = ProductService.Instance.GetProducts(productModel.PageNo);
+            productModel.SearchTerm = search;
+            var totalRecords = ProductService.Instance.GetProductsCount(search);
 
-            if(!string.IsNullOrEmpty(search))
+            productModel.Products = ProductService.Instance.GetProducts(search , pageNo.Value);
+
+            if(productModel.Products != null)
             {
-                productModel.Products = productModel.Products.Where(p => p.Name.ToLower().Contains(search.ToLower())).ToList();
+                productModel.Pager = new Pager(totalRecords, pageNo.Value, 4);
 
-                productModel.SearchTerm = search;
+                return PartialView(productModel);
             }
-            
-            return PartialView(productModel);
+
+            return HttpNotFound();
         }
 
         #region Product Creation

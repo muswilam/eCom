@@ -59,22 +59,52 @@
         </tbody>
 
     </table>
-    <div>
-        @if (Model.PageNo != 1)
+    <div class="d-flex justify-content-center">
+        @if (Model.Pager != null)
         {
-            <button class="pgaeButtons" data-pageNo="@(Model.PageNo - 1)">Previous</button>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    @if (Model.Pager.CurrentPage != 1)
+                    {
+                        <li class="page-item">
+                            <button class="pageButtons page-link" data-pageno="1">&laquo;</button>
+                        </li>
+                        <li class="page-item">
+                            <button class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage -1)">Previous</button>
+                        </li>
+                    }
+
+                    @for (int page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                    {
+                        string activeClass = Model.Pager.CurrentPage == page ? "bg-info" : string.Empty;
+
+                        <li class="page-item">
+                            <button class="pageButtons page-link @activeClass" data-pageno="@page">@page</button>
+                        </li>
+                    }
+                    @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                    {
+                        <li class="page-item">
+                            <button class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage +1)">Next</button>
+                        </li>
+                        <li class="page-item">
+                            <button class="pageButtons page-link" data-pageno="@Model.Pager.EndPage">&raquo;</button>
+                        </li>
+                    }
+                </ul>
+            </nav>
         }
-        <button class="pgaeButtons" data-pageNo="@(Model.PageNo + 1)">Next</button>
     </div>
 </div>
 
 <script>
 
-    $(".pgaeButtons").click(function () {
+    $(".pageButtons").click(function () {
         $.ajax({
             url: '@Url.Action("ProductTable","Product")',
             data: {
-                pageNo: $(this).attr("data-pageNo")
+                pageNo: $(this).attr("data-pageNo"),
+                search: '@Model.SearchTerm'
             },
         })
         .done(function (result) {

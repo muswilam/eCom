@@ -48,7 +48,7 @@
         </tbody>
     </table>
 
-    <div>
+    <div class="d-flex justify-content-center">
         @if (Model.Pager != null)
         {
             <nav aria-label="Page navigation example">
@@ -56,30 +56,28 @@
                     @if (Model.Pager.CurrentPage != 1)
                     {
                         <li class="page-item">
-                            <a class="pageButtons page-link" data-pageno="1">&laquo;</a>
+                            <button class="pageButtons page-link" data-pageno="1">&laquo;</button>
                         </li>
                         <li class="page-item">
-                            <a class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage -1)">Previous</a>
+                            <button class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage -1)">Previous</button>
                         </li>
                     }
-                    
+
                     @for (int page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
                     {
                         string activeClass = Model.Pager.CurrentPage == page ? "bg-info" : string.Empty;
 
                         <li class="page-item">
-                            <a class="pageButtons page-link @activeClass" data-pageno="@page">@page</a>
+                            <button class="pageButtons page-link @activeClass" data-pageno="@page">@page</button>
                         </li>
                     }
-                 
-                  
                     @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                     {
                         <li class="page-item">
-                            <a class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage +1)">Next</a>
+                            <button class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage +1)">Next</button>
                         </li>
                         <li class="page-item">
-                            <a class="pageButtons page-link" data-pageno="@Model.Pager.EndPage">&raquo;</a>
+                            <button class="pageButtons page-link" data-pageno="@Model.Pager.EndPage">&raquo;</button>
                         </li>
                     }
                 </ul>
@@ -90,12 +88,11 @@
 
 <script>
     $(".pageButtons").click(function () {
-        var searchValue = $("#searchTxt").val();
         $.ajax({
             url: '@Url.Action("CategoryTable","Category")',
             data: {
                 pageNo: $(this).attr("data-pageNo"),
-                search: searchValue
+                search: '@Model.SearchTerm'
             },
         })
         .done(function (result) {
