@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using eCom.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace eCom.Web.ViewModels
 {
@@ -16,7 +17,11 @@ namespace eCom.Web.ViewModels
 
     public class NewCategoryViewModel
     {
+        [Required]
+        [MinLength(5), MaxLength(50)]
         public string Name { get; set; }
+
+        [MaxLength(500)]
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public bool IsFeatured { get; set; }

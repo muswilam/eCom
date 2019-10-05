@@ -12,7 +12,7 @@
         <div class="col-md-8">
             <div class="form-group">
                 <label>Name</label>
-                <input name="name" class="form-control" placeholder="Category name..." />
+                <input name="name" class="form-control" required placeholder="Category name..." />
             </div>
 
             <div class="form-group">
@@ -82,20 +82,59 @@
         })
     })
 
+    @* validation form *@
+    $('#createCategoryForm').validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 5,
+                maxlength: 50
+            },
+            Description: {
+                maxlength: 500
+            }
+        },
+        messages: {
+            name: {
+                required: 'Name is required',
+                minlength: 'Minimum Length is 5',
+                maxlength: 'Maximum Length is 50'
+            },
+            Description: {
+                maxlength: 'Maximum Length is 500'
+            }
+        },
+        errorClass: "text-danger"
+    });
+
     $("#saveBtn").click(function () {
-        $.ajax({
-            url: '@Url.Action("Create","Category")',
-            data: $("#createCategoryForm").serialize(),
-            type: 'Post',
-        })
-        .done(function (result) {
-            $("#tableContainer").html(result);
-            $("#actionContainer").empty();
-            focusElement("tableContainer");
-        })
-        .fail(function () {
-            alert("Fail");
-        })
+        if ($("#createCategoryForm").valid()) {
+            $.ajax({
+                url: '@Url.Action("Create","Category")',
+                data: $("#createCategoryForm").serialize(),
+                type: 'Post',
+            })
+            .done(function (result) {
+                $("#tableContainer").html(result);
+                $("#actionContainer").empty();
+                focusElement("tableContainer");
+            })
+            .fail(function () {
+                swal({
+                    title: "Warning!",
+                    text: "Please, enter all required fields.",
+                    icon: "warning",
+                    dangerMode: true,
+                });
+            });
+        } else {
+            swal({
+                title: "Warning!",
+                text: "Please, enter all required fields.",
+                icon: "warning",
+                dangerMode: true,
+            });
+        };
     });
 
     $("#cancelBtn").click(function () {

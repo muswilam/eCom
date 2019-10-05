@@ -48,15 +48,20 @@ namespace eCom.Web.Controllers
         [HttpPost]
         public ActionResult Create(NewCategoryViewModel categoryModel)
          {
-            Category newCategory = new Category();
-            newCategory.Name = categoryModel.Name;
-            newCategory.Description = categoryModel.Description;
-            newCategory.ImageUrl = categoryModel.ImageUrl;
-            newCategory.IsFeatured = categoryModel.IsFeatured;
+             if (ModelState.IsValid)
+             {
+                 var newCategory = new Category();
+                 newCategory.Name = categoryModel.Name;
+                 newCategory.Description = categoryModel.Description;
+                 newCategory.ImageUrl = categoryModel.ImageUrl;
+                 newCategory.IsFeatured = categoryModel.IsFeatured;
 
-            CategoriesService.Instance.SaveCategory(newCategory);
+                 CategoriesService.Instance.SaveCategory(newCategory);
 
-            return RedirectToAction("CategoryTable");
+                 return RedirectToAction("CategoryTable");
+             }
+
+             return new HttpStatusCodeResult(500);
         }
         #endregion
 
