@@ -85,16 +85,21 @@ namespace eCom.Web.Controllers
         [HttpPost]
         public ActionResult Edit(EditCategoryViewModel categoryModel)
         {
-            var categoryFromDb = CategoriesService.Instance.GetCategory(categoryModel.Id);
+            if (ModelState.IsValid)
+            {
+                var categoryFromDb = CategoriesService.Instance.GetCategory(categoryModel.Id);
 
-            categoryFromDb.Name = categoryModel.Name;
-            categoryFromDb.Description = categoryModel.Description;
-            categoryFromDb.ImageUrl = categoryModel.ImageUrl;
-            categoryFromDb.IsFeatured = categoryModel.IsFeatured;
+                categoryFromDb.Name = categoryModel.Name;
+                categoryFromDb.Description = categoryModel.Description;
+                categoryFromDb.ImageUrl = categoryModel.ImageUrl;
+                categoryFromDb.IsFeatured = categoryModel.IsFeatured;
 
-            CategoriesService.Instance.UpdateCategory(categoryFromDb);
+                CategoriesService.Instance.UpdateCategory(categoryFromDb);
 
-            return RedirectToAction("CategoryTable");
+                return RedirectToAction("CategoryTable");
+            }
+
+            return new HttpStatusCodeResult(500);
         }
         #endregion
 

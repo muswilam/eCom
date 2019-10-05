@@ -16,7 +16,7 @@
             <input type="hidden" name="Id" value="@Model.Id" />
             <div class="form-group">
                 <label>Name</label>
-                <input name="name" class="form-control" value="@Model.Name" placeholder="Category name..." />
+                <input name="name" class="form-control" required value="@Model.Name" placeholder="Category name..." />
             </div>
 
             <div class="form-group">
@@ -86,21 +86,62 @@
         })
     })
 
-    $("#updateBtn").click(function () {
-        $.ajax({
-            url: '@Url.Action("Edit","Category")',
-            data: $("#editCategoryForm").serialize(),
-            type: 'Post',
-        })
-        .done(function (response) {
-            $("#tableContainer").html(response);
-            $("#actionContainer").empty();
-            focusElement("tableContainer");
-        })
-          .fail(function () {
-              alert("Fail");
-          })
+    @* Edit validation *@
+    $('#editCategoryForm').validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 5,
+                maxlength: 50
+            },
+            Description: {
+                maxlength: 500
+            }
+        },
+        messages: {
+            name: {
+                required: 'Name is required',
+                minlength: 'Minimum Length is 5',
+                maxlength: 'Maximum Length is 50'
+            },
+            Description: {
+                maxlength: 'Maximum Length is 500'
+            }
+        },
+        errorClass: "text-danger"
     });
+
+    $("#updateBtn").click(function () {
+        if ($("#editCategoryForm").valid()) {
+            $.ajax({
+                url: '@Url.Action("Edit","Category")',
+                data: $("#editCategoryForm").serialize(),
+                type: 'Post',
+            })
+            .done(function (response) {
+                $("#tableContainer").html(response);
+                $("#actionContainer").empty();
+                focusElement("tableContainer");
+                debugger;
+            })
+              .fail(function () {
+                  swal({
+                      title: "Warning!",
+                      text: "Please, enter all required fields.",
+                      icon: "warning",
+                      dangerMode: true,
+                  });
+              });
+        } else {
+            swal({
+                title: "Warning!",
+                text: "Please, enter all required fields.",
+                icon: "warning",
+                dangerMode: true,
+            });
+        }
+    });
+
 
     $("#cancelBtn").click(function () {
         $("#actionContainer").empty();
