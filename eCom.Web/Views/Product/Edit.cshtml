@@ -99,20 +99,67 @@
         })
     })
 
+    @* validation form *@
+    $('#editProductForm').validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 5,
+                maxlength: 50
+            },
+            Description: {
+                maxlength: 500
+            },
+            Price: {
+                required: true,
+                range: [1, 1000000]
+            }
+        },
+        messages: {
+            name: {
+                required: 'Name is required.',
+                minlength: 'Minimum Length is 5',
+                maxlength: 'Maximum Length is 50'
+            },
+            Description: {
+                maxlength: 'Maximum Length is 500'
+            },
+            Price: {
+                required: "Price is required.",
+                range: 'Inavlid price.'
+            }
+        },
+        errorClass: "text-danger"
+    });
+
     $("#updateBtn").click(function () {
-        $.ajax({
-            url: '@Url.Action("Edit","Product")',
-            data: $("#editProductForm").serialize(),
-            type: 'Post',
-        })
-        .done(function (result) {
-            $("#tableContainer").html(result);
-            $("#actionContainer").empty();
-            focusElement("tableContainer");
-        })
-        .fail(function () {
-            alert("Fail");
-        })
+        if ($("#editProductForm").valid()) {
+            $.ajax({
+                url: '@Url.Action("Edit","Product")',
+                data: $("#editProductForm").serialize(),
+                type: 'Post',
+            })
+            .done(function (result) {
+                $("#tableContainer").html(result);
+                $("#actionContainer").empty();
+                focusElement("tableContainer");
+            })
+            .fail(function () {
+                swal({
+                    title: "Warning!",
+                    text: "Please, Check your inputs.",
+                    icon: "warning",
+                    dangerMode: true,
+                });
+            });
+        } else {
+            swal({
+                title: "Warning!",
+                text: "Please, Check your inputs.",
+                icon: "warning",
+                dangerMode: true,
+            });
+        };
     });
 
     $("#cancelBtn").click(function () {

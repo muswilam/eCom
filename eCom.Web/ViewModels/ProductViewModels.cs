@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using eCom.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace eCom.Web.ViewModels
 {
@@ -16,8 +17,14 @@ namespace eCom.Web.ViewModels
 
     public class NewProductViewModel
     {
+        [Required]
+        [MinLength(5), MaxLength(50)]
         public string Name { get; set; }
+
+        [MaxLength(500)]
         public string Description { get; set; }
+
+        [Range(1, 1000000)]
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
 
@@ -29,8 +36,15 @@ namespace eCom.Web.ViewModels
     public class EditProductViewModel
     {
         public int Id { get; set; }
+
+        [Required]
+        [MinLength(5), MaxLength(50)]
         public string Name { get; set; }
+
+        [MaxLength(500)]
         public string Description { get; set; }
+
+        [Range(1, 1000000)]
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
 

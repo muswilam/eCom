@@ -96,7 +96,7 @@
         },
         messages: {
             name: {
-                required: 'Name is required',
+                required: 'Name is required.',
                 minlength: 'Minimum Length is 5',
                 maxlength: 'Maximum Length is 50'
             },
@@ -122,7 +122,7 @@
             .fail(function () {
                 swal({
                     title: "Warning!",
-                    text: "Please, enter all required fields.",
+                    text: "Please, Check your inputs.",
                     icon: "warning",
                     dangerMode: true,
                 });
@@ -130,7 +130,7 @@
         } else {
             swal({
                 title: "Warning!",
-                text: "Please, enter all required fields.",
+                text: "Please, Check your inputs.",
                 icon: "warning",
                 dangerMode: true,
             });

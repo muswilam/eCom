@@ -51,6 +51,11 @@ namespace eCom.Web.Controllers
         [HttpPost]
         public ActionResult Create(NewProductViewModel productModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(500);
+            }
+
             var newProduct = new Product();
             newProduct.Name = productModel.Name;
             newProduct.Description = productModel.Description;
@@ -87,6 +92,11 @@ namespace eCom.Web.Controllers
         [HttpPost]
         public ActionResult Edit(EditProductViewModel productModel)
         {
+            if(!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(500);
+            }
+
             var productFromDb = ProductService.Instance.GetProduct(productModel.Id);
 
             productFromDb.Name = productModel.Name;
