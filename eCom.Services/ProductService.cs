@@ -66,6 +66,24 @@ namespace eCom.Services
             }
         }
 
+        //get products by pageNo and pageSize
+        public List<Product> GetProducts(int pageNo, int pageSize)
+        {
+            using (var context = new eComContext())
+            {
+                return context.Products.OrderByDescending(p => p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize).Include(p => p.Category).ToList();
+            }
+        }
+
+        //get latest products
+        public List<Product> GetLatestProducts(int numberOfProducts)
+        {
+            using (var context = new eComContext())
+            {
+                return context.Products.OrderByDescending(p => p.Id).Take(numberOfProducts).Include(p => p.Category).ToList();
+            }
+        }
+        
         //get products count
         public int GetProductsCount(string search)
         {

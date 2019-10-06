@@ -167,6 +167,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
+    <Compile Include="Controllers\WidgetsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -180,6 +181,7 @@
     <Compile Include="ViewModels\HomeViewModels.cs" />
     <Compile Include="ViewModels\SharedViewModels.cs" />
     <Compile Include="ViewModels\ShopViewModels.cs" />
+    <Compile Include="ViewModels\WidgetViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
@@ -538,6 +540,7 @@
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Shop\Checkout.cshtml" />
+    <Content Include="Views\Widgets\Products.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

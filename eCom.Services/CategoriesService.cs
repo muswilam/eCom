@@ -66,6 +66,15 @@ namespace eCom.Services
             }
         }
 
+        //get categories that have products
+        public List<Category> GetFilledCategories()
+        {
+            using (var context = new eComContext())
+            {
+                return context.Categories.Include(c => c.Products).Where(c => c.Products.Count() > 0).ToList();
+            }
+        }
+
         //get categories count
         public int GetCategoriesCount(string search)
         {
