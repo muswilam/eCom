@@ -113,6 +113,16 @@ namespace eCom.Web.Controllers
 
         #endregion
 
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            ProductViewModel productModel = new ProductViewModel();
+
+            productModel.Product = ProductService.Instance.GetProduct(id);
+
+            return View(productModel);
+        }
+
         [HttpPost]
         public ActionResult Delete(int id)
         {

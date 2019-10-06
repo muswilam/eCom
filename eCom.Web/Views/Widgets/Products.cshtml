@@ -6,7 +6,7 @@
 
 @if (Model != null && Model.Products != null)
 {
-    if(!Model.IsLatestProducts)
+    if(!Model.IsLatestProducts && !Model.isCategoryId) //filled categories with products 
     {
         <ul class="flat-filter style-1 text-center max-width-682 clearfix">
             <li class="active"><a href="#" data-filter="*">All Product</a></li>
@@ -20,7 +20,7 @@
         <div class="divider h54"></div>
     }
 
-    var classForSwaping = !Model.IsLatestProducts ? "isotope-product" : string.Empty;
+    var classForSwaping = !Model.IsLatestProducts ? "isotope-product" : string.Empty; //this class for animation
     
     <div class="product-content product-fourcolumn clearfix">
         <ul class="product style2 @classForSwaping clearfix">
@@ -31,7 +31,7 @@
 
                 <li class="product-item @product.Category.Name.Replace(" ","") ">
                     <div class="product-thumb clearfix">
-                        <a href="#" class="product-thumb">
+                        <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="product-thumb">
                             <img src="@imageUrl" alt="image" class="img-thumbnail" style="height:250px;">
                         </a>
                         @if (Model.IsLatestProducts)

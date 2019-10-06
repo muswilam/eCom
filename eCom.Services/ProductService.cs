@@ -75,6 +75,15 @@ namespace eCom.Services
             }
         }
 
+        //get products by category id
+        public List<Product> GetProductsByCategory(int categoyId, int pageSize)
+        {
+            using (var context = new eComContext())
+            {
+                return context.Products.Where(p => p.CategoryId == categoyId).OrderByDescending(p => p.Id).Take(pageSize).Include(p => p.Category).ToList();
+            }
+        }
+
         //get latest products
         public List<Product> GetLatestProducts(int numberOfProducts)
         {
