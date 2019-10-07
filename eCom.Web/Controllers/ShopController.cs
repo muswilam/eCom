@@ -5,12 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using eCom.Services;
 using eCom.Web.ViewModels;
+using eCom.Web.Code;
 
 namespace eCom.Web.Controllers
 {
     public class ShopController : Controller
     {
-        public ActionResult Index(string searchTerm, int? minPrice , int? maxPrice, int? categoryId)
+        public ActionResult Index(string searchTerm, decimal? minPrice, decimal? maxPrice, int? categoryId, byte? sortBy)
         {
             var shopModel = new ShopViewModel();
 
@@ -18,9 +19,20 @@ namespace eCom.Web.Controllers
 
             shopModel.MaximumPrice = ProductService.Instance.GetMaxPrice();
 
-            shopModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId);
+            shopModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId, sortBy);
+
+            shopModel.SortBy = sortBy;
 
             return View(shopModel);
+        }
+
+        public ActionResult FilterProducts(string searchTerm, decimal? minPrice, decimal? maxPrice, int? categoryId, byte? sortBy)
+        {
+            var filterModel = new FilterProductViewModel();
+
+            filterModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId, sortBy);
+
+            return PartialView(filterModel);
         }
 
         public ActionResult Checkout()

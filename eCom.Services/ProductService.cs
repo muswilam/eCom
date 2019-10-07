@@ -37,11 +37,11 @@ namespace eCom.Services
         }
 
         //get maximum price
-        public int GetMaxPrice()
+        public decimal GetMaxPrice()
         {
             using (var context = new eComContext())
             {
-                return (Int32) (context.Products.Max(p => p.Price));
+                return context.Products.Max(p => p.Price);
             }
         }
 
@@ -103,7 +103,7 @@ namespace eCom.Services
         }
 
         //get list of products in shop by search, minPrice, maxPrice, categoryId
-        public List<Product> GetShopProducts(string searchTerm, int? minPrice, int? maxPrice, int? categoryId)
+        public List<Product> GetShopProducts(string searchTerm, decimal? minPrice, decimal? maxPrice, int? categoryId,  byte? sortBy)
         {
             using (var context = new eComContext())
             {
@@ -118,8 +118,24 @@ namespace eCom.Services
                 if (minPrice.HasValue)
                     products = products.Where(p => p.Price >= minPrice.Value);
 
-                if (maxPrice. HasValue)
+                if (maxPrice.HasValue)
                     products = products.Where(p => p.Price <= maxPrice.Value);
+
+                if(sortBy.HasValue)
+                {
+                    switch(sortBy.Value)
+                    {
+                        case 2: //popularity
+                            products = products.OrderByDescending(p => p.Id);
+                            break;
+                        case 3: //low to high
+                            products = products.OrderBy(p => p.Price);
+                            break;
+                        default: //default
+                            products = products.OrderByDescending(p => p.Price);
+                            break;
+                    }
+                }
 
                 return products.ToList();
             }

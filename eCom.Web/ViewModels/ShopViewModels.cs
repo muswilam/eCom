@@ -17,7 +17,12 @@ namespace eCom.Web.ViewModels
     {
         public List<Product> Products { get; set; }
         public List<Category> FeaturedCategories { get; set; }
-        public int MaximumPrice { get; set; }
+        public decimal MaximumPrice { get; set; }
+        public byte? SortBy { get; set; }
+    }
 
+    public class FilterProductViewModel
+    {
+        public List<Product> Products { get; set; }
     }
 }
