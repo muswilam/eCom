@@ -10,7 +10,18 @@ namespace eCom.Web.Controllers
 {
     public class ShopController : Controller
     {
-        //ProductService PServices = new ProductService();
+        public ActionResult Index(string searchTerm, int? minPrice , int? maxPrice, int? categoryId)
+        {
+            var shopModel = new ShopViewModel();
+
+            shopModel.FeaturedCategories = CategoriesService.Instance.GetFeaturedCategories();
+
+            shopModel.MaximumPrice = ProductService.Instance.GetMaxPrice();
+
+            shopModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId);
+
+            return View(shopModel);
+        }
 
         public ActionResult Checkout()
         {

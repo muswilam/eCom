@@ -36,6 +36,15 @@ namespace eCom.Services
             }
         }
 
+        //get maximum price
+        public int GetMaxPrice()
+        {
+            using (var context = new eComContext())
+            {
+                return (Int32) (context.Products.Max(p => p.Price));
+            }
+        }
+
         //get products by list of ids
         public List<Product> GetProducts(List<int> ids)
         {
@@ -92,7 +101,30 @@ namespace eCom.Services
                 return context.Products.OrderByDescending(p => p.Id).Take(numberOfProducts).Include(p => p.Category).ToList();
             }
         }
-        
+
+        //get list of products in shop by search, minPrice, maxPrice, categoryId
+        public List<Product> GetShopProducts(string searchTerm, int? minPrice, int? maxPrice, int? categoryId)
+        {
+            using (var context = new eComContext())
+            {
+                IQueryable<Product> products = context.Products;
+
+                if (categoryId.HasValue)
+                    products = products.Where(p => p.CategoryId == categoryId.Value);
+
+                if(!string.IsNullOrEmpty(searchTerm))
+                    products = products.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower()));
+
+                if (minPrice.HasValue)
+                    products = products.Where(p => p.Price >= minPrice.Value);
+
+                if (maxPrice. HasValue)
+                    products = products.Where(p => p.Price <= maxPrice.Value);
+
+                return products.ToList();
+            }
+        }
+
         //get products count
         public int GetProductsCount(string search)
         {
@@ -138,5 +170,7 @@ namespace eCom.Services
                 context.SaveChanges();
             }
         }
+
+     
     }
 }
