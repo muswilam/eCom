@@ -22,6 +22,7 @@ namespace eCom.Web.Controllers
             shopModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId, sortBy);
 
             shopModel.SortBy = sortBy;
+            shopModel.CategoryId = categoryId;
 
             return View(shopModel);
         }
