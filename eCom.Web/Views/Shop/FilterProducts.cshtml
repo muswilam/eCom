@@ -64,7 +64,7 @@
             }
             @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
             {
-                <li class="page-item">
+                <li>
                     <a href="@Url.Action("Index", "Shop", new { pageNo = (Model.Pager.CurrentPage + 1) })" class="pageButtons" data-pageno="@(Model.Pager.CurrentPage +1)"><i class="fa fa-angle-right"></i></a>
                 </li>
                 <li>

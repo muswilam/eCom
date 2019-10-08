@@ -18,6 +18,8 @@ namespace eCom.Web.Controllers
 
         public ActionResult ProductTable(string search, int? pageNo)
         {
+            var pageSize = ConfigurationService.Instance.PageSize();
+
             ProductSearchViewModel productModel = new ProductSearchViewModel();
 
             pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
@@ -25,11 +27,11 @@ namespace eCom.Web.Controllers
             productModel.SearchTerm = search;
             var totalRecords = ProductService.Instance.GetProductsCount(search);
 
-            productModel.Products = ProductService.Instance.GetProducts(search , pageNo.Value);
+            productModel.Products = ProductService.Instance.GetProducts(search , pageNo.Value, pageSize);
 
             if(productModel.Products != null)
             {
-                productModel.Pager = new Pager(totalRecords, pageNo.Value, 4);
+                productModel.Pager = new Pager(totalRecords, pageNo.Value, pageSize);
 
                 return PartialView(productModel);
             }

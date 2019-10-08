@@ -55,10 +55,8 @@ namespace eCom.Services
         }
 
         //get products 
-        public List<Product> GetProducts(string search, int pageNo)
+        public List<Product> GetProducts(string search, int pageNo, int pageSize)
         {
-            int pageSize = 4;
-
             using (var context = new eComContext())
             {
                 if (!string.IsNullOrEmpty(search))

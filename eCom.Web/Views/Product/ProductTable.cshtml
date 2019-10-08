@@ -60,23 +60,23 @@
 
     </table>
     <div class="d-flex justify-content-center">
-        @if (Model.Pager != null)
+        @if (Model.Pager != null && Model.Pager.TotalPages > 1)
         {
             <nav aria-label="Page navigation example">
-                <ul class="pagination">
+                <ul class="flat-pagination">
                     @if (Model.Pager.CurrentPage != 1)
                     {
                         <li class="page-item">
-                            <button class="pageButtons page-link" data-pageno="1">&laquo;</button>
+                            <button class="pageButtons page-link" data-pageno="1"><i class="fa fa-angle-double-left"></i></button>
                         </li>
                         <li class="page-item">
-                            <button class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage -1)">Previous</button>
+                            <button class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage -1)"><i class="fa fa-angle-left"></i></button>
                         </li>
                     }
 
                     @for (int page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
                     {
-                        string activeClass = Model.Pager.CurrentPage == page ? "bg-info" : string.Empty;
+                        string activeClass = Model.Pager.CurrentPage == page ? "bg-danger" : string.Empty;
 
                         <li class="page-item">
                             <button class="pageButtons page-link @activeClass" data-pageno="@page">@page</button>
@@ -85,10 +85,10 @@
                     @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                     {
                         <li class="page-item">
-                            <button class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage +1)">Next</button>
+                            <button class="pageButtons page-link" data-pageno="@(Model.Pager.CurrentPage +1)"><i class="fa fa-angle-right"></i></button>
                         </li>
                         <li class="page-item">
-                            <button class="pageButtons page-link" data-pageno="@Model.Pager.EndPage">&raquo;</button>
+                            <button class="pageButtons page-link" data-pageno="@Model.Pager.EndPage"><i class="fa fa-angle-double-right"></i></button>
                         </li>
                     }
                 </ul>

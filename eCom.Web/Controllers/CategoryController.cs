@@ -19,6 +19,7 @@ namespace eCom.Web.Controllers
 
         public ActionResult CategoryTable(string search, int? pageNo)
         {
+            var pageSize = ConfigurationService.Instance.PageSize();
             CategorySearchViewModel catModel = new CategorySearchViewModel();
     
             catModel.SearchTerm = search;
@@ -26,11 +27,11 @@ namespace eCom.Web.Controllers
 
             var totalRecords = CategoriesService.Instance.GetCategoriesCount(search);
 
-            catModel.Categories = CategoriesService.Instance.GetCategories(search , pageNo.Value);
+            catModel.Categories = CategoriesService.Instance.GetCategories(search , pageNo.Value, pageSize);
 
             if (catModel.Categories != null)
             {
-                catModel.Pager = new Pager(totalRecords, pageNo, 2);
+                catModel.Pager = new Pager(totalRecords, pageNo, pageSize);
 
                 return PartialView("_CategoryTable", catModel);
             }

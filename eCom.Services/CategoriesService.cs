@@ -47,9 +47,8 @@ namespace eCom.Services
         }
 
         //get categories by search and pageNo if exist
-        public List<Category> GetCategories(string search, int pageNo)
+        public List<Category> GetCategories(string search, int pageNo, int pageSize)
         {
-            int pageSize = 2; //int.Parse(ConfigurationService.Instance.GetConfig("ListingPageSize").Value);
             using (var context = new eComContext())
             {
                 if (!string.IsNullOrEmpty(search))
