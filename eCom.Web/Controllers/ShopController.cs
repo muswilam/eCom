@@ -15,19 +15,20 @@ namespace eCom.Web.Controllers
         {
             var shopModel = new ShopViewModel();
 
-            int totalRecords = ProductService.Instance.GetShopProductsCount(searchTerm, minPrice, maxPrice, categoryId, sortBy);
             pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
+            var pageSize = ConfigurationService.Instance.ShopPageSize();
+
+            shopModel.SortBy = sortBy;
+            shopModel.CategoryId = categoryId;
+            shopModel.SearchTerm = searchTerm;
 
             shopModel.FeaturedCategories = CategoriesService.Instance.GetFeaturedCategories();
 
             shopModel.MaximumPrice = ProductService.Instance.GetMaxPrice();
+            int totalRecords = ProductService.Instance.GetShopProductsCount(searchTerm, minPrice, maxPrice, categoryId, sortBy);
+            shopModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId, sortBy, pageNo.Value, pageSize);
 
-            shopModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId, sortBy, pageNo.Value, 9);
-
-            shopModel.SortBy = sortBy;
-            shopModel.CategoryId = categoryId;
-
-            shopModel.Pager = new Pager(totalRecords, pageNo, 9);
+            shopModel.Pager = new Pager(totalRecords, pageNo, pageSize);
 
             return View(shopModel);
         }
@@ -36,12 +37,19 @@ namespace eCom.Web.Controllers
         {
             var filterModel = new FilterProductViewModel();
 
+            pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
+            var pageSize = ConfigurationService.Instance.ShopPageSize();
+
+            filterModel.SortBy = sortBy;
+            filterModel.CategoryId = categoryId;
+            filterModel.SearchTerm = searchTerm;
+
             int totalRecords = ProductService.Instance.GetShopProductsCount(searchTerm, minPrice, maxPrice, categoryId, sortBy);
             pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
 
-            filterModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId, sortBy, pageNo.Value, 9);
+            filterModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId, sortBy, pageNo.Value, pageSize);
 
-            filterModel.Pager = new Pager(totalRecords, pageNo, 9);
+            filterModel.Pager = new Pager(totalRecords, pageNo, pageSize);
 
             return PartialView(filterModel);
         }

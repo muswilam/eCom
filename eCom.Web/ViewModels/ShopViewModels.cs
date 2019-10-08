@@ -18,8 +18,10 @@ namespace eCom.Web.ViewModels
         public List<Product> Products { get; set; }
         public List<Category> FeaturedCategories { get; set; }
         public decimal MaximumPrice { get; set; }
+
         public byte? SortBy { get; set; }
         public int? CategoryId { get; set; }
+        public string SearchTerm { get; set; }
 
         public Pager Pager { get; set; }
     }
@@ -27,6 +29,10 @@ namespace eCom.Web.ViewModels
     public class FilterProductViewModel
     {
         public List<Product> Products { get; set; }
+
+        public byte? SortBy { get; set; }
+        public int? CategoryId { get; set; }
+        public string SearchTerm { get; set; }
 
         public Pager Pager { get; set; }
     }
