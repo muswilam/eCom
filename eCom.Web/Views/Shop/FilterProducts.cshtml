@@ -4,6 +4,12 @@
     var defaultImgUrl = "/Content/Images/default.jpg";
 }
 
+<div class="filter-shop clearfix">
+    <p class="showing-product float-right">
+        Showing @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + 1) – @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + Model.Products.Count ) of @Model.Pager.TotalItems Products
+    </p>
+</div><!-- /.filte-shop -->
+
 <div class="product-content product-threecolumn product-slidebar clearfix">
     <ul class="product style2 sd1">
         @foreach (var product in Model.Products)
@@ -33,14 +39,38 @@
         }
     </ul><!-- /.product -->
 </div><!-- /.product-content -->
+@* Stop here !!! Pager  *@
 <div class="product-pagination text-center clearfix">
-    <ul class="flat-pagination">
-        <li class="prev">
-            <a href="#"><i class="fa fa-angle-left"></i></a>
-        </li>
-        <li><a href="#">1</a></li>
-        <li class="active"><a href="#" title="">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-    </ul><!-- /.flat-pagination -->
+    @if (Model.Pager != null)
+    {
+        <ul class="flat-pagination">
+            @if (Model.Pager.CurrentPage != 1)
+            {
+                <li class="prev">
+                    <a href="@Url.Action("Index", "Shop", new { pageNo = 1})" class="pageButtons" data-pageno="1"><i class="fa fa-angle-double-left"></i></a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Shop", new { pageNo = (Model.Pager.CurrentPage - 1) })" class="pageButtons" data-pageno="@(Model.Pager.CurrentPage -1)"><i class="fa fa-angle-left"></i></a>
+                </li>
+            }
+
+            @for (int page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+            {
+                string activeClass = Model.Pager.CurrentPage == page ? "active" : string.Empty;
+
+                <li>
+                    <a href="@Url.Action("Index", "Shop", new { pageNo = page })" class="pageButtons @activeClass" data-pageno="@page">@page</a>
+                </li>
+            }
+            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+            {
+                <li class="page-item">
+                    <a href="@Url.Action("Index", "Shop", new { pageNo = (Model.Pager.CurrentPage + 1) })" class="pageButtons" data-pageno="@(Model.Pager.CurrentPage +1)"><i class="fa fa-angle-right"></i></a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Shop", new { pageNo = Model.Pager.EndPage })" class="pageButtons" data-pageno="@Model.Pager.EndPage"><i class="fa fa-angle-double-right"></i></a>
+                </li>
+            }
+        </ul>
+    }
 </div>

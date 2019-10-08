@@ -103,11 +103,11 @@ namespace eCom.Services
         }
 
         //get list of products in shop by search, minPrice, maxPrice, categoryId
-        public List<Product> GetShopProducts(string searchTerm, decimal? minPrice, decimal? maxPrice, int? categoryId,  byte? sortBy)
+        public List<Product> GetShopProducts(string searchTerm, decimal? minPrice, decimal? maxPrice, int? categoryId,  byte? sortBy, int pageNo, int pageSize)
         {
             using (var context = new eComContext())
             {
-                IQueryable<Product> products = context.Products;
+                IQueryable<Product> products = context.Products.OrderBy(p => p.Id);
 
                 if (categoryId.HasValue)
                     products = products.Where(p => p.CategoryId == categoryId.Value);
@@ -137,9 +137,49 @@ namespace eCom.Services
                     }
                 }
 
-                return products.ToList();
+                return products.Skip((pageNo -1)* pageSize).Take(pageSize).ToList();
             }
         }
+
+        //get count of shop products 
+        public int GetShopProductsCount(string searchTerm, decimal? minPrice, decimal? maxPrice, int? categoryId, byte? sortBy)
+        {
+            using (var context = new eComContext())
+            {
+                IQueryable<Product> products = context.Products;
+
+                if (categoryId.HasValue)
+                    products = products.Where(p => p.CategoryId == categoryId.Value);
+
+                if (!string.IsNullOrEmpty(searchTerm))
+                    products = products.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower()));
+
+                if (minPrice.HasValue)
+                    products = products.Where(p => p.Price >= minPrice.Value);
+
+                if (maxPrice.HasValue)
+                    products = products.Where(p => p.Price <= maxPrice.Value);
+
+                if (sortBy.HasValue)
+                {
+                    switch (sortBy.Value)
+                    {
+                        case 2: //popularity
+                            products = products.OrderByDescending(p => p.Id);
+                            break;
+                        case 3: //low to high
+                            products = products.OrderBy(p => p.Price);
+                            break;
+                        default: //default
+                            products = products.OrderByDescending(p => p.Price);
+                            break;
+                    }
+                }
+
+                return products.Count();
+            }
+        }
+
 
         //get products count
         public int GetProductsCount(string search)

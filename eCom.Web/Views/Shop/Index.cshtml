@@ -79,15 +79,12 @@
                         var filterProductViewModel = new FilterProductViewModel();
 
                         filterProductViewModel.Products = Model.Products;
+                        filterProductViewModel.Pager = Model.Pager;
 
                         Html.RenderPartial("FilterProducts", filterProductViewModel);
                     }
                 </div>
-                <div class="filter-shop clearfix">
-                    <p class="showing-product float-right">
-                        Showing 1–12 of 56 Products
-                    </p>
-                </div><!-- /.filte-shop -->
+        
                
             </div><!-- /.col-md-9 -->
         </div><!-- /.row -->

@@ -20,10 +20,14 @@ namespace eCom.Web.ViewModels
         public decimal MaximumPrice { get; set; }
         public byte? SortBy { get; set; }
         public int? CategoryId { get; set; }
+
+        public Pager Pager { get; set; }
     }
 
     public class FilterProductViewModel
     {
         public List<Product> Products { get; set; }
+
+        public Pager Pager { get; set; }
     }
 }
