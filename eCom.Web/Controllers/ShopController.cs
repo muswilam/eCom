@@ -6,11 +6,40 @@ using System.Web.Mvc;
 using eCom.Services;
 using eCom.Web.ViewModels;
 using eCom.Web.Code;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace eCom.Web.Controllers
 {
     public class ShopController : Controller
     {
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set 
+            { 
+                _signInManager = value; 
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
         public ActionResult Index(string searchTerm, decimal? minPrice, decimal? maxPrice, int? categoryId, byte? sortBy, int? pageNo)
         {
             var shopModel = new ShopViewModel();
@@ -54,9 +83,10 @@ namespace eCom.Web.Controllers
             return PartialView(filterModel);
         }
 
+        [Authorize]
         public ActionResult Checkout()
         {
-            CheckoutViewModel checkoutModel = new CheckoutViewModel();
+            var checkoutModel = new CheckoutViewModel();
 
             var cartProductsCookie = Request.Cookies["cartProduct"];
 
@@ -65,6 +95,8 @@ namespace eCom.Web.Controllers
                 checkoutModel.CartProductIds = cartProductsCookie.Value.Split('-').Select(int.Parse).ToList(); //total numbers
 
                 checkoutModel.CartProducts = ProductService.Instance.GetProducts(checkoutModel.CartProductIds); //products with the same ids (distinct)
+
+                checkoutModel.User = UserManager.FindById(User.Identity.GetUserId());
             }
 
             return View(checkoutModel);

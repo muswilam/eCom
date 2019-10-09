@@ -172,6 +172,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910081659331_InitialCreate.cs" />
+    <Compile Include="Migrations\201910081659331_InitialCreate.Designer.cs">
+      <DependentUpon>201910081659331_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910092019113_AddNameAndAdressColumnsInUsersTable.cs" />
+    <Compile Include="Migrations\201910092019113_AddNameAndAdressColumnsInUsersTable.Designer.cs">
+      <DependentUpon>201910092019113_AddNameAndAdressColumnsInUsersTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -567,6 +576,14 @@
       <Project>{71410ab4-dd03-49cc-85f4-fc79dbc604ef}</Project>
       <Name>eCom.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201910081659331_InitialCreate.resx">
+      <DependentUpon>201910081659331_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910092019113_AddNameAndAdressColumnsInUsersTable.resx">
+      <DependentUpon>201910092019113_AddNameAndAdressColumnsInUsersTable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
