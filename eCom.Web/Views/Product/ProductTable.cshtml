@@ -226,7 +226,9 @@
 
         $.cookie('cartProduct', products.join('-')); // { path: '/'} to allow cookie in others controllers
 
-        alert("Product added to cart.");
+        swal("Added to cart successfuly.", {
+            icon: "success",
+        });
 
     });
 </script>

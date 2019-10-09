@@ -6,7 +6,7 @@
 
 <div class="filter-shop clearfix">
     <p class="showing-product float-right">
-        Showing @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + 1) – @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + Model.Products.Count ) of @Model.Pager.TotalItems Products
+        Showing @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + 1) – @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + (Model.Products.Count < Model.Pager.PageSize ? Model.Products.Count : Model.Pager.PageSize)) of @Model.Pager.TotalItems Products
     </p>
 </div><!-- /.filte-shop -->
 
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="add-to-cart text-center">
-                    <a href="#">ADD TO CART</a>
+                    <a class="productAddToCart" data-id="@product.Id">ADD TO CART</a>
                 </div>
                 <a href="#" class="like"><i class="fa fa-heart-o"></i></a>
             </li>
@@ -40,17 +40,17 @@
     </ul><!-- /.product -->
 </div><!-- /.product-content -->
 @* Stop here !!! Pager  *@
-<div class="product-pagination text-center clearfix">
+<div id="paginationDiv" class="product-pagination text-center clearfix">
     @if (Model.Pager != null && Model.Pager.TotalPages > 1)
     {
         <ul class="flat-pagination">
             @if (Model.Pager.CurrentPage != 1)
             {
                 <li class="prev">
-                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = 1, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink"><i class="fa fa-angle-double-left"></i></a>
+                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = 1, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-double-left"></i></a>
                 </li>
                 <li>
-                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = (Model.Pager.CurrentPage - 1), sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" ><i class="fa fa-angle-left"></i></a>
+                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = (Model.Pager.CurrentPage - 1), sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-left"></i></a>
                 </li>
             }
 
@@ -59,16 +59,16 @@
                 string activeClass = Model.Pager.CurrentPage == page ? "active" : string.Empty;
 
                 <li class="@activeClass">
-                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = page, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink">@page</a>
+                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = page, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer">@page</a>
                 </li>
             }
             @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
             {
                 <li>
-                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = (Model.Pager.CurrentPage + 1), sortBy = Model.SortBy, categoryId = Model.CategoryId  })" class="pageDataLink"><i class="fa fa-angle-right"></i></a>
+                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = (Model.Pager.CurrentPage + 1), sortBy = Model.SortBy, categoryId = Model.CategoryId  })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-right"></i></a>
                 </li>
                 <li>
-                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = Model.Pager.EndPage, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink"><i class="fa fa-angle-double-right"></i></a>
+                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = Model.Pager.EndPage, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-double-right"></i></a>
                 </li>
             }
         </ul>
@@ -86,5 +86,30 @@
         if (url != "" || url != undefined) {
             GetData(url);
         }
+    });
+
+    //add to cart
+    var products;
+
+    $(".productAddToCart").click(function () {
+        var existingCookieData = $.cookie('cartProduct');
+
+        if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
+        {
+            products = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
+        } else {
+            products = []; //initialize
+        }
+
+        var productId = $(this).attr("data-id");
+        products.push(productId);
+
+        $.cookie('cartProduct', products.join('-')); // { path: '/'} to allow cookie in others controllers
+
+        updateCartProducts(); //count in layout (code in main.js)
+
+        swal("Added to cart successfuly.", {
+            icon: "success",
+        });
     });
 </script>

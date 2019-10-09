@@ -22,13 +22,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <div class="sidebar slidebar-shop">
+                <div class="sidebar slidebar-shop pt-2">
                     <div class="widget widget-search">
                         <form role="search" method="get" class="search-form" id="searchForm" action="#">
                             <label>
                                 <input id="searchTxt" type="search" class="search-field" data-href="@Url.Action("FilterProducts","Shop")" placeholder="Search …" value="@Model.SearchTerm" name="searchTerm">
                             </label>
-                          @*  <input type="button"  id="searchBtn" class="search-submit dataLink" value="Search">*@
+                            @*  <input type="button"  id="searchBtn" class="search-submit dataLink" value="Search">*@
                         </form>
                     </div><!-- /.widget-search -->
                     <div class="widget widget-sort-by">
@@ -36,10 +36,10 @@
                             Sort By
                         </h5>
                         <ul>
-                            <li><a href="#productsDiv" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Default})" class="dataLink @(Model.SortBy.HasValue && Model.SortBy.Value == (byte) SortByEnums.Default ? "active" : string.Empty)">Default-Newest</a></li> 
-                            <li><a href="#productsDiv" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Popularity })" class="dataLink @(Model.SortBy.HasValue && Model.SortBy.Value == (byte) SortByEnums.Popularity ? "active" : string.Empty)">Popularity</a></li>  
-                            <li><a href="#productsDiv" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceLowToHigh })" class="dataLink @(Model.SortBy.HasValue && Model.SortBy.Value == (byte) SortByEnums.PriceLowToHigh ? "active" : string.Empty)">Price: Low to high</a></li> 
-                            <li><a href="#productsDiv" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceHighToLow })" class="dataLink @(Model.SortBy.HasValue && Model.SortBy.Value == (byte) SortByEnums.PriceHighToLow ? "active" : string.Empty)">Price: High to low</a></li>
+                            <li><a style="cursor:pointer" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Default})" class="dataLink @(Model.SortBy.HasValue && Model.SortBy.Value == (byte) SortByEnums.Default ? "active" : string.Empty)">Default-Newest</a></li>
+                            <li><a style="cursor:pointer" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Popularity })" class="dataLink @(Model.SortBy.HasValue && Model.SortBy.Value == (byte) SortByEnums.Popularity ? "active" : string.Empty)">Popularity</a></li>
+                            <li><a style="cursor:pointer" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceLowToHigh })" class="dataLink @(Model.SortBy.HasValue && Model.SortBy.Value == (byte) SortByEnums.PriceLowToHigh ? "active" : string.Empty)">Price: Low to high</a></li>
+                            <li><a style="cursor:pointer" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceHighToLow })" class="dataLink @(Model.SortBy.HasValue && Model.SortBy.Value == (byte) SortByEnums.PriceHighToLow ? "active" : string.Empty)">Price: High to low</a></li>
                         </ul>
                     </div><!-- /.widget-sort-by -->
                     <div class="widget widget_tag">
@@ -49,7 +49,7 @@
                         <div class="tag-list">
                             @foreach (var category in Model.FeaturedCategories)
                             {
-                                <a data-href="@Url.Action("FilterProducts", "Shop", new { categoryId = category.Id })" class="dataLink @(Model.CategoryId.HasValue && Model.CategoryId.Value == category.Id ? "active" : string.Empty)">@category.Name</a>
+                                <a data-href="@Url.Action("FilterProducts", "Shop", new { categoryId = category.Id })" class="dataLink @(Model.CategoryId.HasValue && Model.CategoryId.Value == category.Id ? "active" : string.Empty)" style="cursor:pointer">@category.Name</a>
                             }
                         </div>
                     </div><!-- /.widget -->
@@ -62,10 +62,11 @@
                             </p>
                         </div>
                     </div>
-                <a href="@Url.Action("Index","Shop")" class="btn btn-danger">Reset Filters</a>
                 </div><!-- /.sidebar -->
             </div><!-- /.col-md-3 -->
             <div class="col-md-9">
+                <a href="@Url.Action("Index","Shop")" class="btn btn-danger">Reset Filters</a>
+
                 <div id="productsDiv">
                     @{
                         var filterProductViewModel = new FilterProductViewModel();
@@ -78,8 +79,6 @@
                         Html.RenderPartial("FilterProducts", filterProductViewModel);
                     }
                 </div>
-        
-               
             </div><!-- /.col-md-9 -->
         </div><!-- /.row -->
     </div><!-- /.container -->
@@ -127,6 +126,7 @@
     });
 
     function GetData(url) {
+        showloader();
         $.ajax({
             url: url,
             data: {
@@ -142,7 +142,10 @@
          })
          .fail(function () {
              alert("Fail");
-         });
+         })
+        .always(function(){
+            hideloader();
+        });
     }
 
     //get products by filtering them by price
@@ -164,4 +167,6 @@
              alert("Fail");
          });
     }
+
+  
 </script>
