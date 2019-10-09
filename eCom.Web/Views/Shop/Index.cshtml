@@ -24,11 +24,11 @@
             <div class="col-md-3">
                 <div class="sidebar slidebar-shop">
                     <div class="widget widget-search">
-                        <form role="search" method="get" class="search-form" action="@Url.Action("Index","Shop")">
+                        <form role="search" method="get" class="search-form" id="searchForm" action="#">
                             <label>
-                                <input type="search" class="search-field" placeholder="Search …" value="@Model.SearchTerm" name="searchTerm">
+                                <input id="searchTxt" type="search" class="search-field" data-href="@Url.Action("FilterProducts","Shop")" placeholder="Search …" value="@Model.SearchTerm" name="searchTerm">
                             </label>
-                            <input type="submit" class="search-submit" value="Search">
+                          @*  <input type="button"  id="searchBtn" class="search-submit dataLink" value="Search">*@
                         </form>
                     </div><!-- /.widget-search -->
                     <div class="widget widget-sort-by">
@@ -105,6 +105,19 @@
         }
     });
 
+    //search by pressing enter
+    $("#searchForm").keypress(function (event) {
+        if (event.keyCode == 13) // 13 is the keycode for enter
+        {
+            var url = $("#searchTxt").attr("data-href");
+
+            if (url != "" || url != undefined) {
+                GetData(url);
+            }
+            return false;
+        }
+    });
+
     $(".dataLink").click(function () {
         var url = $(this).attr("data-href");
 
@@ -119,8 +132,7 @@
             data: {
                 sortBy: $("#sortBy").val(),
                 categoryId: $("#categoryId").val(),
-                searchTerm: $("#searchTerm").val(),
-                pageNo: $("#pageNo").val(),
+                searchTerm: $("#searchTxt").val(),
                 minPrice: priceSilder.slider("values",0),
                 maxPrice: priceSilder.slider("values",1),    
             },
@@ -143,7 +155,6 @@
                 searchTerm: $("#searchTerm").val(),
                 sortBy: $("#sortBy").val(),
                 categoryId: $("#categoryId").val(),
-                pageNo: $("#pageNo").val(),
             },
         })
          .done(function (result) {
