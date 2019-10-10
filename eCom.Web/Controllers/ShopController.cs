@@ -126,7 +126,7 @@ namespace eCom.Web.Controllers
                 newOrder.OrderItems = new List<OrderItem>();
                 newOrder.OrderItems.AddRange(boughtProducts.Select(bP => new OrderItem() { ProductId = bP.Id, Quantity = splitedProductIds.Where(pId => pId == bP.Id).Count() }));
 
-                var rowsEffeced = ShopService.Instance.SaveOrder(newOrder);
+                var rowsEffeced = OrderService.Instance.SaveOrder(newOrder);
 
                 json.Data = new { success = true, rows = rowsEffeced };
             }
