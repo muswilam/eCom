@@ -15,7 +15,7 @@
                         {
                             var productQuantity = Model.CartProductIds.Where(productId => productId == product.Id).Count();
 
-                            <li class="list-group-item  d-block justify-content-between lh-condensed">
+                            <li class="list-group-item  d-block justify-content-between lh-condensed" data-id="@product.Id">
                                 <div>
                                     <h6 class="my-0">@i - @product.Name <span class="badge badge-success pull-right p-1">Qty: @productQuantity </span> </h6>
                                     <small class="text-muted">@(product.Description != null && product.Description.Length > 100 ? product.Description.Substring(0, 99) : product.Description)</small>
@@ -62,13 +62,44 @@
                         </div>
               
                         <hr class="mb-4">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                        <button id="placeeOrderBtn" class="btn btn-primary btn-lg btn-block" type="button">Place Order</button>
                     </form>
                 </div>
             </div>
 
         </div><!-- /.container -->
     </section>
+    
+    <script>
+        $("#placeeOrderBtn").click(function () {
+        $.ajax({
+            url: '@Url.Action("PlaceOrder", "Shop")',
+            data: {
+                productIds: '@string.Join("-",Model.CartProductIds)',
+            },
+        })
+        .done(function (result) {
+            if (result.success) {
+                $.cookie("cartProduct", "", { path: '/' }); //path is so important to empty cookie not create new one
+                updateCartProducts();
+
+                swal("Done", "Your order has been placed successfuly.", {
+                    icon: "success",
+                }).then(function (value) {
+                    window.location = '@Url.Action("Index","Shop")';
+                });
+            }
+            else {
+                swal("OOPS", "Unable to place order.", {
+                    icon: "warning",
+                });
+            }
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+        });
+    </script>
 }
 else
 {
@@ -76,4 +107,4 @@ else
         No products in cart yet.
     </div>
 }
-    
+

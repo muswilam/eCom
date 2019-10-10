@@ -224,7 +224,7 @@
         var productId = $(this).attr("data-id");
         products.push(productId);
 
-        $.cookie('cartProduct', products.join('-')); // { path: '/'} to allow cookie in others controllers
+        $.cookie('cartProduct', products.join('-'), { path: '/' }); // { path: '/'} to allow cookie in others controllers
 
         swal("Added to cart successfuly.", {
             icon: "success",

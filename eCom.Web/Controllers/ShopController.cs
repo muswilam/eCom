@@ -8,6 +8,7 @@ using eCom.Web.ViewModels;
 using eCom.Web.Code;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using eCom.Entities;
 
 namespace eCom.Web.Controllers
 {
@@ -90,7 +91,7 @@ namespace eCom.Web.Controllers
 
             var cartProductsCookie = Request.Cookies["cartProduct"];
 
-            if(cartProductsCookie != null)
+            if(cartProductsCookie != null && !string.IsNullOrEmpty(cartProductsCookie.Value))
             {
                 checkoutModel.CartProductIds = cartProductsCookie.Value.Split('-').Select(int.Parse).ToList(); //total numbers
 
@@ -100,6 +101,41 @@ namespace eCom.Web.Controllers
             }
 
             return View(checkoutModel);
+        }
+
+        public JsonResult PlaceOrder(string productIds)
+        {
+            var json = new JsonResult();
+            json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+            if (!string.IsNullOrEmpty(productIds))
+            {
+                var splitedProductIds = productIds.Split(new[] { '-' }).Select(int.Parse).ToList(); //[7,7,10,1]
+
+                var boughtProducts = ProductService.Instance.GetProducts(splitedProductIds.Distinct().ToList()); //[7,10,1]
+
+                Order newOrder = new Order();
+
+                newOrder.UserId = User.Identity.GetUserId();
+                newOrder.OrderedAt = DateTime.Now;
+                newOrder.Status = "Pending";
+
+                //Iterate over all splitedIds matched with distinct ids, counted ,then * of unit price then sum all to get total
+                newOrder.TotalAmount = boughtProducts.Sum(bP => bP.Price * splitedProductIds.Where(pId => pId == bP.Id).Count());
+
+                newOrder.OrderItems = new List<OrderItem>();
+                newOrder.OrderItems.AddRange(boughtProducts.Select(bP => new OrderItem() { ProductId = bP.Id, Quantity = splitedProductIds.Where(pId => pId == bP.Id).Count() }));
+
+                var rowsEffeced = ShopService.Instance.SaveOrder(newOrder);
+
+                json.Data = new { success = true, rows = rowsEffeced };
+            }
+            else
+            {
+                 json.Data = new { success = false }; 
+            }
+
+            return json;
         }
     }
 }

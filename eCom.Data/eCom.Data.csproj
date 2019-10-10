@@ -78,6 +78,14 @@
     <Compile Include="Migrations\201910051844400_AddingBasicValidation.Designer.cs">
       <DependentUpon>201910051844400_AddingBasicValidation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910101240470_AddOrdersAndOrderItemsTables.cs" />
+    <Compile Include="Migrations\201910101240470_AddOrdersAndOrderItemsTables.Designer.cs">
+      <DependentUpon>201910101240470_AddOrdersAndOrderItemsTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910101422232_AddQuantityColumnInOrderItemsTable.cs" />
+    <Compile Include="Migrations\201910101422232_AddQuantityColumnInOrderItemsTable.Designer.cs">
+      <DependentUpon>201910101422232_AddQuantityColumnInOrderItemsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -114,6 +122,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910051844400_AddingBasicValidation.resx">
       <DependentUpon>201910051844400_AddingBasicValidation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910101240470_AddOrdersAndOrderItemsTables.resx">
+      <DependentUpon>201910101240470_AddOrdersAndOrderItemsTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910101422232_AddQuantityColumnInOrderItemsTable.resx">
+      <DependentUpon>201910101422232_AddQuantityColumnInOrderItemsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
