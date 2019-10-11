@@ -66,7 +66,7 @@ namespace eCom.Web.Controllers
 
             detailsModel.Order = OrderService.Instance.GetOrder(id);
 
-            if(detailsModel.Order != null)
+            if (detailsModel.Order != null)
             {
                 detailsModel.orderUser = UserManager.FindById(detailsModel.Order.UserId);
             }
@@ -74,6 +74,16 @@ namespace eCom.Web.Controllers
             detailsModel.AvailableStatuses = new List<string> { "Pending", "In Progress", "Delivered" };
 
             return View(detailsModel);
+        }
+
+        public ActionResult ChangeStatus(string status, int orderId)
+        {
+            JsonResult json = new JsonResult();
+            json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+            json.Data = new { success = OrderService.Instance.UpdateOrderStatus(status, orderId) };
+
+            return json;
         }
     }
 }

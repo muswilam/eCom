@@ -76,6 +76,34 @@
         </div><!-- /.container -->
     </section>
 
+    <script>
+        $("#changeStatus").change(function () {
+            debugger;
+            $.ajax({
+                url: '@Url.Action("ChangeStatus","Order")',
+                data: {
+                    status: $("#changeStatus").val(),
+                    orderId: '@Model.Order.Id'
+                },
+            })
+            .done(function (result) {
+                if (result.success) {
+                    swal("Done", "Your order has been updated successfuly.", {
+                        icon: "success",
+                    });
+                } else {
+                    swal("Failed", "Unable to update order.", {
+                        icon: "warning",
+                    });
+                }
+            })
+            .fail(function () {
+                swal("Failed", "OOPS something went wrong!", {
+                    icon: "warning",
+                });
+            })
+        });
+    </script>
 }
 else
 {

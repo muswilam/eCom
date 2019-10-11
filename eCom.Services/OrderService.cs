@@ -73,6 +73,21 @@ namespace eCom.Services
             }
         }
 
+        //edit order status (by admin)
+        public bool UpdateOrderStatus(string status, int id)
+        {
+            using (var context = new eComContext())
+            {
+                var order = context.Orders.Where(o => o.Id == id).FirstOrDefault();
+
+                order.Status = status;
+
+                context.Entry(order).State = EntityState.Modified;
+                return context.SaveChanges() > 0;
+            }
+        }
+
+
         //create order with creating list of orderItems { orderId , productId }
         public int SaveOrder(Order order)
         {
