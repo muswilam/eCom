@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace eCom.Services
 {
@@ -57,6 +58,18 @@ namespace eCom.Services
                     orders = orders.Where(p => p.Status.ToLower().Contains(status.ToLower())).ToList();
 
                 return orders.Count();
+            }
+        }
+
+        //get order by id
+        public Order GetOrder(int id)
+        {
+            using (var context = new eComContext())
+            {
+               return context.Orders
+                   .Where(o => o.Id == id).Include(o => o.OrderItems)
+                   .Include("OrderItems.Product")
+                   .FirstOrDefault();
             }
         }
 
