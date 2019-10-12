@@ -28,7 +28,7 @@ namespace eCom.Web.Controllers
             }
             else
             {
-                productWidgetModel.Products = ProductService.Instance.GetProducts(1, 8);
+                productWidgetModel.Products = ProductService.Instance.GetProducts(4);
             }
             return PartialView(productWidgetModel);
         }

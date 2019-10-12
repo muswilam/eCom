@@ -63,7 +63,7 @@ namespace eCom.Services
                 }
                 return context.Categories.OrderBy(c => c.Id).Skip((pageNo -1)* pageSize).Take(pageSize).Include(c => c.Products).ToList();
             }
-        }
+        }   
 
         //get categories that have products
         public List<Category> GetFilledCategories()

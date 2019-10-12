@@ -55,23 +55,39 @@
                     </div><!-- /.logo -->
                     <div class="mobile-button"><span></span></div>
                     <ul class="menu-extra">
-                        <li class="box-search">
-                            <a class="icon_search header-search-icon" href="#"></a>
-                            <form role="search" method="get" class="header-search-form" action="#">
-                                <input type="text" value="" name="s" class="header-search-field" placeholder="Search...">
-                                <button type="submit" class="header-search-submit" title="Search">Search</button>
-                            </form>
-                        </li>
+                        @*<li class="box-search">
+                    <a class="icon_search header-search-icon" href="#"></a>
+                    <form role="search" method="get" class="header-search-form" action="#">
+                        <input type="text" value="" name="s" class="header-search-field" placeholder="Search...">
+                        <button type="submit" class="header-search-submit" title="Search">Search</button>
+                    </form>
+                </li>*@
+
+
 
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="box-login">
-                                <a class="icon_login" href="#">
-                                    @User.Identity.Name
-                                </a>
+                            <li class="box-login nav-top-cart-wrapper">
+                                <a class="icon_login active" href="#"></a>
+                                <div class="nav-shop-cart">
+                                    <div class="widget_shopping_cart_content">
+                                        <div class="woocommerce-min-cart-wrap">
+                                            <ul class="woocommerce-mini-cart cart_list product_list_widget ">
+                                                <li class="woocommerce-mini-cart-item mini_cart_item">
+                                                    <span>@User.Identity.Name</span>
+                                                </li>
+                                                <li class="woocommerce-mini-cart-item mini_cart_item">
+                                                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                                                        Logout
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div><!-- /.widget_shopping_cart_content -->
+                                    </div>
+                                </div><!-- /.nav-shop-cart -->
                             </li>
                         }
-                        
+
                         <li class="box-cart nav-top-cart-wrapper">
                             <a class="icon_cart nav-cart-trigger active" href="@Url.Action("Checkout","Shop")"><span id="cartProductsCount">0</span></a>
                         </li>
@@ -80,20 +96,34 @@
                         <nav id="mainnav" class="mainnav">
                             <ul class="menu">
                                 <li>
-                                    <a href="@Url.Action("Index","Home")">HOME</a>
+                                    <a href="@Url.Action("Index","Home")">Home</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index","Shop")">SHOP</a>
+                                    <a href="@Url.Action("Index","Shop")">Shop</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Checkout","Shop")">CHECKOUT</a>
+                                    <a href="@Url.Action("Checkout","Shop")">Checkout</a>
                                 </li>
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Register","Account")">Sign up</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Login","Account")">Log in</a>
+                                    </li>
+                                }
                             </ul>
                         </nav><!-- /.mainnav -->
                     </div><!-- /.nav-wrap -->
                 </div><!-- /.container-fluid -->
             </header><!-- /header -->
         </div><!-- /.site-header-wrap -->
+
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm"}))
+        {
+            @Html.AntiForgeryToken()
+        }
 
         @RenderBody()
 

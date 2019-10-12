@@ -82,6 +82,21 @@ namespace eCom.Services
             }
         }
 
+        //get no of products from all category 
+        public List<Product> GetProducts(int noOfProducts)
+        {
+            using (var context = new eComContext())
+            {
+                var productsList = new List<Product>();
+                foreach (var category in context.Categories.Include(c => c.Products))
+                {
+                    var products = category.Products.OrderByDescending(p => p.Id).Take(noOfProducts).ToList();
+                    productsList.AddRange(products);
+                }
+                return productsList;
+            }
+        }
+
         //get products by category id
         public List<Product> GetProductsByCategory(int categoyId, int pageSize)
         {
