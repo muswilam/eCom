@@ -16,7 +16,7 @@ namespace eCom.Web.Controllers
             return View();
         }
 
-        public ActionResult ProductTable(string search, int? pageNo)
+        public ActionResult ProductTable(string search,int? categoryId, int? pageNo)
         {
             var pageSize = ConfigurationService.Instance.PageSize();
 
@@ -25,9 +25,11 @@ namespace eCom.Web.Controllers
             pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
 
             productModel.SearchTerm = search;
-            var totalRecords = ProductService.Instance.GetProductsCount(search);
+            productModel.CategoryId = categoryId;
+            var totalRecords = ProductService.Instance.GetProductsCount(search, categoryId);
 
-            productModel.Products = ProductService.Instance.GetProducts(search , pageNo.Value, pageSize);
+            productModel.Products = ProductService.Instance.GetProducts(search , categoryId, pageNo.Value, pageSize);
+            productModel.Categories = CategoriesService.Instance.GetCategories();
 
             if(productModel.Products != null)
             {

@@ -10,8 +10,10 @@ namespace eCom.Web.ViewModels
     public class ProductSearchViewModel
     {
         public List<Product> Products { get; set; }
+        public List<Category> Categories { get; set; }
 
         public string SearchTerm { get; set; }
+        public int? CategoryId { get; set; }
         public Pager Pager { get; set; }
     }
 

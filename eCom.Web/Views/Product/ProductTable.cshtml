@@ -8,6 +8,14 @@
     <form>
         <div class="input-group mt-3 mb-3">
             <input id="searchTxt" name="Search" class="form-control mr-1" value="@Model.SearchTerm" placeholder="Search..." />
+            <select name="selectCategory" id="selectCategory" class="form-control mr-1">
+                <option >Filter by category</option>
+                @foreach (var category in Model.Categories)
+                {
+                    var isSelected = category.Id == Model.CategoryId ? "selected" : string.Empty ;
+                    <option value="@category.Id" @isSelected>@category.Name</option>
+                }
+            </select>
             <div class="input-group-append">
                 <button type="button" id="searchBtn" class="btn btn-primary">Search</button>
                 <button type="button" id="resetBtn" class="btn btn-primary">Reset</button>
@@ -99,12 +107,30 @@
 
 <script>
 
+    $("#selectCategory").change(function () {
+        $.ajax({
+            url: '@Url.Action("ProductTable","Product")',
+            data: {
+                search: '@Model.SearchTerm',
+                categoryId: $("#selectCategory").val()
+            },
+        })
+       .done(function (result) {
+           $("#tableContainer").html(result);
+           focusElement("tableContainer");
+       })
+       .fail(function () {
+           alert("Fail");
+       })
+    });
+
     $(".pageButtons").click(function () {
         $.ajax({
             url: '@Url.Action("ProductTable","Product")',
             data: {
                 pageNo: $(this).attr("data-pageNo"),
-                search: '@Model.SearchTerm'
+                search: '@Model.SearchTerm',
+                categoryId: '@Model.CategoryId'
             },
         })
         .done(function (result) {
@@ -138,7 +164,8 @@
         $.ajax({
             url: '@Url.Action("ProductTable","Product")',
             data: {
-                search: searchValue
+                search: searchValue,
+                categoryId: '@Model.CategoryId'
             },
             type: 'Get',
         })

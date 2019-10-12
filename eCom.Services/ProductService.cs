@@ -55,21 +55,23 @@ namespace eCom.Services
         }
 
         //get products 
-        public List<Product> GetProducts(string search, int pageNo, int pageSize)
+        public List<Product> GetProducts(string search, int? categoryId, int pageNo, int pageSize)
         {
             using (var context = new eComContext())
             {
+                var products = context.Products.AsQueryable();
+
                 if (!string.IsNullOrEmpty(search))
                 {
-                    return context.Products
-                        .Where(p => p.Name != null && p.Name.ToLower().Contains(search.ToLower()))
-                        .OrderBy(p => p.Id)
-                        .Skip((pageNo - 1) * pageSize)
-                        .Take(pageSize)
-                        .Include(p => p.Category)
-                        .ToList();
+                    products = products.Where(p => p.Name != null && p.Name.ToLower().Contains(search.ToLower()));
                 }
-                return context.Products.OrderBy(p => p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize).Include(p => p.Category).ToList();
+
+                if(categoryId.HasValue)
+                {
+                    products = products.Where(p => p.CategoryId == categoryId.Value);
+                }
+
+                return products.OrderBy(p => p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize).Include(p => p.Category).ToList();
             }
         }
 
@@ -195,15 +197,23 @@ namespace eCom.Services
 
 
         //get products count
-        public int GetProductsCount(string search)
+        public int GetProductsCount(string search, int? categoryId)
         {
             using (var context = new eComContext())
             {
+                IQueryable<Product> products = context.Products;
+
                 if (!string.IsNullOrEmpty(search))
                 {
-                    return context.Products.Where(p => p.Name != null && p.Name.ToLower().Contains(search.ToLower())).Count();
+                    products = products.Where(p => p.Name != null && p.Name.ToLower().Contains(search.ToLower()));
                 }
-                return context.Products.Count();
+
+                if (categoryId.HasValue)
+                {
+                    products = products.Where(p => p.CategoryId == categoryId.Value);
+                }
+
+                return products.Count();
             }
         }
         //add product 
