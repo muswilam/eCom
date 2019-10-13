@@ -41,7 +41,12 @@ namespace eCom.Web.Controllers
         }
         #endregion
 
-        public ActionResult Index(string userId, string status, int? pageNo)
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult OrderTable(string userId, string status, int? pageNo)
         {
             var ordersModel = new OrdersViewModels();
 
@@ -57,7 +62,7 @@ namespace eCom.Web.Controllers
 
             ordersModel.Pager = new Pager(totalRecords, pageNo.Value, 3);
 
-            return View(ordersModel);
+            return PartialView(ordersModel);
         }
 
         public ActionResult Details(int id)

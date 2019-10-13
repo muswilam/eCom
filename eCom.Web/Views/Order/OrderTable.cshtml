@@ -1,0 +1,100 @@
+﻿@model OrdersViewModels
+
+<div>
+    <form>
+        <div class="input-group mt-3 mb-3">
+            <input id="searchTxt" name="UserId" class="form-control mr-1" value="@Model.UserId" placeholder="Search..." />
+            <div class="input-group-append">
+                <button type="submit" id="searchBtn" class="btn btn-primary">Search</button>
+                <a href="@Url.Action("Index", "Order", new { pageNo = 1})" id="resetBtn" class="btn btn-primary">Reset</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <table id="ordersTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th class="font-weight-bold">User Id</th>
+                <th class="font-weight-bold">Total Price</th>
+                <th class="font-weight-bold">Status</th>
+                <th class="font-weight-bold">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Orders != null && Model.Orders.Count > 0)
+            {
+                foreach (var order in Model.Orders)
+                {
+                    <tr>
+                        <td>@order.UserId</td>
+                        <td>$@order.TotalAmount</td>
+                        <td>@order.Status</td>
+                        <td>
+                            <a class="detailsBtn" href="@Url.Action("Details", "Order", new { id = @order.Id })" data-id="@order.Id">Details</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="4" class="text-danger">No orders found.</td></tr>}
+        </tbody>
+
+    </table>
+
+    <div class="product-pagination text-center clearfix">
+        @if (Model.Pager != null && Model.Pager.TotalPages > 1)
+        {
+            <ul class="flat-pagination">
+                @if (Model.Pager.CurrentPage != 1)
+                {
+                    <li class="prev">
+                        <a class="pageButtons" data-pageno="1" style="cursor:pointer"><i class="fa fa-angle-double-left"></i></a>
+                    </li>
+                    <li>
+                        <a class="pageButtons" data-pageno="@(Model.Pager.CurrentPage -1)" style="cursor:pointer"><i class="fa fa-angle-left"></i></a>
+                    </li>
+                }
+
+                @for (int page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                {
+                    string activeClass = Model.Pager.CurrentPage == page ? "active" : string.Empty;
+
+                    <li class="@activeClass">
+                        <a class="pageButtons" data-pageno="@page" style="cursor:pointer">@page</a>
+                    </li>
+                }
+                @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                    <li>
+                        <a class="pageButtons" data-pageno="@(Model.Pager.CurrentPage + 1)" style="cursor:pointer"><i class="fa fa-angle-right"></i></a>
+                    </li>
+                    <li>
+                        <a class="pageButtons" data-pageno="@Model.Pager.EndPage" style="cursor:pointer"><i class="fa fa-angle-double-right"></i></a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+<script>
+
+    $(".pageButtons").click(function () {
+        $.ajax({
+            url: '@Url.Action("OrderTable","Order")',
+            data: {
+                pageNo: $(this).attr("data-pageNo"),
+            },
+        })
+        .done(function (result) {
+            $("#tableContainer").html(result);
+            focusElement("tableContainer");
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    });
+</script>
