@@ -11,9 +11,10 @@ namespace eCom.Web.ViewModels
     {
         public List<Order> Orders { get; set; }
 
-        public string UserId { get; set; }
         public Pager Pager { get; set; }
         public string Status { get; set; }
+
+        public List<string> AvailableStatus { get; set; }
     }
 
     public class OrderDetailsViewModel

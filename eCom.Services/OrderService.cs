@@ -27,35 +27,33 @@ namespace eCom.Services
         }
         #endregion
 
-        //get list of orders by userId, status, pageNo
-        public List<Order> GetOrders(string userId, string status, int pageNo, int pageSize)
+        //get list of orders by status, pageNo
+        public List<Order> GetOrders(string status, int pageNo, int pageSize)
         {
             using (var context = new eComContext())
             {
-                IQueryable<Order> orders = context.Orders.OrderBy(p => p.Id);
-
-                if (!string.IsNullOrEmpty(userId))
-                    orders = orders.Where(p => p.UserId.ToLower().Contains(userId.ToLower()));
+                IQueryable<Order> orders = context.Orders;
 
                 if (!string.IsNullOrEmpty(status))
-                    orders = orders.Where(p => p.Status.ToLower().Contains(status.ToLower()));
+                    orders = orders.Where(p => p.Status == status);
+                else
+                    orders = orders.Where(p => p.Status == "Pending");
 
-                return orders.Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
+                return orders.OrderBy(p => p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
             }
         }
 
         //get count of list of orders
-        public int GetOrdersCount(string userId, string status)
+        public int GetOrdersCount( string status)
         {
             using (var context = new eComContext())
             {
-                var orders = context.Orders.ToList();
-
-                if (!string.IsNullOrEmpty(userId))
-                    orders = orders.Where(p => p.UserId.ToLower().Contains(userId.ToLower())).ToList();
+                var orders = context.Orders.AsQueryable();
 
                 if (!string.IsNullOrEmpty(status))
-                    orders = orders.Where(p => p.Status.ToLower().Contains(status.ToLower())).ToList();
+                    orders = orders.Where(p => p.Status == status);
+                else
+                    orders = orders.Where(p => p.Status == "Pending");
 
                 return orders.Count();
             }

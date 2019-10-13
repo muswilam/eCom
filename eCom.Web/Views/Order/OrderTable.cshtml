@@ -1,24 +1,28 @@
 ﻿@model OrdersViewModels
 
 <div>
-    <form>
-        <div class="input-group mt-3 mb-3">
-            <input id="searchTxt" name="UserId" class="form-control mr-1" value="@Model.UserId" placeholder="Search..." />
-            <div class="input-group-append">
-                <button type="submit" id="searchBtn" class="btn btn-primary">Search</button>
-                <a href="@Url.Action("Index", "Order", new { pageNo = 1})" id="resetBtn" class="btn btn-primary">Reset</a>
-            </div>
+    <div class="mb-3 float-right">
+        <div class="input-group-append">
+            <button type="button" id="resetBtn" class="btn btn-primary">Reset</button>
         </div>
-    </form>
+    </div>
+    <select class="form-control col-md-3 mr-3" name="filterByStatus" id="filterByStatus">
+        @foreach (var status in Model.AvailableStatus)
+        {
+            var isSelected = Model.Status == status ? "selected" : string.Empty;
+            <option @isSelected>@status</option>
+        }
+    </select>
+   
 </div>
 
 <div>
     <table id="ordersTable" class="table table-striped">
         <thead>
             <tr>
-                <th class="font-weight-bold">User Id</th>
-                <th class="font-weight-bold">Total Price</th>
                 <th class="font-weight-bold">Status</th>
+                <th class="font-weight-bold">Total Price</th>
+                <th class="font-weight-bold">Order Date</th>
                 <th class="font-weight-bold">Actions</th>
             </tr>
         </thead>
@@ -28,9 +32,20 @@
                 foreach (var order in Model.Orders)
                 {
                     <tr>
-                        <td>@order.UserId</td>
+                        @switch (order.Status)
+                        {
+                            case "In Progress":
+                                <td class="text-warning">@order.Status</td>
+                                break;
+                            case "Delivered":
+                                <td class="text-success">@order.Status</td>
+                                break;
+                            default:
+                                <td class="text-primary">@order.Status</td>
+                                break;
+                        }
                         <td>$@order.TotalAmount</td>
-                        <td>@order.Status</td>
+                        <td>@order.OrderedAt.ToString("f")</td>
                         <td>
                             <a class="detailsBtn" href="@Url.Action("Details", "Order", new { id = @order.Id })" data-id="@order.Id">Details</a>
                         </td>
@@ -81,12 +96,12 @@
 </div>
 
 <script>
-
-    $(".pageButtons").click(function () {
+    $("#filterByStatus").change(function () {
         $.ajax({
             url: '@Url.Action("OrderTable","Order")',
             data: {
-                pageNo: $(this).attr("data-pageNo"),
+                pageNo: '@Model.Pager.CurrentPage',
+                status: $("#filterByStatus").val()
             },
         })
         .done(function (result) {
@@ -97,4 +112,34 @@
             alert("Fail");
         })
     });
+
+    $(".pageButtons").click(function () {
+        $.ajax({
+            url: '@Url.Action("OrderTable","Order")',
+            data: {
+                pageNo: $(this).attr("data-pageNo"),
+                status: '@Model.Status'
+            },
+        })
+        .done(function (result) {
+            $("#tableContainer").html(result);
+            focusElement("tableContainer");
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    });
+
+    $("#resetBtn").click(function () {
+        $.ajax({
+            url: '@Url.Action("OrderTable","Order")'
+        })
+        .done(function (result) {
+            $("#tableContainer").html(result);
+            focusElement("tableContainer");
+        })
+         .fail(function () {
+             alert("Fail");
+         })
+    })
 </script>

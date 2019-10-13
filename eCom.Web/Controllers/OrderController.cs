@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using eCom.Web.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using eCom.Web.Code;
 
 namespace eCom.Web.Controllers
 {
@@ -46,21 +47,21 @@ namespace eCom.Web.Controllers
             return View();
         }
 
-        public ActionResult OrderTable(string userId, string status, int? pageNo)
+        public ActionResult OrderTable( string status, int? pageNo)
         {
             var ordersModel = new OrdersViewModels();
 
-            ordersModel.UserId = userId;
             ordersModel.Status = status;
 
             pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
             var pageSize = ConfigurationService.Instance.PageSize();
 
-            ordersModel.Orders = OrderService.Instance.GetOrders(userId, status, pageNo.Value, 3);
+            ordersModel.Orders = OrderService.Instance.GetOrders(status, pageNo.Value, pageSize);
 
-            var totalRecords = OrderService.Instance.GetOrdersCount(userId, status);
+            var totalRecords = OrderService.Instance.GetOrdersCount(status);
 
-            ordersModel.Pager = new Pager(totalRecords, pageNo.Value, 3);
+            ordersModel.Pager = new Pager(totalRecords, pageNo.Value, pageSize);
+            ordersModel.AvailableStatus = new List<string>() { "Pending", "In Progress", "Delivered" };
 
             return PartialView(ordersModel);
         }
@@ -76,7 +77,7 @@ namespace eCom.Web.Controllers
                 detailsModel.orderUser = UserManager.FindById(detailsModel.Order.UserId);
             }
 
-            detailsModel.AvailableStatuses = new List<string> { "Pending", "In Progress", "Delivered" };
+            detailsModel.AvailableStatuses = new List<string> { "Pending", "In Progress" , "Delivered"};
 
             return View(detailsModel);
         }
