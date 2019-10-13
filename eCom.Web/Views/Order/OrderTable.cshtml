@@ -47,7 +47,7 @@
                         <td>$@order.TotalAmount</td>
                         <td>@order.OrderedAt.ToString("f")</td>
                         <td>
-                            <a class="detailsBtn" href="@Url.Action("Details", "Order", new { id = @order.Id })" data-id="@order.Id">Details</a>
+                            <a class="btn btn-info" href="@Url.Action("Details", "Order", new { id = order.Id})"> Details</a>
                         </td>
                     </tr>
                 }
