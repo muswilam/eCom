@@ -5,14 +5,14 @@
 }
 
 <div>
-    <form>
+    <form id="controlForm">
         <div class="input-group mt-3 mb-3">
             <input id="searchTxt" name="Search" class="form-control mr-1" value="@Model.SearchTerm" placeholder="Search..." />
             <select name="selectCategory" id="selectCategory" class="form-control mr-1">
-                <option >Filter by category</option>
+                <option>Filter by category</option>
                 @foreach (var category in Model.Categories)
                 {
-                    var isSelected = category.Id == Model.CategoryId ? "selected" : string.Empty ;
+                    var isSelected = category.Id == Model.CategoryId ? "selected" : string.Empty;
                     <option value="@category.Id" @isSelected>@category.Name</option>
                 }
             </select>
@@ -23,6 +23,7 @@
             </div>
         </div>
     </form>
+
 </div>
 
 <div>
@@ -158,8 +159,21 @@
         debugger;
     })
 
+    //search by click on search btn
     $("#searchBtn").click(function () {
-        debugger;
+        getAjaxSearch();
+    });
+
+    //search by press enter
+    $("#controlForm").keypress(function (event) {
+        if (event.keyCode == 13) // 13 is the keycode for enter
+        {
+            getAjaxSearch();
+            return false;
+        }
+    });
+
+    function getAjaxSearch() {
         var searchValue = $("#searchTxt").val();
         $.ajax({
             url: '@Url.Action("ProductTable","Product")',
@@ -176,8 +190,7 @@
         .fail(function () {
             alert("Fail");
         })
-        debugger;
-    });
+    }
 
     $("#newBtn").click(function () {
         $.ajax({
