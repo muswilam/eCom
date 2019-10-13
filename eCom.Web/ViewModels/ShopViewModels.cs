@@ -38,4 +38,10 @@ namespace eCom.Web.ViewModels
 
         public Pager Pager { get; set; }
     }
+
+    public class OrderPlacedViewModel
+    {
+        public ApplicationUser User { get; set; }
+        public List<Order> Orders { get; set; }
+    }
 }

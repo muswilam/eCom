@@ -43,6 +43,15 @@ namespace eCom.Services
             }
         }
 
+        //get list of orders by userID
+        public List<Order> GetOrders(string userId)
+        {
+            using (var context = new eComContext())
+            {
+                return context.Orders.Where(p => p.UserId ==  userId).OrderByDescending(p => p.Id).ToList();
+            }
+        }
+
         //get count of list of orders
         public int GetOrdersCount( string status)
         {
@@ -57,7 +66,7 @@ namespace eCom.Services
 
                 return orders.Count();
             }
-        }
+        }   
 
         //get order by id
         public Order GetOrder(int id)

@@ -162,5 +162,17 @@ namespace eCom.Web.Controllers
 
             return new HttpStatusCodeResult(500);
         }
+
+        [Authorize]
+        public ActionResult OrderPlaced()
+        {
+            OrderPlacedViewModel orderPlacedModel = new OrderPlacedViewModel();
+
+            orderPlacedModel.User = UserManager.FindById(User.Identity.GetUserId());
+
+            orderPlacedModel.Orders = OrderService.Instance.GetOrders(User.Identity.GetUserId());
+
+            return View(orderPlacedModel);
+        }
     }
 }

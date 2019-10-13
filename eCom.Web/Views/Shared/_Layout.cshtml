@@ -104,6 +104,9 @@
                                 <li>
                                     <a href="@Url.Action("Checkout","Shop")">Checkout</a>
                                 </li>
+                                <li>
+                                    <a href="@Url.Action("OrderPlaced","Shop")">Orders</a>
+                                </li>
                                 @if (!User.Identity.IsAuthenticated)
                                 {
                                     <li>

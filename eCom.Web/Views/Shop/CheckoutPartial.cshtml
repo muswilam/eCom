@@ -20,8 +20,8 @@
                                     <h6 class="my-0">@i - @product.Name <span class="badge badge-success pull-right p-1">Qty: @productQuantity </span> </h6>
                                     <small class="text-muted">@(product.Description != null && product.Description.Length > 100 ? product.Description.Substring(0, 99) : product.Description)</small>
                                 </div>
-                                <span class="text-muted text-danger">
-                                    Unit price: $@product.Price
+                                <span class="text-muted">
+                                    Unit price: $<text class="text-danger">@product.Price</text>
                                     @if (productQuantity > 1)
                                     {
                                         <text>- Total price: $</text>  @(productQuantity * product.Price)
@@ -87,7 +87,7 @@
                         swal("Done", "Your order has been placed successfuly.", {
                             icon: "success",
                         }).then(function (value) {
-                            window.location = '@Url.Action("Index","Shop")';
+                            window.location = '@Url.Action("OrederPlaced","Shop")';
                         });
                     }
                     else {
