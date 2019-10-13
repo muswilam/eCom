@@ -43,22 +43,23 @@
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="form-group">
+                @*<div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <div class="checkbox">
                             @Html.CheckBoxFor(m => m.RememberMe)
                             @Html.LabelFor(m => m.RememberMe)
                         </div>
                     </div>
-                </div>
+                </div>*@
                 <div class="form-group">
+                    <p class="pull-right">
+                        <a class="btn btn-warning" href="@Url.Action("Register","Account")">Register as a new user</a>
+                    </p>
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Log in" class="btn btn-default" />
                     </div>
                 </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
+               
                 @* Enable this once you have account confirmation enabled for password reset functionality
             <p>
                 @Html.ActionLink("Forgot your password?", "ForgotPassword")

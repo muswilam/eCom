@@ -9,6 +9,7 @@ using eCom.Web.Code;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using eCom.Entities;
+using eCom.Web.Models;
 
 namespace eCom.Web.Controllers
 {
@@ -87,11 +88,16 @@ namespace eCom.Web.Controllers
         [Authorize]
         public ActionResult Checkout()
         {
+            return View();
+        }
+
+        public PartialViewResult CheckoutPartial()
+        {
             var checkoutModel = new CheckoutViewModel();
 
             var cartProductsCookie = Request.Cookies["cartProduct"];
 
-            if(cartProductsCookie != null && !string.IsNullOrEmpty(cartProductsCookie.Value))
+            if (cartProductsCookie != null && !string.IsNullOrEmpty(cartProductsCookie.Value))
             {
                 checkoutModel.CartProductIds = cartProductsCookie.Value.Split('-').Select(int.Parse).ToList(); //total numbers
 
@@ -100,7 +106,7 @@ namespace eCom.Web.Controllers
                 checkoutModel.User = UserManager.FindById(User.Identity.GetUserId());
             }
 
-            return View(checkoutModel);
+            return PartialView(checkoutModel);
         }
 
         public JsonResult PlaceOrder(string productIds)
@@ -136,6 +142,25 @@ namespace eCom.Web.Controllers
             }
 
             return json;
+        }
+
+        [HttpPost]
+        public ActionResult UpdateUser(UserViewModel userModel)
+        {
+            if(ModelState.IsValid)
+            {
+                var userInDb = UserManager.FindById(User.Identity.GetUserId());
+                userInDb.Name = userModel.Name;
+                userInDb.Address = userModel.Address;
+                IdentityResult result = UserManager.Update(userInDb);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("CheckoutPartial");
+                }
+            }
+
+            return new HttpStatusCodeResult(500);
         }
     }
 }
