@@ -48,5 +48,7 @@ namespace eCom.Web.ViewModels
     {
         public ApplicationUser User { get; set; }
         public List<Order> Orders { get; set; }
+
+        public Pager Pager { get; set; }
     }
 }

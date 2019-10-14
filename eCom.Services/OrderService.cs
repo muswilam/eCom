@@ -44,16 +44,16 @@ namespace eCom.Services
         }
 
         //get list of orders by userID
-        public List<Order> GetOrders(string userId)
+        public List<Order> GetOrdersByUserId(string userId, int pageNo, int pageSize)
         {
             using (var context = new eComContext())
             {
-                return context.Orders.Where(p => p.UserId ==  userId).OrderByDescending(p => p.Id).ToList();
+                return context.Orders.Where(p => p.UserId ==  userId).OrderByDescending(p => p.Id).Skip((pageNo -1) * pageSize).Take(pageSize).ToList();
             }
         }
 
         //get count of list of orders
-        public int GetOrdersCount( string status)
+        public int GetOrdersCount(string status)
         {
             using (var context = new eComContext())
             {
@@ -67,6 +67,15 @@ namespace eCom.Services
                 return orders.Count();
             }
         }   
+
+        //get count of list of orders by userId
+        public int GetOrdersCountByUserId(string userId)
+        {
+            using (var context = new eComContext())
+            {
+               return context.Orders.Where(p => p.UserId == userId).Count();
+            }
+        }
 
         //get order by id
         public Order GetOrder(int id)

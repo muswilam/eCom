@@ -173,13 +173,20 @@ namespace eCom.Web.Controllers
         }
 
         [Authorize]
-        public ActionResult OrderPlaced()
+        public ActionResult OrderPlaced(int? pageNo)
         {
             OrderPlacedViewModel orderPlacedModel = new OrderPlacedViewModel();
 
+            pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
+            var pageSize = ConfigurationService.Instance.ShopPageSize();
+
+            int totalRecords = OrderService.Instance.GetOrdersCountByUserId(User.Identity.GetUserId());
+
             orderPlacedModel.User = UserManager.FindById(User.Identity.GetUserId());
 
-            orderPlacedModel.Orders = OrderService.Instance.GetOrders(User.Identity.GetUserId());
+            orderPlacedModel.Orders = OrderService.Instance.GetOrdersByUserId(User.Identity.GetUserId(),pageNo.Value,5);
+
+            orderPlacedModel.Pager = new Pager(totalRecords, pageNo, 5);
 
             return View(orderPlacedModel);
         }
