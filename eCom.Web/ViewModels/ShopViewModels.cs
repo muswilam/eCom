@@ -26,6 +26,8 @@ namespace eCom.Web.ViewModels
         public string SearchTerm { get; set; }
 
         public Pager Pager { get; set; }
+
+        public ApplicationUser User { get; set; }
     }
 
     public class FilterProductViewModel
@@ -37,6 +39,9 @@ namespace eCom.Web.ViewModels
         public string SearchTerm { get; set; }
 
         public Pager Pager { get; set; }
+
+
+        public ApplicationUser User { get; set; }
     }
 
     public class OrderPlacedViewModel

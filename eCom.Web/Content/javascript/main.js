@@ -833,7 +833,7 @@
       flatIsotope();
       flatCarouselOwl();
       flatContentBox();
-      updateCartProducts(); //to still executed when reload page
+      updateCartProducts($.cookie()); //to still executed when reload page
     });
 })(jQuery);
 
@@ -848,9 +848,8 @@ function hideloader() {
     $("#loading-overlay").delay(500).fadeOut('slow')
 };
 
-function updateCartProducts() {
+function updateCartProducts(existingCookieData) {
     var cartProducts;
-    var existingCookieData = $.cookie('cartProduct');
 
     if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
     {
@@ -859,5 +858,5 @@ function updateCartProducts() {
         cartProducts = []; //initialize
     }
 
-    $("#cartProductsCount").html(cartProducts.length);
+    $("#cartProductsCount").html(cartProducts.length - 1);
 };

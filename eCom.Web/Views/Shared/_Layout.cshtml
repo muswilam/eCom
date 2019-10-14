@@ -56,12 +56,12 @@
                     <div class="mobile-button"><span></span></div>
                     <ul class="menu-extra">
                         @*<li class="box-search">
-                    <a class="icon_search header-search-icon" href="#"></a>
-                    <form role="search" method="get" class="header-search-form" action="#">
-                        <input type="text" value="" name="s" class="header-search-field" placeholder="Search...">
-                        <button type="submit" class="header-search-submit" title="Search">Search</button>
-                    </form>
-                </li>*@
+                                <a class="icon_search header-search-icon" href="#"></a>
+                                <form role="search" method="get" class="header-search-form" action="#">
+                                    <input type="text" value="" name="s" class="header-search-field" placeholder="Search...">
+                                    <button type="submit" class="header-search-submit" title="Search">Search</button>
+                                </form>
+                            </li>*@
 
 
 
@@ -122,8 +122,7 @@
                 </div><!-- /.container-fluid -->
             </header><!-- /header -->
         </div><!-- /.site-header-wrap -->
-
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm"}))
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
         {
             @Html.AntiForgeryToken()
         }
@@ -151,7 +150,7 @@
                                 </div>
                             </form>
                             <ul class="flat-social">
-                        
+
                                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                                 <li><a href="@ConfigurationService.Instance.GetConfig("TwitterUrl").Value"><i class="fa fa-twitter"></i></a></li>
                                 <li><a href="#"><i class="fa fa-google"></i></a></li>
@@ -226,7 +225,7 @@
         <!-- Go Top -->
         <a class="go-top">
             <i class="fa fa-chevron-up"></i>
-        </a>  
+        </a>
     </div>
 
     <!-- Javascript -->
@@ -276,4 +275,21 @@
             scrollTop: $("#" + elementToFocus).offset().top - 100
         }, 700);
     }
+
+    //function updateCartProducts(existingCookieData) {
+    //    var cartProducts;
+
+    //    if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
+    //    {
+    //        cartProducts = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
+    //    } else {
+    //        cartProducts = []; //initialize
+    //    }
+
+    //    $("#cartProductsCount").html(cartProducts.length - 1);
+    //};
+
+    //$(document).ready(function () {
+    //    updateCartProducts($.cookie('Yasmina' + 'CartProducts'));
+    //})
 </script>

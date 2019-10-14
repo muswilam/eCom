@@ -95,24 +95,30 @@
     var products;
 
     $(".productAddToCart").click(function () {
-        var existingCookieData = $.cookie('cartProduct');
+        debugger;
+        @{
+            var nameChecked = Model.User != null ? Model.User.Name.Replace(" ","") : string.Empty;
+        }
+
+        var existingCookieData = $.cookie('@nameChecked' + 'CartProducts');
 
         if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
         {
             products = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
         } else {
-            products = []; //initialize
+            products = ['@User.Identity.Name']; //initialize
         }
 
         var productId = $(this).attr("data-id");
         products.push(productId);
 
-        $.cookie('cartProduct', products.join('-')); // { path: '/'} to allow cookie in others controllers
+        $.cookie('@nameChecked' + 'CartProducts', products.join('-'), { expires: 1, path: '/' }); // { path: '/'} to allow cookie in others controllers
 
-        updateCartProducts(); //count in layout (code in main.js)
+        updateCartProducts($.cookie('@nameChecked' + 'CartProducts')); //count in layout (code in main.js)
 
         swal("Added to cart successfuly.", {
             icon: "success",
         });
     });
+
 </script>

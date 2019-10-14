@@ -7,9 +7,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 order-md-2 mb-4">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-muted">Your cart</span>
-                    </h4>
+                        <span class="badge badge-warning p-2">Cart will be empty after 1 day.</span> 
+                    </h5>
                     <ul class="list-group mb-3">
                         @foreach (var product in Model.CartProducts)
                         {
@@ -39,7 +40,7 @@
                 </div>
 
                 <div id="userInfoDiv" class="col-md-8 order-md-1">
-                    <h4 class="mb-3">Billing address</h4>
+                    <h5 class="mb-3">Billing address</h5>
                     <form id="updateUserForm" class="needs-validation" novalidate="">
                         <div class="row">
                             <div class="col-md-12 mb-3">
@@ -72,61 +73,62 @@
     </section>
 
     <script>
-            $("#placeOrderBtn").click(function () {
-                $.ajax({
-                    url: '@Url.Action("PlaceOrder", "Shop")',
-                    data: {
-                        productIds: '@string.Join("-",Model.CartProductIds)',
-                    },
-                })
-                .done(function (result) {
-                    if (result.success) {
-                        $.cookie("cartProduct", "", { path: '/' }); //path is so important to empty cookie not create new one
-                        updateCartProducts();
+    $("#placeOrderBtn").click(function () {
+        $.ajax({
+            url: '@Url.Action("PlaceOrder", "Shop")',
+            data: {
+                productIds: '@string.Join("-",Model.CartProductIds)',
+            },
+        })
+        .done(function (result) {
+            if (result.success) {
+                //$.cookie('@Model.User.Name.Replace(" ","")' + 'CartProducts', "", { path: '/' }); //path is so important to empty cookie not create new one, this empty cookie not remove
+                $.removeCookie('@Model.User.Name.Replace(" ","")' + 'CartProducts', { path: '/'});
+                //updateCartProducts();
 
-                        swal("Done", "Your order has been placed successfuly.", {
-                            icon: "success",
-                        }).then(function (value) {
-                            window.location = '@Url.Action("OrederPlaced","Shop")';
-                        });
-                    }
-                    else {
-                        swal("OOPS", "Unable to place order.", {
-                            icon: "warning",
-                        });
-                    }
-                })
-                .fail(function () {
-                    alert("Fail");
-                })
-            });
+                swal("Done", "Your order has been placed successfuly.", {
+                    icon: "success",
+                }).then(function (value) {
+                    window.location = '@Url.Action("OrderPlaced","Shop")';
+                });
+            }
+            else {
+                swal("OOPS", "Unable to place order.", {
+                    icon: "warning",
+                });
+            }
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    });
 
-            $("#updateUserBtn").click(function () {
-                debugger;
-                $.ajax({
-                    url: '@Url.Action("UpdateUser","Shop")',
-                    data: $("#updateUserForm").serialize(),
-                    type: 'Post'
-                })
-                .done(function (result) {
-                    if (result) {
-                        $("#ChecoutContainer").html(result);
-                        swal("Done", "Your information has been updated successfuly.", {
-                            icon: "success",
-                        });
-                    }
-                    else {
-                        swal("Fail", "Failed to update.", {
-                            icon: "warning",
-                        });
-                    }
-                })
-                .fail(function () {
-                    swal("Fail", "Failed.", {
-                        icon: "warning",
-                    });
-                })
+    $("#updateUserBtn").click(function () {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("UpdateUser","Shop")',
+            data: $("#updateUserForm").serialize(),
+            type: 'Post'
+        })
+        .done(function (result) {
+            if (result) {
+                $("#ChecoutContainer").html(result);
+                swal("Done", "Your information has been updated successfuly.", {
+                    icon: "success",
+                });
+            }
+            else {
+                swal("Fail", "Failed to update.", {
+                    icon: "warning",
+                });
+            }
+        })
+        .fail(function () {
+            swal("Fail", "Failed.", {
+                icon: "warning",
             });
+        })
+    });
 
     </script>
 }

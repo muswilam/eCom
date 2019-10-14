@@ -75,7 +75,11 @@
                         filterProductViewModel.Pager = Model.Pager;
                         filterProductViewModel.CategoryId = Model.CategoryId;
                         filterProductViewModel.SortBy = Model.SortBy;
-
+                        if(Model.User != null)
+                        {
+                            filterProductViewModel.User = Model.User;
+                        }
+                        
                         Html.RenderPartial("FilterProducts", filterProductViewModel);
                     }
                 </div>

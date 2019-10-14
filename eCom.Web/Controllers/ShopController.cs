@@ -60,6 +60,7 @@ namespace eCom.Web.Controllers
             shopModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId, sortBy, pageNo.Value, pageSize);
 
             shopModel.Pager = new Pager(totalRecords, pageNo, pageSize);
+            shopModel.User = UserManager.FindById(User.Identity.GetUserId());
 
             return View(shopModel);
         }
@@ -81,6 +82,7 @@ namespace eCom.Web.Controllers
             filterModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId, sortBy, pageNo.Value, pageSize);
 
             filterModel.Pager = new Pager(totalRecords, pageNo, pageSize);
+            filterModel.User = UserManager.FindById(User.Identity.GetUserId());
 
             return PartialView(filterModel);
         }
@@ -95,15 +97,22 @@ namespace eCom.Web.Controllers
         {
             var checkoutModel = new CheckoutViewModel();
 
-            var cartProductsCookie = Request.Cookies["cartProduct"];
+            var user = UserManager.FindById(User.Identity.GetUserId());
+
+            var cartProductsCookie = Request.Cookies[user.Name.Replace(" ","") + "CartProducts"];
 
             if (cartProductsCookie != null && !string.IsNullOrEmpty(cartProductsCookie.Value))
             {
-                checkoutModel.CartProductIds = cartProductsCookie.Value.Split('-').Select(int.Parse).ToList(); //total numbers
+                var userName = cartProductsCookie.Value.Split('-').First().Replace("%40","@");
+                if (userName == User.Identity.Name)
+                {
+                    checkoutModel.CartProductIds = cartProductsCookie.Value.Split('-').Skip(1).Select(int.Parse).ToList(); //total numbers
 
-                checkoutModel.CartProducts = ProductService.Instance.GetProducts(checkoutModel.CartProductIds); //products with the same ids (distinct)
 
-                checkoutModel.User = UserManager.FindById(User.Identity.GetUserId());
+                    checkoutModel.CartProducts = ProductService.Instance.GetProducts(checkoutModel.CartProductIds); //products with the same ids (distinct)
+
+                    checkoutModel.User = user;
+                }
             }
 
             return PartialView(checkoutModel);
