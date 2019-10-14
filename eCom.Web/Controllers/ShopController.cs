@@ -70,7 +70,7 @@ namespace eCom.Web.Controllers
             var filterModel = new FilterProductViewModel();
 
             pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
-            var pageSize = ConfigurationService.Instance.ShopPageSize();
+            var pageSize = ConfigurationService.Instance.ShopPageSize(); //6
 
             filterModel.SortBy = sortBy;
             filterModel.CategoryId = categoryId;
@@ -173,22 +173,27 @@ namespace eCom.Web.Controllers
         }
 
         [Authorize]
-        public ActionResult OrderPlaced(int? pageNo)
+        public ActionResult OrderPlaced()
+        {
+            return View();
+        }
+
+        public ActionResult _OrderPlaced(int? pageNo)
         {
             OrderPlacedViewModel orderPlacedModel = new OrderPlacedViewModel();
 
             pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
-            var pageSize = ConfigurationService.Instance.ShopPageSize();
+            var pageSize = ConfigurationService.Instance.ShopPageSize(); //6
 
             int totalRecords = OrderService.Instance.GetOrdersCountByUserId(User.Identity.GetUserId());
 
             orderPlacedModel.User = UserManager.FindById(User.Identity.GetUserId());
 
-            orderPlacedModel.Orders = OrderService.Instance.GetOrdersByUserId(User.Identity.GetUserId(),pageNo.Value,5);
+            orderPlacedModel.Orders = OrderService.Instance.GetOrdersByUserId(User.Identity.GetUserId(), pageNo.Value, pageSize);
 
-            orderPlacedModel.Pager = new Pager(totalRecords, pageNo, 5);
+            orderPlacedModel.Pager = new Pager(totalRecords, pageNo, pageSize);
 
-            return View(orderPlacedModel);
+            return PartialView(orderPlacedModel);
         }
     }
 }
