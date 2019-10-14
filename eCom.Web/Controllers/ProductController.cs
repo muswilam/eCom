@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using eCom.Services;
 using eCom.Entities;
 using eCom.Web.ViewModels;
@@ -11,6 +13,34 @@ namespace eCom.Web.Controllers
 {
     public class ProductController : Controller
     {
+        #region User Manager
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+        #endregion
         public ActionResult Index()
         {
             return View();
@@ -123,6 +153,7 @@ namespace eCom.Web.Controllers
             ProductViewModel productModel = new ProductViewModel();
 
             productModel.Product = ProductService.Instance.GetProduct(id);
+            productModel.User = UserManager.FindById(User.Identity.GetUserId());
 
             return View(productModel);
         }

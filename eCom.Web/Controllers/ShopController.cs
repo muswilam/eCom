@@ -15,6 +15,7 @@ namespace eCom.Web.Controllers
 {
     public class ShopController : Controller
     {
+        #region User Manager
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -24,9 +25,9 @@ namespace eCom.Web.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -41,6 +42,7 @@ namespace eCom.Web.Controllers
                 _userManager = value;
             }
         }
+        #endregion
 
         public ActionResult Index(string searchTerm, decimal? minPrice, decimal? maxPrice, int? categoryId, byte? sortBy, int? pageNo)
         {

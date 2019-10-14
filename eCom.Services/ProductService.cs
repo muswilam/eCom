@@ -99,12 +99,16 @@ namespace eCom.Services
             }
         }
 
-        //get products by category id
+        //get products by category id (related products)
         public List<Product> GetProductsByCategory(int categoyId, int pageSize)
         {
             using (var context = new eComContext())
             {
-                return context.Products.Where(p => p.CategoryId == categoyId).OrderByDescending(p => p.Id).Take(pageSize).Include(p => p.Category).ToList();
+                Random r =new Random();
+                var products = context.Products.Where(p => p.CategoryId == categoyId).Include(p => p.Category);
+                var count = products.Count();
+                int ran = r.Next(0, count) <= 4  ? r.Next(0,count) : 4;
+                return products.OrderByDescending(p => p.Id).Skip(ran).Take(pageSize).ToList();
             }
         }
 
