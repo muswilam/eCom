@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using eCom.Entities;
 using eCom.Services;
+using eCom.Web.ViewModels;
 
 namespace eCom.Web.Controllers
 {
@@ -45,6 +46,18 @@ namespace eCom.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult WishlistItems()
+        {
+            WishlistViewModel wishModel = new WishlistViewModel();
+
+            wishModel.User = UserManager.FindById(User.Identity.GetUserId());
+
+            wishModel.Wishlist = WishlistService.Instance.GetWishlist(User.Identity.GetUserId());
+
+            return PartialView(wishModel);
+        }
+
 
         public JsonResult AddWishlist(int productId)
         {

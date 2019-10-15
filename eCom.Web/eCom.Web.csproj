@@ -196,6 +196,7 @@
     <Compile Include="ViewModels\ShopViewModels.cs" />
     <Compile Include="ViewModels\UserViewModels.cs" />
     <Compile Include="ViewModels\WidgetViewModels.cs" />
+    <Compile Include="ViewModels\WishlistViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
@@ -565,11 +566,12 @@
     <Content Include="Views\Shop\CheckoutPartial.cshtml" />
     <Content Include="Views\Shop\OrderPlaced.cshtml" />
     <Content Include="Views\Shop\_OrderPlaced.cshtml" />
+    <Content Include="Views\Wishlist\Index.cshtml" />
+    <Content Include="Views\Wishlist\WishlistItems.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\images\about\" />
-    <Folder Include="Views\Wishlist\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

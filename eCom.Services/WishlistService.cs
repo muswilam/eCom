@@ -62,7 +62,7 @@ namespace eCom.Services
         {
             using (eComContext context = new eComContext())
             {
-                return context.Wishlists.Where(w => w.UserId == userId).Include(w => w.WishlistItems).FirstOrDefault();
+                return context.Wishlists.Where(w => w.UserId == userId).Include(w => w.WishlistItems).Include("WishlistItems.Product").FirstOrDefault();
             }
         }
 

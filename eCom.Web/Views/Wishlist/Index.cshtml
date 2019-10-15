@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Wishlist";
+}
+
+<div class="page-title parallax parallax1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-title-heading">
+                    <h1 class="title">Your Wishlist</h1>
+                </div><!-- /.page-title-heading -->
+            </div><!-- /.col-md-12 -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+</div><!-- /.page-title -->
+
+<section class="flat-row main-shop shop-slidebar">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="wishlistItemsDiv">
+                    @{
+                        Html.RenderAction("WishlistItems");
+                    }
+                </div>
+            </div>
+        </div>
+    </div>>
+</section>
