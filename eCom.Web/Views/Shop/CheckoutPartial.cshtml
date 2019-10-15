@@ -68,8 +68,9 @@
                         </div>
                         <hr class="mb-4">
                         <div class="d-flex justify-content-center align-content-center">
-                            <button id="updateUserBtn" class="btn btn-primary  col-md-4 mr-2" type="button">Update User Info</button>
-                            <button id="placeOrderBtn" class="btn btn-primary  col-md-4" type="button">Place Order</button>
+                            <button id="updateUserBtn" class="btn btn-primary col-md-4 mr-2" type="button">Update User Info</button>
+                            <button id="placeOrderBtn" class="btn btn-primary col-md-4 mr-2" type="button">Place Order</button>
+                            <button id="removeCartBtn" class="btn btn-danger col-md" type="button">Empty Cart</button>
                         </div>
 
                     </form>
@@ -79,7 +80,7 @@
         </div><!-- /.container -->
     </section>
 
-    <script>
+<script>
     $("#placeOrderBtn").click(function () {
         $.ajax({
             url: '@Url.Action("PlaceOrder", "Shop")',
@@ -137,7 +138,28 @@
         })
     });
 
-    </script>
+    //empty cart 
+    $("#removeCartBtn").click(function () {
+        debugger;
+        swal({
+            title: "Confirm!",
+            text: "Are you sure? wanna empty your cart.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then(function (willDelete) {
+            if (willDelete) {
+                $.removeCookie('@Model.User.Name.Replace(" ","")' + 'CartProducts', { path: '/' });
+                swal("Cart empty successfuly.", {
+                    icon: "success",
+                }).then(function () {
+                    window.location = '@Url.Action("Index", "Home")';
+                });
+            }
+        });
+    });
+</script>
 }
 else
 {
