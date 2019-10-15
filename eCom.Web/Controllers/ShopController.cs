@@ -44,25 +44,13 @@ namespace eCom.Web.Controllers
         }
         #endregion
 
-        public ActionResult Index(string searchTerm, decimal? minPrice, decimal? maxPrice, int? categoryId, byte? sortBy, int? pageNo)
+        public ActionResult Index() 
         {
             var shopModel = new ShopViewModel();
-
-            pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
-            var pageSize = ConfigurationService.Instance.ShopPageSize();
-
-            shopModel.SortBy = sortBy;
-            shopModel.CategoryId = categoryId;
-            shopModel.SearchTerm = searchTerm;
 
             shopModel.FeaturedCategories = CategoriesService.Instance.GetFeaturedCategories();
 
             shopModel.MaximumPrice = ProductService.Instance.GetMaxPrice();
-            int totalRecords = ProductService.Instance.GetShopProductsCount(searchTerm, minPrice, maxPrice, categoryId, sortBy);
-            shopModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId, sortBy, pageNo.Value, pageSize);
-
-            shopModel.Pager = new Pager(totalRecords, pageNo, pageSize);
-            shopModel.User = UserManager.FindById(User.Identity.GetUserId());
 
             return View(shopModel);
         }
@@ -78,8 +66,10 @@ namespace eCom.Web.Controllers
             filterModel.CategoryId = categoryId;
             filterModel.SearchTerm = searchTerm;
 
+            filterModel.FeaturedCategories = CategoriesService.Instance.GetFeaturedCategories();
+
+            filterModel.MaximumPrice = ProductService.Instance.GetMaxPrice();
             int totalRecords = ProductService.Instance.GetShopProductsCount(searchTerm, minPrice, maxPrice, categoryId, sortBy);
-            pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
 
             filterModel.Products = ProductService.Instance.GetShopProducts(searchTerm, minPrice, maxPrice, categoryId, sortBy, pageNo.Value, pageSize);
 

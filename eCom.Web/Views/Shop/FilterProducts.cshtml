@@ -4,6 +4,21 @@
     var defaultImgUrl = "/Content/Images/default.jpg";
 }
 
+@*@{
+        var filterProductViewModel = new FilterProductViewModel();
+
+        filterProductViewModel.Products = Model.Products;
+        filterProductViewModel.Pager = Model.Pager;
+        filterProductViewModel.CategoryId = Model.CategoryId;
+        filterProductViewModel.SortBy = Model.SortBy;
+        if (Model.User != null)
+        {
+            filterProductViewModel.User = Model.User;
+        }
+
+        Html.RenderPartial("FilterProducts", filterProductViewModel);
+    }*@
+
 <div class="filter-shop clearfix">
     <p class="showing-product float-right">
         Showing @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + 1) – @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + (Model.Products.Count < Model.Pager.PageSize ? Model.Products.Count : Model.Pager.PageSize)) of @Model.Pager.TotalItems Products
@@ -42,6 +57,7 @@
         }
     </ul><!-- /.product -->
 </div><!-- /.product-content -->
+
 @* Stop here !!! Pager  *@
 <div id="paginationDiv" class="product-pagination text-center clearfix">
     @if (Model.Pager != null && Model.Pager.TotalPages > 1)
@@ -77,6 +93,7 @@
         </ul>
     }
 </div>
+
 
 <input type="hidden" id="searchTerm" value="@Model.SearchTerm" />
 <input type="hidden" id="sortBy" value="@Model.SortBy" />
@@ -121,4 +138,4 @@
         });
     });
 
-</script>
+ </script>

@@ -107,7 +107,8 @@ namespace eCom.Services
                 Random r =new Random();
                 var products = context.Products.Where(p => p.CategoryId == categoyId).Include(p => p.Category);
                 var count = products.Count();
-                int ran = r.Next(0, count) <= 4  ? r.Next(0,count) : 4;
+                int ran = r.Next(0, count);
+                if (ran > 4) ran = 4;
                 return products.OrderByDescending(p => p.Id).Skip(ran).Take(pageSize).ToList();
             }
         }

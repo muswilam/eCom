@@ -22,7 +22,7 @@ namespace eCom.Web.ViewModels
         public decimal MaximumPrice { get; set; }
 
         public byte? SortBy { get; set; }
-        public int? CategoryId { get; set; }
+        public int CategoryId { get; set; }
         public string SearchTerm { get; set; }
 
         public Pager Pager { get; set; }
@@ -42,6 +42,10 @@ namespace eCom.Web.ViewModels
 
 
         public ApplicationUser User { get; set; }
+
+        public List<Category> FeaturedCategories { get; set; }
+
+        public decimal MaximumPrice { get; set; }
     }
 
     public class OrderPlacedViewModel
