@@ -86,6 +86,10 @@
     <Compile Include="Migrations\201910101422232_AddQuantityColumnInOrderItemsTable.Designer.cs">
       <DependentUpon>201910101422232_AddQuantityColumnInOrderItemsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910151734404_CreateWishlistAndWishlistItemTables.cs" />
+    <Compile Include="Migrations\201910151734404_CreateWishlistAndWishlistItemTables.Designer.cs">
+      <DependentUpon>201910151734404_CreateWishlistAndWishlistItemTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -128,6 +132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910101422232_AddQuantityColumnInOrderItemsTable.resx">
       <DependentUpon>201910101422232_AddQuantityColumnInOrderItemsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910151734404_CreateWishlistAndWishlistItemTables.resx">
+      <DependentUpon>201910151734404_CreateWishlistAndWishlistItemTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
