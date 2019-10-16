@@ -4,7 +4,12 @@
     var defaultImgUrl = "/Content/Images/default.jpg";
 }
 
+@if (Model != null && Model.Wishlist != null && Model.Wishlist.WishlistItems.Count() > 0)
+{
 <div class="product-content product-threecolumn product-slidebar clearfix">
+    <div class="text-center mb-4">
+        <button type="button" class="btn btn-danger" id="emptyWishlistBtn">Empty Wishlist</button>
+    </div>
     <ul class="product style2 sd1">
         @foreach (var wishItem in Model.Wishlist.WishlistItems)
         {
@@ -36,3 +41,47 @@
         }
     </ul><!-- /.product -->
 </div><!-- /.product-content -->
+
+
+    <script>
+        //remoe all item of wishlist
+        $("#emptyWishlistBtn").click(function () {
+            swal({
+                title: "Confirm!",
+                text: "Are you sure? wanna empty wishlist.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(function (willDelete) {
+                if (willDelete) {
+                    $.ajax({
+                        url: '@Url.Action("EmptyWishlist","Wishlist")',
+                    })
+                     .done(function (result) {
+                         if (result.success) {
+                             swal("Done", "Wishlist has been empty successfuly.", {
+                                 icon: "success",
+                             }).then(function () {
+                                 window.location = '@Url.Action("Index","Shop")';
+                             })
+                         } else {
+                             swal("Failed", result.message, {
+                                 icon: "warning",
+                             });
+                         };
+                     })
+                     .fail(function () {
+                         alert("Fail");
+                     })
+                }
+            });
+        })
+    </script>
+}
+else
+{
+    <div class="alert alert-danger">
+        No products in your wishlist yet.
+    </div>
+}

@@ -42,6 +42,7 @@ namespace eCom.Web.Controllers
         }
         #endregion
 
+        [Authorize]
         public ActionResult Index()
         {
             return View();
@@ -99,6 +100,24 @@ namespace eCom.Web.Controllers
 
             if (result)
                 json.Data = new { success = true };
+
+            return json;
+        }
+
+        public ActionResult EmptyWishlist()
+        {
+            JsonResult json = new JsonResult(); ;
+            json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            bool result = false;
+
+            var userId = User.Identity.GetUserId();
+
+            result = WishlistService.Instance.EmptyWishlistItems(userId);
+
+            if (result)
+                json.Data = new { success = true };
+            else
+                json.Data = new { success = false, message = "Something went wrong." };
 
             return json;
         }

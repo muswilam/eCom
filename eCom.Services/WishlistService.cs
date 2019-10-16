@@ -78,5 +78,17 @@ namespace eCom.Services
                 return context.SaveChanges() > 0;
             }
         }
+
+        //Empty wishlistItems by userId
+        public bool EmptyWishlistItems(string userId)
+        {
+            using (eComContext context = new eComContext())
+            {
+                var wishlist = context.Wishlists.Where(w => w.UserId == userId).Include(w => w.WishlistItems).FirstOrDefault();
+             
+                context.WishlistItems.RemoveRange(wishlist.WishlistItems);
+                return context.SaveChanges() > 0;
+            }
+        }
     }
 }
