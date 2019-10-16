@@ -6,7 +6,7 @@
 
 @if (Model != null && Model.Wishlist != null && Model.Wishlist.WishlistItems.Count() > 0)
 {
-<div class="product-content product-threecolumn product-slidebar clearfix">
+<div class="product-content product-threecolumn product-slidebar clearfix ">
     <div class="text-center mb-4">
         <button type="button" class="btn btn-danger" id="emptyWishlistBtn">Empty Wishlist</button>
     </div>
@@ -29,13 +29,12 @@
                         </ins>
                     </div>
                 </div>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="add-to-cart text-center">
-                        <a class="productAddToCart" data-id="@wishItem.ProductId">ADD TO CART</a>
-                    </div>
-                }
-                @*<a href="#" class="like"><i class="fa fa-heart-o"></i></a>*@
+
+                <div class="add-to-cart text-center">
+                    <a class="productAddToCart" data-id="@wishItem.ProductId">ADD TO CART</a>
+                </div>
+
+                <a data-id="@wishItem.ProductId" class="like" style="cursor:pointer"><i id="wishHeart" class="fa fa-heart"></i></a>
             </li>
 
         }
@@ -44,39 +43,72 @@
 
 
     <script>
-        //remoe all item of wishlist
-        $("#emptyWishlistBtn").click(function () {
-            swal({
-                title: "Confirm!",
-                text: "Are you sure? wanna empty wishlist.",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then(function (willDelete) {
-                if (willDelete) {
-                    $.ajax({
-                        url: '@Url.Action("EmptyWishlist","Wishlist")',
-                    })
-                     .done(function (result) {
-                         if (result.success) {
-                             swal("Done", "Wishlist has been empty successfuly.", {
-                                 icon: "success",
-                             }).then(function () {
-                                 window.location = '@Url.Action("Index","Shop")';
-                             })
-                         } else {
-                             swal("Failed", result.message, {
-                                 icon: "warning",
-                             });
-                         };
-                     })
-                     .fail(function () {
-                         alert("Fail");
-                     })
-                }
-            });
+    //remoe all item of wishlist
+    $("#emptyWishlistBtn").click(function () {
+        swal({
+            title: "Confirm!",
+            text: "Are you sure? wanna empty wishlist.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
         })
+        .then(function (willDelete) {
+            if (willDelete) {
+                $.ajax({
+                    url: '@Url.Action("EmptyWishlist","Wishlist")',
+                })
+                 .done(function (result) {
+                     if (result.success) {
+                         swal("Done", "Wishlist has been empty successfuly.", {
+                             icon: "success",
+                         }).then(function () {
+                             window.location = '@Url.Action("Index","Shop")';
+                         })
+                     } else {
+                         swal("Failed", result.message, {
+                             icon: "warning",
+                         });
+                     };
+                 })
+                 .fail(function () {
+                     alert("Fail");
+                 })
+            }
+        });
+    })
+
+    $('.like').click(function () {
+        var productId = $(this).attr("data-id");
+
+        var productElement = $(this).parent().closest(".product-item");
+
+        $.ajax({
+            url: '@Url.Action("RemoveProduct", "Wishlist")',
+                data: {
+                    productId: productId
+                },
+            })
+            .done(function (result) {
+                if (result.success) {
+                    swal("Done", "Removed from wishlist successfuly.", {
+                        icon: "success",
+                    }).then(function () {
+                        debugger;
+                        if ($(".product-item").length <= 1) { //last item
+                            window.location = '@Url.Action("Index","Home")';
+                        }
+                        productElement.remove();
+                    })
+                } else {
+                    swal("Failed", result.message, {
+                        icon: "warning",
+                    });
+                }
+            })
+            .fail(function () {
+                alert("Fail");
+            });
+        });
     </script>
 }
 else

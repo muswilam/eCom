@@ -38,7 +38,7 @@
                     
                     var likedClass = WishlistService.Instance.IsProductWished(Model.User.Id,product.Id) ? "fa fa-heart" : "fa fa-heart-o";
                     
-                    <a data-id="@product.Id" class="like productAddToWishlist" style="cursor:pointer"><i class="@likedClass"></i></a>
+                    <a data-id="@product.Id" class="like" style="cursor:pointer"><i id="wishHeart" class="@likedClass"></i></a>
                 }
             </li>
 
@@ -126,28 +126,58 @@
         });
     });
 
-    $(".productAddToWishlist").click(function () {
+    $('.like').click(function () {
         var productId = $(this).attr("data-id");
+        var likeElement = $(this).children("#wishHeart");
 
-        $.ajax({
-            url: '@Url.Action("AddWishlist", "Wishlist")',
-            data: {
-                productId: productId
-            },
-        })
-        .done(function (result) {
-            if (result.success) {
-                swal("Done", "Added to wishlist successfuly.", {
-                    icon: "success",
-                });
-            } else {
-                swal("Failed", result.message, {
-                    icon: "warning",
-                });
-            }
-        })
-        .fail(function () {
-            alert("Fail");
-        });
+        //add product to wishlist
+        if (likeElement.hasClass("fa fa-heart-o")) {
+            $.ajax({
+                url: '@Url.Action("AddWishlist", "Wishlist")',
+                data: {
+                    productId: productId
+                },
+            })
+            .done(function (result) {
+                if (result.success) {
+                    swal("Done", "Added to wishlist successfuly.", {
+                        icon: "success",
+                    });
+                    likeElement.removeClass("fa fa-heart-o");
+                    likeElement.addClass("fa fa-heart");
+                } else {
+                    swal("Failed", result.message, {
+                        icon: "warning",
+                    });
+                }
+            })
+            .fail(function () {
+                alert("Fail");
+            });
+        } else { //remove product from wishlist
+
+            $.ajax({
+                url: '@Url.Action("RemoveProduct", "Wishlist")',
+                data: {
+                    productId: productId
+                },
+            })
+           .done(function (result) {
+               if (result.success) {
+                   swal("Done", "Removed from wishlist successfuly.", {
+                       icon: "success",
+                   });
+                   likeElement.removeClass("fa fa-heart");
+                   likeElement.addClass("fa fa-heart-o");
+               } else {
+                   swal("Failed", result.message, {
+                       icon: "warning",
+                   });
+               }
+           })
+           .fail(function () {
+               alert("Fail");
+           });
+        }
     });
  </script>

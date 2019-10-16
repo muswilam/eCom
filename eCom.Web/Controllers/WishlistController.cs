@@ -86,7 +86,7 @@ namespace eCom.Web.Controllers
                     result = WishlistService.Instance.AddWishlistItem(existWishlist.WishlistItems);
                 }
             }
-            else //create
+            else //create new wishlist
             {
                 Wishlist newWishlist = new Wishlist();
 
@@ -100,6 +100,24 @@ namespace eCom.Web.Controllers
 
             if (result)
                 json.Data = new { success = true };
+
+            return json;
+        }
+
+        public JsonResult RemoveProduct(int productId)
+        {
+            JsonResult json = new JsonResult();
+            json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            bool result = false;
+
+            var userId = User.Identity.GetUserId();
+ 
+            result = WishlistService.Instance.RemoveItemFromWishlist(userId, productId);
+
+            if (result)
+                json.Data = new { success = true };
+            else
+                json.Data = new { success = false, message = "Something went wrong." };
 
             return json;
         }

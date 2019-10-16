@@ -97,6 +97,24 @@ namespace eCom.Services
             }
         }
 
+        public bool RemoveItemFromWishlist(string userId, int productId)
+        {
+            using (eComContext context = new eComContext())
+            {
+                var wishlistItems = context.WishlistItems.Where(wi => wi.Wishlist.UserId == userId).ToList();
+
+                foreach (var wishItem in wishlistItems)
+                {
+                    if(wishItem.ProductId == productId)
+                    {
+                        context.WishlistItems.Remove(wishItem);
+                        return context.SaveChanges() > 0;
+                    }
+                }
+                return false;
+            }
+        }
+
         //Empty wishlistItems by userId
         public bool EmptyWishlistItems(string userId)
         {
