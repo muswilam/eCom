@@ -4,14 +4,27 @@
     ViewBag.Title = "Home";
 }
 
+@if(User.Identity.IsAuthenticated)
+{
+    <div class="container-fluid mt-3 mb-3">
+        <form id="updatePicForm" class="text-center" >
+            Main Image : <input type="file"  id="selectImage" />
+            <input type="hidden" name="imageUrl" id="imageUrl">
+            <button type="button" id="changeMainPic" class="btn btn-danger">Change Picture</button>
+        </form>
+    </div>
+}
+
 <!-- SLIDER -->
 <div class="rev_slider_wrapper fullwidthbanner-container">
     <div id="rev-slider1" class="rev_slider fullwidthabanner">
+
         <ul>
+
             <!-- Slide 1 -->
             <li data-transition="random">
                 <!-- Main Image -->
-                <img src="~/Content/images/slider/slider-bg-5.jpg" alt="" data-bgposition="center center" data-no-retina>
+                <img src="@ConfigurationService.Instance.GetConfig("MainImage").Value" alt="" data-bgposition="center center" data-no-retina>
 
                 <!-- Layers -->
                 <div class="tp-caption tp-resizeme text-white font-weight-300"
@@ -31,7 +44,7 @@
                      data-splitin="none"
                      data-splitout="none"
                      data-responsive_offset="on">
-                    NEW TREND 2018
+                    NEW TREND @DateTime.Now.Year
                 </div>
 
                 <div class="tp-caption tp-resizeme text-white font-weight-500"
@@ -71,7 +84,7 @@
                      data-splitin="none"
                      data-splitout="none"
                      data-responsive_offset="on">
-                    BIG SALE OF THIS WEEK UP TO 30%
+                    Everything you want, you can have it.
                 </div>
 
                 <div class="tp-caption"
@@ -89,14 +102,14 @@
                      data-splitin="none"
                      data-splitout="none"
                      data-responsive_offset="on">
-                    <a href="#" class="themesflat-button has-padding-36 bg-accent has-shadow"><span>SHOP NOW</span></a>
+                    <a href="@Url.Action("Index","Shop")" class="themesflat-button has-padding-36 bg-accent has-shadow"><span>SHOP NOW</span></a>
                 </div>
             </li>
             <!-- /End Slide 1 -->
             <!-- Slide 2 -->
             <li data-transition="random">
                 <!-- Main Image -->
-                <img src="~/Content/images/slider/slider-bg-1.jpg" alt="" data-bgposition="center center" data-no-retina>
+                <img src="@ConfigurationService.Instance.GetConfig("SecondImage").Value" alt="" data-bgposition="center center" data-no-retina>
 
                 <!-- Layers -->
                 <div class="tp-caption tp-resizeme text-333 font-weight-400 text-right"
@@ -116,7 +129,7 @@
                      data-splitin="none"
                      data-splitout="none"
                      data-responsive_offset="on">
-                    <span class="text-line left"></span>Summer Fashion<span class="text-line right"></span>
+                    <span class="text-line left"></span>All Fashion<span class="text-line right"></span>
                 </div>
 
                 <div class="tp-caption tp-resizeme text-333 font-weight-500 letter-spacing-10 text-right"
@@ -136,7 +149,7 @@
                      data-splitin="none"
                      data-splitout="none"
                      data-responsive_offset="on">
-                    SALE
+                    BOOM!
                 </div>
 
                 <div class="tp-caption tp-resizeme text-333 font-weight-400 text-right"
@@ -156,7 +169,7 @@
                      data-splitin="none"
                      data-splitout="none"
                      data-responsive_offset="on">
-                    UP TO <span class="text-accent">30%</span> OFF
+                    Check <span class="text-accent">@DateTime.Now.ToString("MMM")</span> Products
                 </div>
 
                 <div class="tp-caption text-right"
@@ -174,7 +187,7 @@
                      data-splitin="none"
                      data-splitout="none"
                      data-responsive_offset="on">
-                    <a href="#" class="themesflat-button bg-accent has-shadow"><span>BY NOW</span></a>
+                    <a href="@Url.Action("Register","Account")" class="themesflat-button bg-accent has-shadow"><span>Sign Up Now</span></a>
                 </div>
             </li>
             <!-- /End Slide 2 -->
@@ -182,89 +195,88 @@
     </div>
 </div>
 <!-- END SLIDER -->
-
-@if(Model.FeaturedCategories != null && Model.FeaturedCategories.Count >= 4)
+@if (Model.FeaturedCategories != null && Model.FeaturedCategories.Count >= 4)
 {
     var firstCategory = Model.FeaturedCategories[0];
     var secondCategory = Model.FeaturedCategories[1];
     var thirdCategory = Model.FeaturedCategories[2];
     var fourthCategory = Model.FeaturedCategories[3];
-    
+
     <!-- IMAGE BOX -->
     <section class="flat-row row-image-box">
-    <div class="container">
-        <div class="row gutter-10">
-            <div class="col-sm-6 col-md-4">
-                <div class="flat-image-box style-1 data-effect div-h22 clearfix">
-                    <div class="item data-effect-item">
-                        <div class="inner">
-                            @if (firstCategory != null)
-                            {
-                            <div class="thumb">
-                                <img src="@firstCategory.ImageUrl" alt="Image">
-                                <div class="elm-btn">
-                                    <a href="#" class="themesflat-button bg-white width-150">@firstCategory.Name</a>
-                                </div>
-                                <div class="overlay-effect bg-color-1"></div>
+        <div class="container">
+            <div class="row gutter-10">
+                <div class="col-sm-6 col-md-4">
+                    <div class="flat-image-box style-1 data-effect div-h22 clearfix">
+                        <div class="item data-effect-item">
+                            <div class="inner">
+                                @if (firstCategory != null)
+                                {
+                                    <div class="thumb">
+                                        <img src="@firstCategory.ImageUrl" alt="Image">
+                                        <div class="elm-btn">
+                                            <a href="#" class="themesflat-button bg-white width-150">@firstCategory.Name</a>
+                                        </div>
+                                        <div class="overlay-effect bg-color-1"></div>
+                                    </div>
+                                }
                             </div>
-                            }
                         </div>
                     </div>
-                </div>
-            </div><!-- /.col-md-4 -->
-            <div class="col-sm-6 col-md-4">
-                <div class="flat-image-box style-1 row2 data-effect clearfix">
-                    <div class="item data-effect-item">
-                        <div class="inner">
-                            @if (secondCategory != null)
-                            {
-                            <div class="thumb">
-                                <img src="@secondCategory.ImageUrl" alt="Image">
-                                <div class="elm-btn">
-                                    <a href="#" class="themesflat-button bg-white width-150">@secondCategory.Name</a>
-                                </div>
-                                <div class="overlay-effect bg-color-1"></div>
+                </div><!-- /.col-md-4 -->
+                <div class="col-sm-6 col-md-4">
+                    <div class="flat-image-box style-1 row2 data-effect clearfix">
+                        <div class="item data-effect-item">
+                            <div class="inner">
+                                @if (secondCategory != null)
+                                {
+                                    <div class="thumb">
+                                        <img src="@secondCategory.ImageUrl" alt="Image">
+                                        <div class="elm-btn">
+                                            <a href="#" class="themesflat-button bg-white width-150">@secondCategory.Name</a>
+                                        </div>
+                                        <div class="overlay-effect bg-color-1"></div>
+                                    </div>
+                                }
                             </div>
-                            }
                         </div>
-                    </div>
 
-                    <div class="item data-effect-item">
-                        <div class="inner">
-                            @if (thirdCategory != null)
-                            {
-                            <div class="thumb">
-                                <img src="@thirdCategory.ImageUrl" alt="Image">
-                                <div class="elm-btn">
-                                    <a href="#" class="themesflat-button bg-white width-150">@thirdCategory.Name</a>
-                                </div>
-                                <div class="overlay-effect bg-color-1"></div>
+                        <div class="item data-effect-item">
+                            <div class="inner">
+                                @if (thirdCategory != null)
+                                {
+                                    <div class="thumb">
+                                        <img src="@thirdCategory.ImageUrl" alt="Image">
+                                        <div class="elm-btn">
+                                            <a href="#" class="themesflat-button bg-white width-150">@thirdCategory.Name</a>
+                                        </div>
+                                        <div class="overlay-effect bg-color-1"></div>
+                                    </div>
+                                }
                             </div>
-                            }
                         </div>
                     </div>
-                </div>
-            </div><!-- /.col-md-4 -->
-            <div class="col-sm-6 col-md-4">
-                <div class="flat-image-box style-1 data-effect div-h20 clearfix">
-                    <div class="item data-effect-item">
-                        <div class="inner">
-                            @if (fourthCategory != null)
-                            {
-                            <div class="thumb">
-                                <img src="@fourthCategory.ImageUrl" alt="Image">
-                                <div class="elm-btn">
-                                    <a href="#" class="themesflat-button bg-white width-150">@fourthCategory.Name</a>
-                                </div>
-                                <div class="overlay-effect bg-color-1"></div>
+                </div><!-- /.col-md-4 -->
+                <div class="col-sm-6 col-md-4">
+                    <div class="flat-image-box style-1 data-effect div-h20 clearfix">
+                        <div class="item data-effect-item">
+                            <div class="inner">
+                                @if (fourthCategory != null)
+                                {
+                                    <div class="thumb">
+                                        <img src="@fourthCategory.ImageUrl" alt="Image">
+                                        <div class="elm-btn">
+                                            <a href="#" class="themesflat-button bg-white width-150">@fourthCategory.Name</a>
+                                        </div>
+                                        <div class="overlay-effect bg-color-1"></div>
+                                    </div>
+                                }
                             </div>
-                            }
                         </div>
                     </div>
-                </div>
-            </div><!-- /.col-md-4 -->
-        </div><!-- /.row -->
-    </div><!-- /.container -->
+                </div><!-- /.col-md-4 -->
+            </div><!-- /.row -->
+        </div><!-- /.container -->
     </section>
 }
 
@@ -348,7 +360,7 @@
                             <i class="fa fa-money"></i>
                         </div>
                         <div class="text-wrap">
-                            <h5 class="heading"><a href="#">Cash On Delivery</a></h5>
+                            <h5 class="heading">Cash On Delivery</a></h5>
                             <p class="desc">No worry about your money.</p>
                         </div>
                     </div>
@@ -361,7 +373,7 @@
                             <i class="fa fa-clock-o"></i>
                         </div>
                         <div class="text-wrap">
-                            <h5 class="heading"><a href="#">Opening All Week</a></h5>
+                            <h5 class="heading">Opening All Week</></h5>
                             <p class="desc">Be able to shop Any time.</p>
                         </div>
                     </div>
@@ -371,3 +383,63 @@
     </div>
 </section>
 <!-- END ICON BOX -->
+
+<script>
+    $("#selectImage").change(function () {
+        var element = this;
+
+        var formData = new FormData();
+        var totalFiles = element.files.length;
+
+        for (var i = 0; i < totalFiles; i++) {
+            var file = element.files[i];
+            formData.append("Picture", file);
+        }
+
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("UploadImage","Shared")',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false
+        })
+        .done(function (response) {
+            if (response.success) {
+                $("#imageUrl").val(response.imageURL);
+            }
+        })
+        .fail(function () {
+            alert("Fail");
+        })
+    })
+
+    $("#changeMainPic").click(function () {
+        var imageUrl = $("#imageUrl").val();
+        $.ajax({
+            url: '@Url.Action("UpdateMainPicture","Config")',
+            data: {
+                imageUrl: imageUrl
+            },
+        })
+        .done(function (result) {
+            if (result.success) {
+                swal("Done", "Image updated successfuly.", {
+                    icon: "success",
+                }).then(function () {
+                    location.reload();
+                });
+            } else {
+                swal("Failed", result.message, {
+                    icon: "warning",
+                });
+            }
+        })
+        .fail(function () {
+            swal("Failed","OPPS! Failed.", {
+                icon: "warning",
+            });
+        })
+    });
+
+</script>

@@ -97,6 +97,7 @@ namespace eCom.Services
             }
         }
 
+        //remove product from wishlist
         public bool RemoveItemFromWishlist(string userId, int productId)
         {
             using (eComContext context = new eComContext())

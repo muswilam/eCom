@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using eCom.Entities;
 using eCom.Data;
+using System.Data.Entity;
 
 namespace eCom.Services
 {
@@ -50,6 +51,22 @@ namespace eCom.Services
                 var pageSizeConfig = context.Configurations.Find("ShopPageSize");
 
                 return pageSizeConfig != null ? int.Parse(pageSizeConfig.Value) : 6;
+            }
+        }
+
+        //update main picture in home page (by admin)
+        public bool UpdateMainPicture(string key, string imageUrl)
+        {
+            using (var context = new eComContext())
+            {
+                var existConfig = context.Configurations.Where(c => c.Key == key).FirstOrDefault();
+                if(existConfig != null) 
+                {
+                    existConfig.Value = imageUrl;
+                    context.Entry(existConfig).State = EntityState.Modified;
+                    return context.SaveChanges() > 0;
+                }
+                return false;
             }
         }
     }

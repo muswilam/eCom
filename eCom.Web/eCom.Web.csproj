@@ -163,6 +163,7 @@
     <Compile Include="Code\Enums.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -281,6 +282,7 @@
     <Content Include="Content\images\image-box\imgbox-5-370x370.jpg" />
     <Content Include="Content\images\image-box\imgbox-5-576x300.jpg" />
     <Content Include="Content\images\image-box\imgbox-6-370x370.jpg" />
+    <Content Include="Content\images\image.jpg" />
     <Content Include="Content\images\instagram\instagram-1-337x280.jpg" />
     <Content Include="Content\images\instagram\instagram-2-337x280.jpg" />
     <Content Include="Content\images\instagram\instagram-3-337x280.jpg" />
@@ -304,6 +306,7 @@
     <Content Include="Content\images\pattern\7.png" />
     <Content Include="Content\images\pattern\8.png" />
     <Content Include="Content\images\pattern\9.png" />
+    <Content Include="Content\images\Shopping04.jpg" />
     <Content Include="Content\images\shop\s-01.jpg" />
     <Content Include="Content\images\shop\s-02.jpg" />
     <Content Include="Content\images\shop\s-03.jpg" />
@@ -410,6 +413,7 @@
     <Content Include="Content\images\shop\sh-detail\thumb-detail-10.jpg" />
     <Content Include="Content\images\shop\sh-detail\thumb-detail-11.jpg" />
     <Content Include="Content\images\shop\sh-detail\thumb-detail-12.jpg" />
+    <Content Include="Content\images\shop\shopping-bags.jpg" />
     <Content Include="Content\images\slider\slider-bg-1.jpg" />
     <Content Include="Content\images\slider\slider-bg-2.jpg" />
     <Content Include="Content\images\slider\slider-bg-3.jpg" />
@@ -572,6 +576,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\images\about\" />
+    <Folder Include="Views\Config\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

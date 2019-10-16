@@ -102,7 +102,7 @@
                                     <a href="@Url.Action("Index","Shop")">Shop</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Checkout","Shop")">Checkout</a>
+                                    <a href="@Url.Action("Checkout","Shop")">Cart</a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Index","Wishlist")">Wishlist</a>
@@ -143,11 +143,9 @@
                     <div class="col-md-8">
                         <div class="subscribe clearfix">
                             <ul class="flat-social">
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                                 <li><a href="@ConfigurationService.Instance.GetConfig("TwitterUrl").Value"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google"></i></a></li>
-                                <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                <li><a href="@ConfigurationService.Instance.GetConfig("LinkedinUrl").Value"><i class="fa fa-linkedin"></i></a></li>
+                                <li><a href="@ConfigurationService.Instance.GetConfig("GithubUrl").Value"><i class="fa fa-github"></i></a></li>
                             </ul><!-- /.flat-social -->
                         </div><!-- /.subscribe -->
                     </div>
@@ -171,10 +169,10 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="widget widget-link link-login">
                             <ul>
-                                <li><a href="#">Login/ Register</a></li>
-                                <li><a href="#">Your Cart</a></li>
-                                <li><a href="#">Wishlist items</a></li>
-                                <li><a href="#">Your checkout</a></li>
+                                <li><a href="@Url.Action("Register","Account")">Sign up</a></li>
+                                <li><a href="@Url.Action("Login","Account")">Log in</a></li>
+                                <li><a href="@Url.Action("Index","Wishlist")">Wishlist items</a></li>
+                                <li><a href="@Url.Action("Checkout", "Shop")">Your cart</a></li>
                             </ul>
                         </div><!-- /.widget -->
                     </div><!-- /.col-md-3 -->
@@ -194,9 +192,9 @@
                                 <a href="index.html"><img src="~/Content/images/logo@2x.png" alt="image" width="107" height="24"></a>
                             </div>
                             <ul class="flat-contact">
-                                <li class="address">112 Kingdom, NA 12, New York</li>
+                                <li class="address">@ConfigurationService.Instance.GetConfig("CompanyAddress").Value</li>
                                 <li class="phone">@ConfigurationService.Instance.GetConfig("CompanyPhone").Value</li>
-                                <li class="email">infor.deercreative@gmail.com</li>
+                                <li class="email">@ConfigurationService.Instance.GetConfig("GoogleMail").Value</li>
                             </ul><!-- /.flat-contact -->
                         </div><!-- /.widget -->
                     </div><!-- /.col-md-3 -->
@@ -208,7 +206,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="copyright text-center">Copyright @@ @DateTime.Now.Year <a href="#">Modaz</a></p>
+                        <p class="copyright text-center">Copyright @@ @DateTime.Now.Year <a href="@ConfigurationService.Instance.GetConfig("TwitterUrl").Value">Sully</a></p>
                     </div>
                 </div>
             </div>
