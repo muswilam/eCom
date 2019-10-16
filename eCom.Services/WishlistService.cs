@@ -57,6 +57,24 @@ namespace eCom.Services
             }
         }
 
+        //is product has been wished before
+        public bool IsProductWished(string userId, int productId)
+        {
+            using (eComContext context = new eComContext())
+            {
+                var exist = false;
+          
+                var userWishlist = context.Wishlists.Where(w => w.UserId == userId).Include(w => w.WishlistItems).Include("WishlistItems.Product").FirstOrDefault();
+                foreach (var wishItem in userWishlist.WishlistItems)
+                {
+                    if (wishItem.ProductId == productId)
+                        exist = true;
+                }
+
+                return exist;
+            }
+        }
+
         //get wishlist by userId
         public Wishlist GetWishlist(string userId)
         {

@@ -1,147 +1,155 @@
 ﻿@model ProductViewModel
 
 
-@if(Model != null && Model.Product != null)
+@if (Model != null && Model.Product != null)
 {
     var defaultImgUrl = "/Content/Images/default.jpg";
     var imageUrl = string.IsNullOrEmpty(Model.Product.ImageUrl) ? defaultImgUrl : Model.Product.ImageUrl;
-    
-<!-- Page title -->
-<div class="page-title parallax parallax1">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="page-title-heading">
-                    <h1 class="title">@Model.Product.Name</h1>
-                </div><!-- /.page-title-heading -->
-            </div><!-- /.col-md-12 -->
-        </div><!-- /.row -->
-    </div><!-- /.container -->
-</div><!-- /.page-title -->
 
-<section class="flat-row main-shop shop-detail">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="wrap-flexslider">
-                    <div class="inner">
-                        <div class="flexslider style-1 has-relative">
-                            <ul class="slides">
-                                <li data-thumb="@imageUrl">
-                                    <img src="@imageUrl"  class="img-thumbnail" >
-                                    <div class="flat-icon style-1">
-                                        <a href="@imageUrl" class="zoom-popup"><span class="fa fa-search-plus"></span></a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div><!-- /.flexslider -->
-                    </div>
-                </div>
-            </div><!-- /.col-md-6 -->
+    <!-- Page title -->
+    <div class="page-title parallax parallax1">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-title-heading">
+                        <h1 class="title">@Model.Product.Name</h1>
+                    </div><!-- /.page-title-heading -->
+                </div><!-- /.col-md-12 -->
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </div><!-- /.page-title -->
 
-            <div class="col-md-6">
-                <div class="product-detail">
-                    <div class="inner">
-                        <div class="content-detail">
-                            <h2 class="product-title">@Model.Product.Name</h2>
-                            <p>@Model.Product.Description</p>
-                            <div class="price">
-                                @*<del><span class="regular">$90.00</span></del>*@
-                                <ins>$<span class="amount text-danger">@Model.Product.Price</span></ins>
-                            </div>
-                            <div class="product-quantity">
-                                @*<div class="quantity">
-                                    <input type="text" value="1" name="quantity-number" class="quantity-number">
-                                    <span class="inc quantity-button">+</span>
-                                    <span class="dec quantity-button">-</span>
-                                </div>*@
-                                <div class="add-to-cart">
-                                    <a class="productAddToCart" style="cursor:pointer" data-id="@Model.Product.Id">ADD TO CART</a>
-                                    @*<span>Press again to add more.</span>*@
-                                </div>
-                                <div class="box-like">
-                                    <a data-id="@Model.Product.Id" class="like productAddToWishlist"><i class="fa fa-heart-o"></i></a>
-                                </div>
-                            </div>
-                            <div class="product-categories">
-                                <span>Category: </span><a href="@Url.Action("Index", "Shop", new { categoryId = Model.Product.CategoryId })">@Model.Product.Category.Name</a>
-                            </div>
+    <section class="flat-row main-shop shop-detail">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="wrap-flexslider">
+                        <div class="inner">
+                            <div class="flexslider style-1 has-relative">
+                                <ul class="slides">
+                                    <li data-thumb="@imageUrl">
+                                        <img src="@imageUrl" class="img-thumbnail">
+                                        <div class="flat-icon style-1">
+                                            <a href="@imageUrl" class="zoom-popup"><span class="fa fa-search-plus"></span></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div><!-- /.flexslider -->
                         </div>
                     </div>
-                </div><!-- /.product-detail -->
-            </div>
-        </div><!-- /.row -->
-    </div><!-- /.container -->
-</section><!-- /.flat-row -->
+                </div><!-- /.col-md-6 -->
 
- //related products
-<section class="flat-row shop-related">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="title-section margin-bottom-55">
-                    <h2 class="title">Related Products</h2>
+                <div class="col-md-6">
+                    <div class="product-detail">
+                        <div class="inner">
+                            <div class="content-detail">
+                                <h2 class="product-title">@Model.Product.Name</h2>
+                                <p>@Model.Product.Description</p>
+                                <div class="price">
+                                    @*<del><span class="regular">$90.00</span></del>*@
+                                    <ins>$<span class="amount text-danger">@Model.Product.Price</span></ins>
+                                </div>
+                                <div class="product-quantity">
+                                    @*<div class="quantity">
+                                            <input type="text" value="1" name="quantity-number" class="quantity-number">
+                                            <span class="inc quantity-button">+</span>
+                                            <span class="dec quantity-button">-</span>
+                                        </div>*@
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <div class="add-to-cart">
+                                            <span>Press again to add more.</span>
+                                            <a class="productAddToCart" style="cursor:pointer" data-id="@Model.Product.Id">ADD TO CART</a>
+                                        </div>
+                                        <div class="box-like">
+                                            @{
+                                        var likedClass = Model.IsProductWished ? "fa fa-heart" : "fa fa-heart-o";
+                                            }
+                                            <a data-id="@Model.Product.Id" class="like productAddToWishlist" style="cursor:pointer"><i id="wishHeart" class="@likedClass"></i></a>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="product-categories">
+                                    <span>Category: </span><a href="@Url.Action("Index", "Shop", new { categoryId = Model.Product.CategoryId })">@Model.Product.Category.Name</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.product-detail -->
                 </div>
-                @{
-                    Html.RenderAction("Products", "Widgets", new { isLatestProducts = false , categoryId = Model.Product.CategoryId });
-                }
-            </div>
-        </div><!-- /.row -->
-    </div>
-</section>
-    
-    
-    <script>
-        $(".productAddToCart").click(function () {
-           @{
-               var nameChecked = Model.User != null ? Model.User.Name.Replace(" ","") : string.Empty;
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </section><!-- /.flat-row -->
+
+                                    //related products
+                                    <section class="flat-row shop-related">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="title-section margin-bottom-55">
+                                                        <h2 class="title">Related Products</h2>
+                                                    </div>
+                                                    @{
+    Html.RenderAction("Products", "Widgets", new { isLatestProducts = false, categoryId = Model.Product.CategoryId });
+                                                    }
+                                                </div>
+                                            </div><!-- /.row -->
+                                        </div>
+                                    </section>
+
+
+                                    <script>
+                                        $(".productAddToCart").click(function () {
+                                            @{
+    var nameChecked = Model.User != null ? Model.User.Name.Replace(" ","") : string.Empty;
            }
 
-            var existingCookieData = $.cookie('@nameChecked' + 'CartProducts');
+                                            var existingCookieData = $.cookie('@nameChecked' + 'CartProducts');
 
-            if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
-            {
-                products = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
-            } else {
-                products = ['@User.Identity.Name']; //initialize
-            }
+                                            if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
+                                            {
+                                                products = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
+                                            } else {
+                                                products = ['@User.Identity.Name']; //initialize
+                                            }
 
-            var productId = $(this).attr("data-id");
-            products.push(productId);
+                                            var productId = $(this).attr("data-id");
+                                            products.push(productId);
 
-            $.cookie('@nameChecked' + 'CartProducts', products.join('-'), { expires: 1, path: '/' }); // { path: '/'} to allow cookie in others controllers
+                                            $.cookie('@nameChecked' + 'CartProducts', products.join('-'), { expires: 1, path: '/' }); // { path: '/'} to allow cookie in others controllers
 
-            updateCartProducts($.cookie('@nameChecked' + 'CartProducts')); //count in layout (code in main.js)
+                                            updateCartProducts($.cookie('@nameChecked' + 'CartProducts')); //count in layout (code in main.js)
 
-            swal("Added to cart successfuly.", {
-                icon: "success",
-            });
-        });
+                                            swal("Added to cart successfuly.", {
+                                                icon: "success",
+                                            });
+                                        });
 
-        $(".productAddToWishlist").click(function () {
-            var productId = $(this).attr("data-id");
+                                        $(".productAddToWishlist").click(function () {
+                                            var productId = $(this).attr("data-id");
 
-            $.ajax({
-                url: '@Url.Action("AddWishlist", "Wishlist")',
-                data: {
-                    productId: productId
-                },
-            })
-            .done(function (result) {
-                if (result.success) {
-                    swal("Done", "Added to wishlist successfuly.", {
-                        icon: "success",
-                    });
-                } else {
-                    swal("Failed", result.message , {
-                        icon: "warning",
-                    });
-                }
-            })
-            .fail(function () {
-                alert("Fail");
-            });
-        });
-    </script>
-    
+                                            $.ajax({
+                                                url: '@Url.Action("AddWishlist", "Wishlist")',
+                                                data: {
+                                                    productId: productId
+                                                },
+                                            })
+                                            .done(function (result) {
+                                                if (result.success) {
+                                                    swal("Done", "Added to wishlist successfuly.", {
+                                                        icon: "success",
+                                                    });
+                                                    $("#wishHeart").removeClass("fa fa-heart-o");
+                                                    $("#wishHeart").addClass("fa fa-heart");
+                                                } else {
+                                                    swal("Failed", result.message, {
+                                                        icon: "warning",
+                                                    });
+                                                }
+                                            })
+                                            .fail(function () {
+                                                alert("Fail");
+                                            });
+                                        });
+                                    </script>
+
 }
