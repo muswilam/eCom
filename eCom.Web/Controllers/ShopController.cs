@@ -44,13 +44,14 @@ namespace eCom.Web.Controllers
         }
         #endregion
 
-        public ActionResult Index() 
+        public ActionResult Index(int? categoryId) 
         {
             var shopModel = new ShopViewModel();
 
             shopModel.FeaturedCategories = CategoriesService.Instance.GetFeaturedCategories();
 
             shopModel.MaximumPrice = ProductService.Instance.GetMaxPrice();
+            shopModel.CategoryId = categoryId;
 
             return View(shopModel);
         }

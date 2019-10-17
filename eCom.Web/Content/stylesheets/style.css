@@ -2599,20 +2599,24 @@ article .more-link a:hover:after {
 	background: rgba(0,0,0,0.5);
 }
 
-.parallax1 {
-	background-image: url('/Content/images/shop/shopping-bags.jpg');
+.shopping {
+	background-image: url('/Content/images/shop/shopping.jpg');
 }
 
-.parallax2 {
-	background-image: url('../images/parallax/bg-parallax2.jpg');
+.checkout {
+	background-image: url('/Content/images/shop/checkout.jpg');
 }
 
-.parallax4 {
-	background-image: url('../images/parallax/bg-parallax4.jpg');
+.wishlist {
+	background-image: url('/Content/images/shop/wishlist.jpg');
+} 
+
+.orders {
+	background-image: url('/Content/images/shop/orders.jpg');
 } 
 
 .bg-section.row-1 {
-	background: url('../images/parallax/bg-parallax3.jpg') no-repeat center center ;
+	background: url('/Content/images/shop/bags.jpg') no-repeat center center ;
 	background-size: cover;
 }
 

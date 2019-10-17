@@ -205,6 +205,7 @@
     <Content Include="Content\images\avatar-1.png" />
     <Content Include="Content\images\avatar.png" />
     <Content Include="Content\images\bg-countdown-1-962x506.jpg" />
+    <Content Include="Content\images\Bila Q Logo.png" />
     <Content Include="Content\images\Bila.Q.png" />
     <Content Include="Content\images\blog\1.jpg" />
     <Content Include="Content\images\blog\10.jpg" />
@@ -307,6 +308,9 @@
     <Content Include="Content\images\pattern\8.png" />
     <Content Include="Content\images\pattern\9.png" />
     <Content Include="Content\images\Shopping04.jpg" />
+    <Content Include="Content\images\shop\bags.jpg" />
+    <Content Include="Content\images\shop\checkout.jpg" />
+    <Content Include="Content\images\shop\orders.jpg" />
     <Content Include="Content\images\shop\s-01.jpg" />
     <Content Include="Content\images\shop\s-02.jpg" />
     <Content Include="Content\images\shop\s-03.jpg" />
@@ -413,7 +417,8 @@
     <Content Include="Content\images\shop\sh-detail\thumb-detail-10.jpg" />
     <Content Include="Content\images\shop\sh-detail\thumb-detail-11.jpg" />
     <Content Include="Content\images\shop\sh-detail\thumb-detail-12.jpg" />
-    <Content Include="Content\images\shop\shopping-bags.jpg" />
+    <Content Include="Content\images\shop\shopping.jpg" />
+    <Content Include="Content\images\shop\wishlist.jpg" />
     <Content Include="Content\images\slider\slider-bg-1.jpg" />
     <Content Include="Content\images\slider\slider-bg-2.jpg" />
     <Content Include="Content\images\slider\slider-bg-3.jpg" />

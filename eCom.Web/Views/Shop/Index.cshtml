@@ -6,7 +6,7 @@
     ViewBag.Title = "Shop";
 }
 
-<div class="page-title parallax parallax1">
+<div class="page-title shopping">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -24,11 +24,10 @@
             <div class="col-md-3">
                 <div class="sidebar slidebar-shop pt-2">
                     <div class="widget widget-search">
-                        <form role="search" method="get" class="search-form" id="searchForm" action="#">
+                        <form id="searchForm">
                             <label>
-                                <input id="searchTxt" type="search" class="search-field" data-href="@Url.Action("FilterProducts","Shop")" placeholder="Search …"  name="searchTerm">
+                                <input id="searchTxt" type="search" class="search-field" data-href="@Url.Action("FilterProducts","Shop")" placeholder="Search …" name="searchTerm">
                             </label>
-                            @*  <input type="button"  id="searchBtn" class="search-submit dataLink" value="Search">*@
                         </form>
                     </div><!-- /.widget-search -->
                     <div class="widget widget-sort-by">
@@ -36,10 +35,10 @@
                             Sort By
                         </h5>
                         <ul>
-                            <li><a style="cursor:pointer" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Default})" class="dataLink" data-sort="@((byte) SortByEnums.Default)">Default-Newest</a></li>
-                            <li><a style="cursor:pointer" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Popularity })" class="dataLink" data-sort="@((byte) SortByEnums.Popularity)">Popularity</a></li>
-                            <li><a style="cursor:pointer" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceLowToHigh })" class="dataLink" data-sort="@((byte) SortByEnums.PriceLowToHigh)">Price: Low to high</a></li>
-                            <li><a style="cursor:pointer" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceHighToLow })" class="dataLink" data-sort="@((byte) SortByEnums.PriceHighToLow)">Price: High to low</a></li>
+                            <li><a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Default})" class="dataSort">Default-Newest</a></li>
+                            <li><a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Popularity })" class="dataSort">Popularity</a></li>
+                            <li><a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceLowToHigh })" class="dataSort">Price: Low to high</a></li>
+                            <li><a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceHighToLow })" class="dataSort">Price: High to low</a></li>
                         </ul>
                     </div><!-- /.widget-sort-by -->
                     <div class="widget widget_tag">
@@ -49,8 +48,7 @@
                         <div class="tag-list">
                             @foreach (var category in Model.FeaturedCategories)
                             {
-                                var isActive = Session["CategoryId"] != null && Convert.ToInt32(Session["CategoryId"]) == category.Id ? "active" : string.Empty;
-                                <a data-href="@Url.Action("FilterProducts", "Shop", new { categoryId = category.Id })" class="dataLink @isActive " style="cursor:pointer">@category.Name</a>
+                                <a data-href="@Url.Action("FilterProducts", "Shop", new { categoryId = category.Id })" class="dataLink" style="cursor:pointer">@category.Name</a>
                             }
                         </div>
                     </div><!-- /.widget -->
@@ -85,7 +83,6 @@
 <script>
 
     $(document).ready(function(){
-        debugger;
         $("#searchTxt").attr("value",$("#searchTerm").val());
     });
 
@@ -102,14 +99,39 @@
         }
     });
 
-    $(".dataLink").click(function () {
-        debugger;
+    //sort by 
+    $(".dataSort").click(function () {
         var url = $(this).attr("data-href");
 
         if (url != "" || url != undefined) {
             GetData(url);
+
+            //check if any item has active before, remove it then add active to the new item that pressed on
+            $(".dataSort").each(function(){
+                if($(this).hasClass("active")) {
+                    $(this).removeClass("active");
+                }
+            });
+
+            $(this).addClass("active");
         }
-       
+    });
+
+    //category, same as sortBy
+    $(".dataLink").click(function () {
+        var url = $(this).attr("data-href");
+
+        if (url != "" || url != undefined) {
+            GetData(url);
+
+            $(".dataLink").each(function(){
+                if($(this).hasClass("active")) {
+                    $(this).removeClass("active");
+                }
+            });
+
+            $(this).addClass("active");
+        }
     });
 
     var callTimeout;
@@ -128,12 +150,10 @@
 
             clearTimeout(callTimeout);
             callTimeout = setTimeout(PriceRangeChange, 1500); //timeout for make request get time to come and responce (performance)
-            debugger;
         }
     });
 
     function GetData(url) {
-        debugger;
         $.ajax({
             url: url,
             data: {
@@ -157,7 +177,6 @@
 
     //get products by filtering them by price
     function PriceRangeChange() {
-        debugger;
         $.ajax({
             url: '@Url.Action("FilterProducts","Shop")',
             data: {
