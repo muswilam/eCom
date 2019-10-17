@@ -4,7 +4,7 @@
     ViewBag.Title = "Home";
 }
 
-@if(User.Identity.IsAuthenticated)
+@if(User != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
 {
     <div class="container-fluid mt-3 mb-3">
         <form id="updatePicForm" class="text-center" >

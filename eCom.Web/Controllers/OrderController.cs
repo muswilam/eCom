@@ -11,6 +11,7 @@ using eCom.Web.Code;
 
 namespace eCom.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class OrderController : Controller
     {
         #region User Manager

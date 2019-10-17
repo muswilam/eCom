@@ -11,6 +11,7 @@ using eCom.Web.ViewModels;
 
 namespace eCom.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         #region User Manager

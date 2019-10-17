@@ -10,6 +10,7 @@ using eCom.Web.ViewModels;
 
 namespace eCom.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         public ActionResult Index()

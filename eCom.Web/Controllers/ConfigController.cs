@@ -7,6 +7,7 @@ using eCom.Services;
 
 namespace eCom.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ConfigController : Controller
     {
         public JsonResult UpdateMainPicture(string imageUrl)

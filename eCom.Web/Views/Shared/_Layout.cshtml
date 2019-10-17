@@ -65,7 +65,44 @@
 
 
 
-                        @if (User.Identity.IsAuthenticated)
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="box-login nav-top-cart-wrapper">
+                                <a class="icon_login active" href="#"></a>
+                                <div class="nav-shop-cart">
+                                    <div class="widget_shopping_cart_content">
+                                        <div class="woocommerce-min-cart-wrap">
+                                            <ul class="woocommerce-mini-cart cart_list product_list_widget ">
+                                                <li class="woocommerce-mini-cart-item mini_cart_item">
+                                                    <span>@User.Identity.Name</span>
+                                                </li>
+                                                <li class="woocommerce-mini-cart-item mini_cart_item">
+                                                    <a href="@Url.Action("Index", "Product")">
+                                                        Products
+                                                    </a>
+                                                </li>
+                                                <li class="woocommerce-mini-cart-item mini_cart_item">
+                                                    <a href="@Url.Action("Index", "Category")">
+                                                        Categories
+                                                    </a>
+                                                </li>
+                                                <li class="woocommerce-mini-cart-item mini_cart_item">
+                                                    <a href="@Url.Action("Index", "Order")">
+                                                        Orders
+                                                    </a>
+                                                </li>
+                                                <li class="woocommerce-mini-cart-item mini_cart_item">
+                                                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                                                        Logout
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div><!-- /.widget_shopping_cart_content -->
+                                    </div>
+                                </div><!-- /.nav-shop-cart -->
+                            </li>
+                        }
+                        else if (User.Identity.IsAuthenticated)
                         {
                             <li class="box-login nav-top-cart-wrapper">
                                 <a class="icon_login active" href="#"></a>

@@ -11,6 +11,7 @@ using eCom.Web.ViewModels;
 
 namespace eCom.Web.Controllers
 {
+    [Authorize]
     public class WishlistController : Controller
     {
         #region User Manager
@@ -42,7 +43,6 @@ namespace eCom.Web.Controllers
         }
         #endregion
 
-        [Authorize]
         public ActionResult Index()
         {
             return View();
