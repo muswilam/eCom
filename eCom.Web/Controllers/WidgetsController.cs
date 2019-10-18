@@ -10,7 +10,6 @@ namespace eCom.Web.Controllers
 {
     public class WidgetsController : Controller
     {
-        // GET: Widgets
         public ActionResult Products(bool isLatestProducts, int? categoryId)
         {
             var productWidgetModel = new ProductsWidgetViewModel();

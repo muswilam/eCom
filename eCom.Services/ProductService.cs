@@ -32,7 +32,7 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
-                return context.Products.Include(p => p.Category).Where(c => c.Id == id).FirstOrDefault();
+                return context.Products.Where(c => c.Id == id).Include(p => p.Category).Include(p => p.Reviews).FirstOrDefault();
             }
         }
 

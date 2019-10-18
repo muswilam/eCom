@@ -155,10 +155,11 @@ namespace eCom.Web.Controllers
             ProductViewModel productModel = new ProductViewModel();
 
             productModel.Product = ProductService.Instance.GetProduct(id);
-            productModel.User = UserManager.FindById(User.Identity.GetUserId()); 
+            productModel.AuthenticatedUser = UserManager.FindById(User.Identity.GetUserId());
+            productModel.User = UserManager;
 
-            if(productModel.User != null)
-               productModel.IsProductWished = WishlistService.Instance.IsProductWished(productModel.User.Id, id);//check if user has wished this product before
+            if(productModel.AuthenticatedUser != null)
+               productModel.IsProductWished = WishlistService.Instance.IsProductWished(productModel.AuthenticatedUser.Id, id);//check if user has wished this product before
 
             return View(productModel);
         }

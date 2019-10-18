@@ -1,6 +1,5 @@
 ﻿@model ProductViewModel
 
-
 @if (Model != null && Model.Product != null)
 {
     var defaultImgUrl = "/Content/Images/default.jpg";
@@ -63,7 +62,7 @@
                                         </div>
                                         <div class="box-like">
                                             @{
-                                                var likedClass = Model.IsProductWished ? "fa fa-heart" : "fa fa-heart-o";
+                                             var likedClass = Model.IsProductWished ? "fa fa-heart" : "fa fa-heart-o";
                                             }
                                             <a data-id="@Model.Product.Id" class="like" style="cursor:pointer"><i id="wishHeart" class="@likedClass"></i></a>
                                         </div>
@@ -80,6 +79,28 @@
         </div><!-- /.container -->
     </section><!-- /.flat-row -->
 
+    if (User.Identity.IsAuthenticated)
+    {
+
+
+        <section class="flat-row shop-detail-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="flat-tabs style-1 has-border">
+                            <div id="reviewsDiv" class="inner">
+
+                                @{
+                                     Html.RenderAction("_Reviews","Review" , new { productId = Model.Product.Id });
+                                }
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /.shop-detail-content -->
+    }
 
     //related products
     <section class="flat-row shop-related">
@@ -90,7 +111,7 @@
                         <h2 class="title">Related Products</h2>
                     </div>
                     @{
-                            Html.RenderAction("Products", "Widgets", new { isLatestProducts = false, categoryId = Model.Product.CategoryId });
+                     Html.RenderAction("Products", "Widgets", new { isLatestProducts = false, categoryId = Model.Product.CategoryId });
                     }
                 </div>
             </div><!-- /.row -->
@@ -98,87 +119,89 @@
     </section>
 
 
-<script>
-    $(".productAddToCart").click(function () {
-        @{
-            var nameChecked = Model.User != null ? Model.User.Name.Replace(" ","") : string.Empty;
+    <script>
+        $(".productAddToCart").click(function () {
+            @{
+          var nameChecked = Model.AuthenticatedUser != null ? Model.AuthenticatedUser.Name.Replace(" ","") : string.Empty;
         }
 
-        var existingCookieData = $.cookie('@nameChecked' + 'CartProducts');
+            var existingCookieData = $.cookie('@nameChecked' + 'CartProducts');
 
-        if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
-        {
-            products = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
-        } else {
-            products = ['@User.Identity.Name']; //initialize
-        }
+            if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
+            {
+                products = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
+            } else {
+                products = ['@User.Identity.Name']; //initialize
+            }
 
-        var productId = $(this).attr("data-id");
-        products.push(productId);
+            var productId = $(this).attr("data-id");
+            products.push(productId);
 
-        $.cookie('@nameChecked' + 'CartProducts', products.join('-'), { expires: 1, path: '/' }); // { path: '/'} to allow cookie in others controllers
+            $.cookie('@nameChecked' + 'CartProducts', products.join('-'), { expires: 1, path: '/' }); // { path: '/'} to allow cookie in others controllers
 
-        updateCartProducts($.cookie('@nameChecked' + 'CartProducts')); //count in layout (code in main.js)
+            updateCartProducts($.cookie('@nameChecked' + 'CartProducts')); //count in layout (code in main.js)
 
-        swal("Added to cart successfuly.", {
-            icon: "success",
-        });
-    });
-
-  
-    $('.box-like').on('click', '.like', function () {
-        var productId = $(this).attr("data-id");
-
-        //add product to wishlist
-        if ($("#wishHeart").hasClass("fa fa-heart-o")) {
-            $.ajax({
-                url: '@Url.Action("AddWishlist", "Wishlist")',
-                data: {
-                    productId: productId
-                },
-            })
-            .done(function (result) {
-                if (result.success) {
-                    swal("Done", "Added to wishlist successfuly.", {
-                        icon: "success",
-                    });
-                    $("#wishHeart").removeClass("fa fa-heart-o");
-                    $("#wishHeart").addClass("fa fa-heart");
-                } else {
-                    swal("Failed", result.message, {
-                        icon: "warning",
-                    });
-                }
-            })
-            .fail(function () {
-                alert("Fail");
+            swal("Added to cart successfuly.", {
+                icon: "success",
             });
-        } else { //remove product from wishlist
+        });
 
-            $.ajax({
-                url: '@Url.Action("RemoveProduct", "Wishlist")',
-                data: {
-                    productId: productId
-                },
-            })
-           .done(function (result) {
-               if (result.success) {
-                   swal("Done", "Removed from wishlist successfuly.", {
-                       icon: "success",
-                   });
-                   $("#wishHeart").removeClass("fa fa-heart");
-                   $("#wishHeart").addClass("fa fa-heart-o");
-               } else {
-                   swal("Failed", result.message, {
-                       icon: "warning",
-                   });
-               }
-           })
-           .fail(function () {
-               alert("Fail");
-           });
-        }
-    });
-</script>
+
+        $('.box-like').on('click', '.like', function () {
+            var productId = $(this).attr("data-id");
+
+            //add product to wishlist
+            if ($("#wishHeart").hasClass("fa fa-heart-o")) {
+                $.ajax({
+                    url: '@Url.Action("AddWishlist", "Wishlist")',
+                    data: {
+                        productId: productId
+                    },
+                })
+                .done(function (result) {
+                    if (result.success) {
+                        swal("Done", "Added to wishlist successfuly.", {
+                            icon: "success",
+                        });
+                        $("#wishHeart").removeClass("fa fa-heart-o");
+                        $("#wishHeart").addClass("fa fa-heart");
+                    } else {
+                        swal("Failed", result.message, {
+                            icon: "warning",
+                        });
+                    }
+                })
+                .fail(function () {
+                    alert("Fail");
+                });
+            } else { //remove product from wishlist
+
+                $.ajax({
+                    url: '@Url.Action("RemoveProduct", "Wishlist")',
+                    data: {
+                        productId: productId
+                    },
+                })
+               .done(function (result) {
+                   if (result.success) {
+                       swal("Done", "Removed from wishlist successfuly.", {
+                           icon: "success",
+                       });
+                       $("#wishHeart").removeClass("fa fa-heart");
+                       $("#wishHeart").addClass("fa fa-heart-o");
+                   } else {
+                       swal("Failed", result.message, {
+                           icon: "warning",
+                       });
+                   }
+               })
+               .fail(function () {
+                   alert("Fail");
+               });
+            }
+        });
+
+      
+    </script>
 
 }
