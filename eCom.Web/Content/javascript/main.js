@@ -722,7 +722,6 @@
 
 
         $(document).on('click', '#mainnav-mobi li .btn-submenu', function(e) {
-
             $(this).toggleClass('active').next('ul').slideToggle(300);
 
             e.stopImmediatePropagation()

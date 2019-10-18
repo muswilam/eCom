@@ -65,10 +65,14 @@ namespace eCom.Services
                 var exist = false;
           
                 var userWishlist = context.Wishlists.Where(w => w.UserId == userId).Include(w => w.WishlistItems).Include("WishlistItems.Product").FirstOrDefault();
-                foreach (var wishItem in userWishlist.WishlistItems)
+
+                if(userWishlist != null && userWishlist.WishlistItems != null &&userWishlist.WishlistItems.Count > 0)
                 {
-                    if (wishItem.ProductId == productId)
-                        exist = true;
+                    foreach (var wishItem in userWishlist.WishlistItems)
+                    {
+                        if (wishItem.ProductId == productId)
+                            exist = true;
+                    }
                 }
 
                 return exist;

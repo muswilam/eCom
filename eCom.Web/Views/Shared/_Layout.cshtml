@@ -36,6 +36,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 
+
 </head>
 <body class="header_sticky header-style-1 has-menu-extra">
     <!-- Preloader -->
@@ -75,21 +76,6 @@
                                             <ul class="woocommerce-mini-cart cart_list product_list_widget ">
                                                 <li class="woocommerce-mini-cart-item mini_cart_item">
                                                     <span>@User.Identity.Name</span>
-                                                </li>
-                                                <li class="woocommerce-mini-cart-item mini_cart_item">
-                                                    <a href="@Url.Action("Index", "Product")">
-                                                        Products
-                                                    </a>
-                                                </li>
-                                                <li class="woocommerce-mini-cart-item mini_cart_item">
-                                                    <a href="@Url.Action("Index", "Category")">
-                                                        Categories
-                                                    </a>
-                                                </li>
-                                                <li class="woocommerce-mini-cart-item mini_cart_item">
-                                                    <a href="@Url.Action("Index", "Order")">
-                                                        Orders
-                                                    </a>
                                                 </li>
                                                 <li class="woocommerce-mini-cart-item mini_cart_item">
                                                     <a href="javascript:document.getElementById('logoutForm').submit()">
@@ -136,17 +122,39 @@
                                     <a href="@Url.Action("Index","Home")">Home</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index","Shop")">Shop</a>
+                                    <a href="@Url.Action("Index", "Shop")">Shop</a>
                                 </li>
-                                <li>
-                                    <a href="@Url.Action("Checkout","Shop")">Cart</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index","Wishlist")">Wishlist</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("OrderPlaced","Shop")">Orders</a>
-                                </li>
+
+                                @if(User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a href="#" onclick="return false;">Dashboard</a>
+                                        <ul class="submenu">
+                                            <li>
+                                                <a href="@Url.Action("Index","Category")">Categories</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "Product")">Products</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "Order")">Orders</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Checkout","Shop")">Cart</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","Wishlist")">Wishlist</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("OrderPlaced","Shop")">Orders</a>
+                                    </li>
+                                }
+                                
                                 @if (!User.Identity.IsAuthenticated)
                                 {
                                     <li>

@@ -11,7 +11,6 @@ using eCom.Web.ViewModels;
 
 namespace eCom.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         #region User Manager
@@ -42,6 +41,8 @@ namespace eCom.Web.Controllers
             }
         }
         #endregion
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View();

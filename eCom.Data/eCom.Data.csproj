@@ -90,6 +90,10 @@
     <Compile Include="Migrations\201910151734404_CreateWishlistAndWishlistItemTables.Designer.cs">
       <DependentUpon>201910151734404_CreateWishlistAndWishlistItemTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910181710154_CreateReviewsTable.cs" />
+    <Compile Include="Migrations\201910181710154_CreateReviewsTable.Designer.cs">
+      <DependentUpon>201910181710154_CreateReviewsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -135,6 +139,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910151734404_CreateWishlistAndWishlistItemTables.resx">
       <DependentUpon>201910151734404_CreateWishlistAndWishlistItemTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910181710154_CreateReviewsTable.resx">
+      <DependentUpon>201910181710154_CreateReviewsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
