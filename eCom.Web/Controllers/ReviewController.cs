@@ -51,7 +51,7 @@ namespace eCom.Web.Controllers
             newReview.UserId = addReviewModel.UserId;
             newReview.Body = addReviewModel.Body;
             newReview.ReviewedAt = DateTime.Now;
-            newReview.Rate = 0;
+            newReview.Rate = addReviewModel.Rate;
             newReview.ProductId = addReviewModel.ProductId;
 
             result = ReviewService.Instance.SaveReview(newReview);

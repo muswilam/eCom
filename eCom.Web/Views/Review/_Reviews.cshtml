@@ -1,5 +1,6 @@
 ﻿@model ReviewsViewModel
 
+
 <ul class="menu-tab">
     <li class="active">Reviews</li>
 </ul>
@@ -14,22 +15,28 @@
                         var userName = Model.User.Users.Where(u => u.Id == review.UserId).First().Name;
 
                         <li class="review">
-                            <div class="thumb">
-                                @*<img src="images/avatar-1.png" alt="Image">*@
-                            </div>
+                            @*<div class="thumb">
+                                <img src="images/avatar-1.png" alt="Image"
+                                
+                            </div>*@
                             <div class="text-wrap">
                                 <div class="review-meta">
-                                    <h5 class="name">@userName</h5>
-                                    @*<div class="flat-star style-1">
+                                    <h5 class="name"><i class="fa fa-user fa-sm"></i> @userName</h5>
+
+                                    <div class="flat-star style-1">
+                                        @for (int i = 0; i < review.Rate; i++)
+                                        {
                                             <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-o"></i>
-                                        </div>*@
+                                        }
+                                    </div>
+                                   
                                 </div>
                                 <div class="review-text">
                                     <p>@review.Body</p>
+
+                                    <div class="float-right text-gray-dark">
+                                       <p>@review.ReviewedAt.ToString("yyyy-MMM,dd")</p>
+                                    </div>
                                 </div>
                             </div>
                         </li><!--  /.review    -->
@@ -39,18 +46,23 @@
             }
 
             <div class="comment-respond review-respond" id="respond">
-                <div class="comment-reply-title margin-bottom-14">
-                    <h5>Write a review</h5>
-                </div>
+
                 <form novalidate="" class="comment-form review-form" id="reviewform" method="post" action="#">
-                    @*<p class="flat-star style-2">
-                            <label>Rating*:</label>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </p>*@
+
+
+                    <div class="star-rating float-right">
+                        <h5>Rate</h5>
+
+                        <span class="fa fa-star-o" data-rating="1"></span>
+                        <span class="fa fa-star-o" data-rating="2"></span>
+                        <span class="fa fa-star-o" data-rating="3"></span>
+                        <span class="fa fa-star-o" data-rating="4"></span>
+                        <span class="fa fa-star-o" data-rating="5"></span>
+                        <input type="hidden" name="Rate" class="rating-value" value="0">
+                    </div>
+
+                    <h5>Write a review</h5>
+
                     <p class="comment-form-comment">
                         <textarea class="form-control" tabindex="4" name="body" required> </textarea>
                     </p>
@@ -68,6 +80,26 @@
 </div>
 
 <script>
+
+    var $star_rating = $('.star-rating .fa');
+
+    var SetRatingStar = function () {
+        return $star_rating.each(function () {
+            if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+                return $(this).removeClass('fa-star-o').addClass('fa-star');
+            } else {
+                return $(this).removeClass('fa-star').addClass('fa-star-o');
+            }
+        });
+    };
+
+    $star_rating.on('click', function () {
+        $star_rating.siblings('input.rating-value').val($(this).data('rating'));
+        return SetRatingStar();
+    });
+
+    SetRatingStar();
+
     $("#addReviewBtn").click(function () {
         $.ajax({
             url: '@Url.Action("AddReview","Review")',
