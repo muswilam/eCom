@@ -7,48 +7,61 @@
 <div class="content-tab">
     <div class="content-inner">
         <div class="inner max-width-83 padding-top-33">
-            @if (Model.Reviews != null && Model.Reviews.Count() > 0)
-            {
-                <ol id="reviews" class="review-list">
-                    @foreach (var review in Model.Reviews)
-                    {
-                        var userName = Model.User.Users.Where(u => u.Id == review.UserId).First().Name;
+                        @if (Model.Reviews != null && Model.Reviews.Count() > 0)
+                        {
+                            <ol id="reviews" class="review-list">
+                                @foreach (var review in Model.Reviews)
+                                {
+                                    var userName = Model.User.Users.Where(u => u.Id == review.UserId).First().Name;
 
-                        <li class="review">
-                            @*<div class="thumb">
-                                <img src="images/avatar-1.png" alt="Image"
-                                
-                            </div>*@
-                            <div class="text-wrap">
-                                <div class="review-meta">
-                                    <h5 class="name"><i class="fa fa-user fa-sm"></i> @userName</h5>
-
-                                    <div class="flat-star style-1">
-                                        @for (int i = 0; i < review.Rate; i++)
+                                    <li class="review">
+                                        @if (User.IsInRole("Admin"))
                                         {
-                                            <i class="fa fa-star"></i>
+                                            <div class="mb-1 text-right">
+                                                <span class="delReview text-danger h5" data-id="@review.Id" data-name="@userName" style="cursor:pointer"><i class="fa fa-trash fa-lg"></i></span>
+                                            </div>
                                         }
-                                    </div>
-                                   
-                                </div>
-                                <div class="review-text">
-                                    <p>@review.Body</p>
+                                        <div class="text-wrap">
+                                            <div class="review-meta">
+                                                <h5 class="name"><i class="fa fa-user fa-sm"></i> @userName</h5>
 
-                                    <div class="float-right text-gray-dark">
-                                       <p>@review.ReviewedAt.ToString("yyyy-MMM,dd")</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </li><!--  /.review    -->
+                                                <div class="flat-star style-1">
+                                                    @for (int i = 0; i < review.Rate; i++)
+                                                    {
+                                                        <i class="fa fa-star"></i>
+                                                    }
+                                                </div>
 
-                    }
-                </ol><!-- /.review-list -->
+                                            </div>
+                                            <div class="review-text">
+                                                <p>@review.Body</p>
+
+                                                <div class="float-right text-gray-dark">
+                                                    @if (review.ReviewedAt <= DateTime.Now)
+                                                    {
+                                                        var time = DateTime.Now - review.ReviewedAt;
+
+                                                        var fromTime = (time.Minutes < 60) ? time.Minutes + " mins" : time.Hours + " hrs";
+                                                       
+                                                        <p>From @fromTime</p>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>@review.ReviewedAt.ToString("yyyy-MMM,dd hh:mm tt")</p>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li><!--  /.review    -->
+
+                                }
+                            </ol><!-- /.review-list -->
             }
 
             <div class="comment-respond review-respond" id="respond">
 
                 <form novalidate="" class="comment-form review-form" id="reviewform" method="post" action="#">
-
 
                     <div class="star-rating float-right">
                         <h5>Rate</h5>
@@ -81,6 +94,7 @@
 
 <script>
 
+    //star-rating design
     var $star_rating = $('.star-rating .fa');
 
     var SetRatingStar = function () {
@@ -100,6 +114,8 @@
 
     SetRatingStar();
 
+
+    //create review
     $("#addReviewBtn").click(function () {
         $.ajax({
             url: '@Url.Action("AddReview","Review")',
@@ -119,4 +135,42 @@
             alert("Fail");
         })
     });
+
+    //remove review by admin
+    $(".delReview").click(function () {
+        var id = $(this).attr("data-id");
+        var name = $(this).attr("data-name");
+
+        swal({
+            title: "Confirm!",
+            text: "Are you sure. you wanna delete " + name + " ?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+      .then(function (willDelete) {
+          if (willDelete) {
+              $.ajax({
+                  url: '@Url.Action("RemoveReview", "Review")',
+                  data: {
+                      id: id,
+                      productId: '@Model.ProductId',
+                  },
+                  type: 'Post'
+              })
+              .done(function (result) {
+
+                  swal(name + " deleted successfuly.", {
+                      icon: "success",
+                  });
+
+                  $("#reviewsDiv").html(result);
+              })
+              swal("Failed", "Something went wrong.", {
+                  icon: "warning",
+              });
+          }
+      });
+    });
+
 </script>

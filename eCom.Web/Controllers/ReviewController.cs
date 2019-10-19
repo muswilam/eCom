@@ -74,5 +74,12 @@ namespace eCom.Web.Controllers
 
             return PartialView(reviewsModel);
         }
+
+        public ActionResult RemoveReview(int id, int productId)
+        {
+            ReviewService.Instance.RemoveReview(id);
+
+            return RedirectToAction("_Reviews", new { productId = productId});
+        }
     }
 }

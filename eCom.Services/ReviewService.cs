@@ -45,5 +45,17 @@ namespace eCom.Services
                 return context.SaveChanges() > 0;
             }
         }
+
+        //delete review
+        public void RemoveReview(int id)
+        {
+            using (var context = new eComContext())
+            {
+                var review = context.Reviews.Where(r => r.Id == id).First();
+
+                context.Reviews.Remove(review);
+                context.SaveChanges();
+            }
+        }
     }
 }
