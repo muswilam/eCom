@@ -48,10 +48,10 @@
         <div id="site-header-wrap">
             <!-- Header -->
             <header id="header" class="header clearfix">
-                <div class="container-fluid clearfix container-width-93" id="site-header-inner">
-                    <div id="logo" class="logo float-left">
+                <div class="container-fluid clearfix container-width-93 p-2" id="site-header-inner">
+                    <div id="logo" class="logo float-left ">
                         <a href="@Url.Action("Index","Home")" title="logo">
-                            <img src="~/Content/images/Bila Q Logo.png" style="height:65px;" alt="image" width="107" height="24" data-retina="/Content/images/logo@2x.png" data-width="107" data-height="24">
+                            <img src="~/Content/images/Bila.Q.png" alt="image" width="107" height="24" data-retina="/Content/images/logo@2x.png" data-width="107" data-height="24">
                         </a>
                     </div><!-- /.logo -->
                     <div class="mobile-button"><span></span></div>
@@ -311,20 +311,21 @@
         }, 700);
     }
 
-    //function updateCartProducts(existingCookieData) {
-    //    var cartProducts;
+    $(document).ready(function () {
 
-    //    if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
-    //    {
-    //        cartProducts = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
-    //    } else {
-    //        cartProducts = []; //initialize
-    //    }
+    function updateCartProducts(existingCookieData) {
+        var cartProducts;
 
-    //    $("#cartProductsCount").html(cartProducts.length - 1);
-    //};
+        if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
+        {
+            cartProducts = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
+        } else {
+            cartProducts = []; //initialize
+        }
 
-    //$(document).ready(function () {
-    //    updateCartProducts($.cookie('Yasmina' + 'CartProducts'));
-    //})
+        $("#cartProductsCount").html(cartProducts.length - 1);
+    };
+
+        updateCartProducts($.cookie('@User.Identity.Name.Replace("@","")' + 'CartProducts'));
+    })
 </script>

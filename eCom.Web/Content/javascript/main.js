@@ -832,7 +832,7 @@
       flatIsotope();
       flatCarouselOwl();
       flatContentBox();
-      updateCartProducts($.cookie()); //to still executed when reload page
+      //updateCartProducts(); //to still executed when reload page
     });
 })(jQuery);
 
@@ -847,15 +847,15 @@ function hideloader() {
     $("#loading-overlay").delay(500).fadeOut('slow')
 };
 
-function updateCartProducts(existingCookieData) {
-    var cartProducts;
+//function updateCartProducts(existingCookieData) {
+//    var cartProducts;
 
-    if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
-    {
-        cartProducts = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
-    } else {
-        cartProducts = []; //initialize
-    }
+//    if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
+//    {
+//        cartProducts = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
+//    } else {
+//        cartProducts = []; //initialize
+//    }
 
-    $("#cartProductsCount").html(cartProducts.length - 1);
-};
+//    $("#cartProductsCount").html(cartProducts.length - 1);
+//};

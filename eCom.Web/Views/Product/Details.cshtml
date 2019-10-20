@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="box-like">
                                             @{
-                                             var likedClass = Model.IsProductWished ? "fa fa-heart" : "fa fa-heart-o";
+                                        var likedClass = Model.IsProductWished ? "fa fa-heart" : "fa fa-heart-o";
                                             }
                                             <a data-id="@Model.Product.Id" class="like" style="cursor:pointer"><i id="wishHeart" class="@likedClass"></i></a>
                                         </div>
@@ -91,9 +91,9 @@
                             <div id="reviewsDiv" class="inner">
 
                                 @{
-                                     Html.RenderAction("_Reviews","Review" , new { productId = Model.Product.Id });
+        Html.RenderAction("_Reviews", "Review", new { productId = Model.Product.Id });
                                 }
-                            
+
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                         <h2 class="title">Related Products</h2>
                     </div>
                     @{
-                     Html.RenderAction("Products", "Widgets", new { isLatestProducts = false, categoryId = Model.Product.CategoryId });
+    Html.RenderAction("Products", "Widgets", new { isLatestProducts = false, categoryId = Model.Product.CategoryId });
                     }
                 </div>
             </div><!-- /.row -->
@@ -122,10 +122,10 @@
     <script>
         $(".productAddToCart").click(function () {
             @{
-          var nameChecked = Model.AuthenticatedUser != null ? Model.AuthenticatedUser.Name.Replace(" ","") : string.Empty;
-        }
+                 var name = Model.AuthenticatedUser.Name.Replace(" ", "");
+            }
 
-            var existingCookieData = $.cookie('@nameChecked' + 'CartProducts');
+            var existingCookieData = $.cookie('@name' + 'CartProducts');
 
             if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
             {
@@ -137,9 +137,9 @@
             var productId = $(this).attr("data-id");
             products.push(productId);
 
-            $.cookie('@nameChecked' + 'CartProducts', products.join('-'), { expires: 1, path: '/' }); // { path: '/'} to allow cookie in others controllers
+            $.cookie('@name' + 'CartProducts', products.join('-'), { expires: 1, path: '/' }); // { path: '/'} to allow cookie in others controllers
 
-            updateCartProducts($.cookie('@nameChecked' + 'CartProducts')); //count in layout (code in main.js)
+            @*updateCartProducts($.cookie('@name' + 'CartProducts'));*@ //count in layout (code in main.js)
 
             swal("Added to cart successfuly.", {
                 icon: "success",
@@ -201,7 +201,7 @@
             }
         });
 
-      
+
     </script>
 
 }

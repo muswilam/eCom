@@ -127,7 +127,7 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
-                IQueryable<Product> products = context.Products.OrderBy(p => p.Id);
+                IQueryable<Product> products = context.Products.Include(p => p.Reviews).OrderBy(p => p.Id);
 
                 if (categoryId.HasValue)
                     products = products.Where(p => p.CategoryId == categoryId.Value);
@@ -146,13 +146,16 @@ namespace eCom.Services
                     switch(sortBy.Value)
                     {
                         case 2: //popularity
-                            products = products.OrderByDescending(p => p.Id);
+                            var reviews = products.OrderByDescending(p => p.Reviews.Count);
                             break;
                         case 3: //low to high
                             products = products.OrderBy(p => p.Price);
                             break;
-                        default: //default
+                        case 4: //high to low
                             products = products.OrderByDescending(p => p.Price);
+                            break;
+                        default: //default
+                            products = products.OrderByDescending(p => p.Id);
                             break;
                     }
                 }

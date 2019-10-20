@@ -101,7 +101,6 @@ namespace eCom.Web.Controllers
                 {
                     checkoutModel.CartProductIds = cartProductsCookie.Value.Split('-').Skip(1).Select(int.Parse).ToList(); //total numbers
 
-
                     checkoutModel.CartProducts = ProductService.Instance.GetProducts(checkoutModel.CartProductIds); //products with the same ids (distinct)
 
                     checkoutModel.User = user;

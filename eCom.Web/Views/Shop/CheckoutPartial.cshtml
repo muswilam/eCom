@@ -84,7 +84,7 @@
         .done(function (result) {
             if (result.success) {
                 //$.cookie('@Model.User.Name.Replace(" ","")' + 'CartProducts', "", { path: '/' }); //path is so important to empty cookie not create new one, this empty cookie not remove
-                $.removeCookie('@Model.User.Name.Replace(" ","")' + 'CartProducts', { path: '/'});
+                $.removeCookie('@Model.User.Name.Replace(" ","")' + 'CartProducts', { path: '/' });
                 //updateCartProducts();
 
                 swal("Done", "Your order has been placed successfuly.", {
@@ -131,7 +131,7 @@
         })
     });
 
-    //empty cart 
+    //empty cart
     $("#removeCartBtn").click(function () {
         debugger;
         swal({
@@ -143,7 +143,8 @@
         })
         .then(function (willDelete) {
             if (willDelete) {
-                $.removeCookie('@Model.User.Name.Replace(" ","")' + 'CartProducts', { path: '/' });
+                debugger;
+                $.removeCookie('@Model.User.Name.Replace(" ", "")' + 'CartProducts', { path: '/' });
                 swal("Cart empty successfuly.", {
                     icon: "success",
                 }).then(function () {
