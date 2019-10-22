@@ -26,19 +26,19 @@
                     <div class="widget widget-search">
                         <form id="searchForm">
                             <label>
-                                <input id="searchTxt" type="search" class="search-field" data-href="@Url.Action("FilterProducts","Shop")" placeholder="Search …" name="searchTerm">
+                                 <input id="searchTxt" type="search" class="search-field" data-href="@Url.Action("FilterProducts","Shop")" placeholder="Search …" name="searchTerm">
                             </label>
                         </form>
                     </div><!-- /.widget-search -->
                     <div class="widget widget-sort-by">
                         <h5 class="widget-title">
-                            Sort By
+                            <i class="fa fa-sort"></i> Sort By
                         </h5>
                         <ul>
-                            <li><a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Default})" class="dataSort">Default-Newest</a></li>
-                            <li><a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Popularity })" class="dataSort">Popularity</a></li>
-                            <li><a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceLowToHigh })" class="dataSort">Price: Low to high</a></li>
-                            <li><a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceHighToLow })" class="dataSort">Price: High to low</a></li>
+                            <li><i class="fa fa-arrows-alt"></i> <a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Default})" class="dataSort">Default-Newest</a></li>
+                            <li><i class="fa fa-external-link-square"></i> <a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.Popularity })" class="dataSort">Popularity</a></li>
+                            <li><i class="fa fa-arrow-down"></i> <a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceLowToHigh })" class="dataSort">Price: Low to high</a></li>
+                            <li><i class="fa fa-arrow-up"></i> <a href="#productsDiv" onclick="return false;" data-href="@Url.Action("FilterProducts", "Shop", new { sortBy = (byte)SortByEnums.PriceHighToLow })" class="dataSort">Price: High to low</a></li>
                         </ul>
                     </div><!-- /.widget-sort-by -->
                     <div class="widget widget_tag">
@@ -66,7 +66,7 @@
 
             </div><!-- /.col-md-3 -->
             <div class="col-md-9">
-                <a href="@Url.Action("Index","Shop")" class="btn btn-danger">Reset Filters</a>
+                <a href="@Url.Action("Index","Shop")" class="btn btn-danger"><i class="fa fa-refresh"></i> Reset Filters</a>
 
                 <div id="productsDiv">
                     @{

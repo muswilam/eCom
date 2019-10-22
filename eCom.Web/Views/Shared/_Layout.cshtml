@@ -97,11 +97,11 @@
                                         <div class="woocommerce-min-cart-wrap">
                                             <ul class="woocommerce-mini-cart cart_list product_list_widget ">
                                                 <li class="woocommerce-mini-cart-item mini_cart_item">
-                                                    <span>@User.Identity.Name</span>
+                                                    <span> @User.Identity.Name</span>
                                                 </li>
                                                 <li class="woocommerce-mini-cart-item mini_cart_item">
                                                     <a href="javascript:document.getElementById('logoutForm').submit()">
-                                                        Logout
+                                                       Logout
                                                     </a>
                                                 </li>
                                             </ul>
@@ -119,25 +119,25 @@
                         <nav id="mainnav" class="mainnav">
                             <ul class="menu">
                                 <li>
-                                    <a href="@Url.Action("Index","Home")">Home</a>
+                                    <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> Home</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Shop")">Shop</a>
+                                    <a href="@Url.Action("Index", "Shop")"><i class="fa fa-shopping-cart"></i> Shop</a>
                                 </li>
 
                                 @if(User.IsInRole("Admin"))
                                 {
                                     <li>
-                                        <a href="#" onclick="return false;">Dashboard</a>
+                                        <a href="#" onclick="return false;"><i class="fa fa-list"></i> Dashboard</a>
                                         <ul class="submenu">
                                             <li>
-                                                <a href="@Url.Action("Index","Category")">Categories</a>
+                                                <a href="@Url.Action("Index","Category")"><i class="fa fa-list-alt"></i> Categories</a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("Index", "Product")">Products</a>
+                                                <a href="@Url.Action("Index", "Product")"><i class="fa fa-product-hunt"></i> Products</a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("Index", "Order")">Orders</a>
+                                                <a href="@Url.Action("Index", "Order")"><i class="fa fa-first-order"></i> Orders</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -145,23 +145,23 @@
                                 else
                                 {
                                     <li>
-                                        <a href="@Url.Action("Checkout","Shop")">Cart</a>
+                                        <a href="@Url.Action("Checkout","Shop")"><i class="fa fa-shopping-bag"></i> Cart</a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index","Wishlist")">Wishlist</a>
+                                        <a href="@Url.Action("Index","Wishlist")"><i class="fa fa-heart"></i> Wishlist</a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("OrderPlaced","Shop")">Orders</a>
+                                        <a href="@Url.Action("OrderPlaced","Shop")"><i class="fa fa-first-order"></i> Orders</a>
                                     </li>
                                 }
                                 
                                 @if (!User.Identity.IsAuthenticated)
                                 {
                                     <li>
-                                        <a href="@Url.Action("Register","Account")">Sign up</a>
+                                        <a href="@Url.Action("Register","Account")"><i class="fa fa-user-plus"></i>  Sign up</a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Login","Account")">Log in</a>
+                                        <a href="@Url.Action("Login","Account")"><i class="fa fa-sign-in"></i> Log in</a>
                                     </li>
                                 }
                             </ul>

@@ -87,6 +87,10 @@
 <input type="hidden" id="sortBy" value="@Model.SortBy" />
 <input type="hidden" id="categoryId" value="@Model.CategoryId" />
 
+@{
+    var name = Model.User != null ? Model.User.Name.Replace(" ", "") : string.Empty;
+}
+
 <script>
     $(".pageDataLink").click(function () {
         var url = $(this).attr("data-href");
@@ -100,10 +104,6 @@
     var products;
 
     $(".productAddToCart").click(function () {
-
-        @{
-            var name = Model.User.Name.Replace(" ", "");
-        }
 
         var existingCookieData = $.cookie('@name' + 'CartProducts');
 

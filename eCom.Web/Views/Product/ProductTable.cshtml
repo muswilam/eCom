@@ -17,9 +17,9 @@
                 }
             </select>
             <div class="input-group-append">
-                <button type="button" id="searchBtn" class="btn btn-primary">Search</button>
-                <button type="button" id="resetBtn" class="btn btn-primary">Reset</button>
-                <button type="button" id="newBtn" class="btn btn-primary">New</button>
+                <button type="button" id="searchBtn" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                <button type="button" id="resetBtn" class="btn btn-primary"><i class="fa fa-refresh"></i> Reset</button>
+                <button type="button" id="newBtn" class="btn btn-primary"><i class="fa fa-plus"></i> New</button>
             </div>
         </div>
     </form>
@@ -55,9 +55,8 @@
                         </td>
                         <td>@product.Price</td>
                         <td>
-                            <button class="editBtn" data-id="@product.Id">Edit</button>
-                            <button class="deleteBtn" data-id="@product.Id" data-name="@product.Name">Delete</button>
-                            <button class="addToCart" data-id="@product.Id">Add To Cart</button>
+                            <button class="editBtn" data-id="@product.Id"><i class="fa fa-pencil"></i> Edit</button>
+                            <button class="deleteBtn" data-id="@product.Id" data-name="@product.Name"><i class="fa fa-trash"></i> Delete</button>
                         </td>
                     </tr>
                 }
@@ -257,17 +256,4 @@
         });
     });
 
-    var products = [];
-
-    $(".addToCart").click(function () {
-        var productId = $(this).attr("data-id");
-        products.push(productId);
-
-        $.cookie('cartProduct', products.join('-'), { path: '/' }); // { path: '/'} to allow cookie in others controllers
-
-        swal("Added to cart successfuly.", {
-            icon: "success",
-        });
-
-    });
 </script>

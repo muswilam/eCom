@@ -3,7 +3,7 @@
 <div>
     <div class="mb-3 float-right">
         <div class="input-group-append">
-            <button type="button" id="resetBtn" class="btn btn-primary">Reset</button>
+            <button type="button" id="resetBtn" class="btn btn-primary"><i class="fa fa-refresh"></i> Reset</button>
         </div>
     </div>
     <select class="form-control col-md-3 mr-3" name="filterByStatus" id="filterByStatus">
@@ -47,7 +47,7 @@
                         <td>$@order.TotalAmount</td>
                         <td>@order.OrderedAt.ToString("f")</td>
                         <td>
-                            <a class="btn btn-info" href="@Url.Action("Details", "Order", new { id = order.Id})"> Details</a>
+                            <a class="btn btn-info" href="@Url.Action("Details", "Order", new { id = order.Id})"><i class="fa fa-info"></i> Details</a>
                         </td>
                     </tr>
                 }
@@ -59,7 +59,7 @@
 
     </table>
 
-    <div class="product-pagination text-center clearfix">
+    <div class="product-pagination text-center clearfix mb-2">
         @if (Model.Pager != null && Model.Pager.TotalPages > 1)
         {
             <ul class="flat-pagination">
