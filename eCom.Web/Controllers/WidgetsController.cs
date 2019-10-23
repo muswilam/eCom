@@ -14,7 +14,7 @@ namespace eCom.Web.Controllers
         {
             var productWidgetModel = new ProductsWidgetViewModel();
             productWidgetModel.IsLatestProducts = isLatestProducts;
-            productWidgetModel.FilledCategories = CategoriesService.Instance.GetFilledCategories();
+            productWidgetModel.FeaturedCategories = CategoriesService.Instance.GetFeaturedCategories();
             productWidgetModel.isCategoryId = categoryId.HasValue;
 
             if(isLatestProducts)

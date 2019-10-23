@@ -40,7 +40,10 @@
                 </div>
 
                 <div id="userInfoDiv" class="col-md-8 order-md-1">
-                    <h5 class="mb-3">Billing address</h5>
+                    <h5 class="mb-3">
+                        Billing address
+                        <span class="badge p-2 badge-warning pull-right">Your changes will affect on all orders.</span>
+                    </h5>
                     <form id="updateUserForm" class="needs-validation" novalidate="">
                         <div class="row">
                             <div class="col-md-12 mb-3">
@@ -104,8 +107,18 @@
         })
     });
 
+    var cookieData;
+    $(document).ready(function () {
+        cookieData = $.cookie('@Model.User.Name.Replace(" ","")' + 'CartProducts');
+
+      
+
+    });
+
     $("#updateUserBtn").click(function () {
         debugger;
+    
+
         $.ajax({
             url: '@Url.Action("UpdateUser","Shop")',
             data: $("#updateUserForm").serialize(),
@@ -113,9 +126,21 @@
         })
         .done(function (result) {
             if (result) {
-                $("#checkoutContainer").html(result);
+
+                var newUserName = $('#Name').val().replace(/\s/g, "");
+
+                if ('@Model.User.Name.Replace(" ","")' != newUserName) {
+
+                    $.removeCookie('@Model.User.Name.Replace(" ","")' + 'CartProducts', { path: '/' });
+                    $.cookie(newUserName + 'CartProducts', cookieData, { expires: 1, path: '/' }); // { path: '/'} to allow cookie in others controllers
+
+                    updateCartProducts(newUserName + 'CartProducts');
+                }
+
                 swal("Done", "Your information has been updated successfuly.", {
                     icon: "success",
+                }).then(function () {
+                    location.reload();
                 });
             }
             else {

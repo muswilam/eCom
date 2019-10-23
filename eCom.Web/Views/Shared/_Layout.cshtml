@@ -101,7 +101,7 @@
                                                 </li>
                                                 <li class="woocommerce-mini-cart-item mini_cart_item">
                                                     <a href="javascript:document.getElementById('logoutForm').submit()">
-                                                       Logout
+                                                        Logout
                                                     </a>
                                                 </li>
                                             </ul>
@@ -109,11 +109,14 @@
                                     </div>
                                 </div><!-- /.nav-shop-cart -->
                             </li>
+                            
+                            <li class="box-cart nav-top-cart-wrapper">
+                                <a class="icon_cart nav-cart-trigger active" href="@Url.Action("Checkout","Shop")"><span id="cartProductsCount">0</span></a>
+                            </li>
                         }
 
-                        <li class="box-cart nav-top-cart-wrapper">
-                            <a class="icon_cart nav-cart-trigger active" href="@Url.Action("Checkout","Shop")"><span id="cartProductsCount">0</span></a>
-                        </li>
+                        
+
                     </ul><!-- /.menu-extra -->
                     <div class="nav-wrap">
                         <nav id="mainnav" class="mainnav">
@@ -125,7 +128,7 @@
                                     <a href="@Url.Action("Index", "Shop")"><i class="fa fa-shopping-cart"></i> Shop</a>
                                 </li>
 
-                                @if(User.IsInRole("Admin"))
+                                @if (User.IsInRole("Admin"))
                                 {
                                     <li>
                                         <a href="#" onclick="return false;"><i class="fa fa-list"></i> Dashboard</a>
@@ -154,7 +157,7 @@
                                         <a href="@Url.Action("OrderPlaced","Shop")"><i class="fa fa-first-order"></i> Orders</a>
                                     </li>
                                 }
-                                
+
                                 @if (!User.Identity.IsAuthenticated)
                                 {
                                     <li>
@@ -304,14 +307,21 @@
 </body>
 </html>
 
+@using Microsoft.AspNet.Identity.Owin;
+
+@{
+
+    var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+    var user = userManager.Users.Where(u => u.Email == User.Identity.Name).FirstOrDefault();
+    var userName = user != null ? user.Name : string.Empty;
+}
+
 <script>
     function focusElement(elementToFocus) {
         $('html, body').animate({
             scrollTop: $("#" + elementToFocus).offset().top - 100
         }, 700);
     }
-
-    $(document).ready(function () {
 
     function updateCartProducts(existingCookieData) {
         var cartProducts;
@@ -326,6 +336,7 @@
         $("#cartProductsCount").html(cartProducts.length - 1);
     };
 
-        updateCartProducts($.cookie('@User.Identity.Name.Replace("@","")' + 'CartProducts'));
+    $(document).ready(function () {
+        updateCartProducts($.cookie('@userName.Replace(" ","")' + 'CartProducts'));
     })
 </script>

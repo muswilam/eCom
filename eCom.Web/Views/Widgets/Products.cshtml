@@ -9,9 +9,9 @@
     if(!Model.IsLatestProducts && !Model.isCategoryId) //filled categories with products 
     {
         <ul class="flat-filter style-1 text-center max-width-682 clearfix">
-            <li class="active"><a href="#" data-filter="*">Latest Products</a></li>
+            <li class="active"><a href="#" data-filter="*">All Featured</a></li>
 
-            @foreach (var category in Model.FilledCategories)
+            @foreach (var category in Model.FeaturedCategories)
             {
                 <li><a href="#" data-filter=".@category.Name.Replace(" ","")">@category.Name</a></li>
             }

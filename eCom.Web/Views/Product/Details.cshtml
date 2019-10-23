@@ -137,7 +137,7 @@
 
             $.cookie('@name' + 'CartProducts', products.join('-'), { expires: 1, path: '/' }); // { path: '/'} to allow cookie in others controllers
 
-            @*updateCartProducts($.cookie('@name' + 'CartProducts'));*@ //count in layout (code in main.js)
+            updateCartProducts($.cookie('@name' + 'CartProducts')); //count in layout (code in main.js)
 
             swal("Added to cart successfuly.", {
                 icon: "success",

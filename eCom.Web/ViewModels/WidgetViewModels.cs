@@ -10,7 +10,7 @@ namespace eCom.Web.ViewModels
     {
         public List<Product> Products { get; set; }
         public bool IsLatestProducts { get; set; }
-        public List<Category> FilledCategories { get; set; }
+        public List<Category> FeaturedCategories { get; set; }
         public bool isCategoryId { get; set; }
     }
 }

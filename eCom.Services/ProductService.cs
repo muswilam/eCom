@@ -84,13 +84,13 @@ namespace eCom.Services
             }
         }
 
-        //get no of products from all category 
+        //get no of products from Featured category 
         public List<Product> GetProducts(int noOfProducts)
         {
             using (var context = new eComContext())
             {
                 var productsList = new List<Product>();
-                foreach (var category in context.Categories.Include(c => c.Products))
+                foreach (var category in context.Categories.Where(c => c.IsFeatured).Include(c => c.Products))
                 {
                     var products = category.Products.OrderByDescending(p => p.Id).Take(noOfProducts).ToList();
                     productsList.AddRange(products);
