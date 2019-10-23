@@ -111,7 +111,7 @@
                             </li>
                             
                             <li class="box-cart nav-top-cart-wrapper">
-                                <a class="icon_cart nav-cart-trigger active" href="@Url.Action("Checkout","Shop")"><span id="cartProductsCount">0</span></a>
+                                <a class="icon_cart nav-cart-trigger active" href="@Url.Action("Checkout","Shop")"><span id="cartProductsCount"></span></a>
                             </li>
                         }
 
@@ -121,11 +121,11 @@
                     <div class="nav-wrap">
                         <nav id="mainnav" class="mainnav">
                             <ul class="menu">
-                                <li>
-                                    <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> Home</a>
+                                <li class="menu-item" data-path="@Href("~/Home/Index")">
+                                    <a href="@Href("~/Home/Index")"><i class="fa fa-home"></i> Home</a>
                                 </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Shop")"><i class="fa fa-shopping-cart"></i> Shop</a>
+                                <li class="menu-item" data-path="@Href("~/Shop/Index")">
+                                    <a href="@Href("~/Shop/Index")"><i class="fa fa-shopping-cart"></i> Shop</a>
                                 </li>
 
                                 @if (User.IsInRole("Admin"))
@@ -140,23 +140,25 @@
                                                 <a href="@Url.Action("Index", "Product")"><i class="fa fa-product-hunt"></i> Products</a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("Index", "Order")"><i class="fa fa-first-order"></i> Orders</a>
+                                                <a href="@Url.Action("Index", "Order")"><i class="fa fa-list-ul"></i> Orders</a>
                                             </li>
                                         </ul>
                                     </li>
+
                                 }
                                 else
                                 {
-                                    <li>
-                                        <a href="@Url.Action("Checkout","Shop")"><i class="fa fa-shopping-bag"></i> Cart</a>
+                                    <li class="menu-item" data-path="@Href("~/Shop/Checkout")">
+                                        <a href="@Href("~/Shop/Checkout")"><i class="fa fa-shopping-bag"></i> Cart</a>
                                     </li>
-                                    <li>
-                                        <a href="@Url.Action("Index","Wishlist")"><i class="fa fa-heart"></i> Wishlist</a>
+                                    <li class="menu-item" data-path="@Href("~/Wishlist/Index")">
+                                        <a href="@Href("~/Wishlist/Index")"><i class="fa fa-heart"></i> Wishlist</a>
                                     </li>
-                                    <li>
-                                        <a href="@Url.Action("OrderPlaced","Shop")"><i class="fa fa-first-order"></i> Orders</a>
+                                    <li class="menu-item" data-path="@Href("~/Shop/OrderPlaced")">
+                                        <a href="@Href("~/Shop/OrderPlaced")"><i class="fa fa-list-ul"></i> Orders</a>
                                     </li>
                                 }
+                            
 
                                 @if (!User.Identity.IsAuthenticated)
                                 {
@@ -168,6 +170,7 @@
                                     </li>
                                 }
                             </ul>
+
                         </nav><!-- /.mainnav -->
                     </div><!-- /.nav-wrap -->
                 </div><!-- /.container-fluid -->
@@ -323,6 +326,8 @@
         }, 700);
     }
 
+ 
+
     function updateCartProducts(existingCookieData) {
         var cartProducts;
 
@@ -333,10 +338,26 @@
             cartProducts = []; //initialize
         }
 
-        $("#cartProductsCount").html(cartProducts.length - 1);
+        if (cartProducts.length == 0) {
+            $("#cartProductsCount").html(0);
+        } else {
+            $("#cartProductsCount").html(cartProducts.length - 1);
+        }
+
     };
 
     $(document).ready(function () {
         updateCartProducts($.cookie('@userName.Replace(" ","")' + 'CartProducts'));
+
+        var location = window.location.pathname;
+
+        // add active class to li that matches location
+        $('.menu li').each(function (index, element) {
+            var link = $(element).attr("data-path");
+            if (link == location) {
+                $(element).addClass("active");
+            }
+        });
+    
     })
 </script>
