@@ -11,6 +11,7 @@ namespace eCom.Web.Models
     {
         public string Name { get; set; }
         public string Address { get; set; }
+        public string PhoneNumber { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

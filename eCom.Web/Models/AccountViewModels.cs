@@ -64,20 +64,27 @@ namespace eCom.Web.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Name required.")]
         [Display(Name = "Name")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Address required.")]
         [Display(Name = "Address")]
         public string Address { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Phone required.")]
+        [Display(Name = "Phone")]
+        [DataType(DataType.PhoneNumber)]
+        [MaxLength(50)]
+        [RegularExpression(@"^(\(?[0-9]{3}\)?)?\-?[0-9]{3}\-?[0-9]{4}$", ErrorMessage = "Invalid phone number.")]
+        public string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "Email required.")]
+        [EmailAddress(ErrorMessage = "Invalid email.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password required.")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
