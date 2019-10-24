@@ -153,6 +153,7 @@ namespace eCom.Web.Controllers
                 var userInDb = UserManager.FindById(User.Identity.GetUserId());
                 userInDb.Name = userModel.Name;
                 userInDb.Address = userModel.Address;
+                userInDb.PhoneNumber = "(+20) " + userModel.PhoneNumber;
                 IdentityResult result = UserManager.Update(userInDb);
 
                 if (result.Succeeded)
