@@ -48,18 +48,19 @@ namespace eCom.Web.Controllers
             return View();
         }
 
-        public ActionResult OrderTable( string status, int? pageNo)
+        public ActionResult OrderTable( string status, string date, int? pageNo)
         {
             var ordersModel = new OrdersViewModels();
 
             ordersModel.Status = status;
+            ordersModel.SelectedDate = date;
 
             pageNo = pageNo.HasValue && pageNo.Value > 0 ? pageNo.Value : 1;
             var pageSize = ConfigurationService.Instance.PageSize();
 
-            ordersModel.Orders = OrderService.Instance.GetOrders(status, pageNo.Value, pageSize);
+            ordersModel.Orders = OrderService.Instance.GetOrders(status, pageNo.Value, date, pageSize);
 
-            var totalRecords = OrderService.Instance.GetOrdersCount(status);
+            var totalRecords = OrderService.Instance.GetOrdersCount(status, date);
 
             ordersModel.Pager = new Pager(totalRecords, pageNo.Value, pageSize);
             ordersModel.AvailableStatus = new List<string>() { "Pending", "In Progress", "Delivered" };

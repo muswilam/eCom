@@ -15,6 +15,8 @@ namespace eCom.Web.ViewModels
         public string Status { get; set; }
 
         public List<string> AvailableStatus { get; set; }
+
+        public string SelectedDate { get; set; }
     }
 
     public class OrderDetailsViewModel

@@ -1,19 +1,27 @@
 ﻿@model OrdersViewModels
 
+<link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css">
+
+
 <div>
-    <div class="mb-3 float-right">
-        <div class="input-group-append">
-            <button type="button" id="resetBtn" class="btn btn-primary"><i class="fa fa-refresh"></i> Reset</button>
+    <form id="controlForm">
+        <div class="input-group mt-5 mb-3">
+            <select class="form-control mr-5" name="filterByStatus" id="filterByStatus">
+                <option selected disabled>Select status..</option>
+                @foreach (var status in Model.AvailableStatus)
+                {
+                    var isSelected = Model.Status == status ? "selected" : string.Empty;
+                    <option @isSelected>@status</option>
+                }
+            </select>
+
+            <input id="selectDate" autocomplete="off" name="date" readonly class="form-control mr-5 ml-5 date-picker" placeholder="Filter by Date.." value="@Model.SelectedDate" />
+
+            <div class="input-group-append ml-5">
+                <button type="button" id="resetBtn" class="btn btn-primary "><i class="fa fa-refresh"></i> Reset</button>
+            </div>
         </div>
-    </div>
-    <select class="form-control col-md-3 mr-3" name="filterByStatus" id="filterByStatus">
-        @foreach (var status in Model.AvailableStatus)
-        {
-            var isSelected = Model.Status == status ? "selected" : string.Empty;
-            <option @isSelected>@status</option>
-        }
-    </select>
-   
+    </form>
 </div>
 
 <div>
@@ -35,13 +43,13 @@
                         @switch (order.Status)
                         {
                             case "In Progress":
-                                <td class="text-warning">@order.Status</td>
+                                <td class="text-warning font-weight-bold">@order.Status</td>
                                 break;
                             case "Delivered":
-                                <td class="text-success">@order.Status</td>
+                                <td class="text-success font-weight-bold">@order.Status</td>
                                 break;
                             default:
-                                <td class="text-primary">@order.Status</td>
+                                <td class="text-primary font-weight-bold">@order.Status</td>
                                 break;
                         }
                         <td>$@order.TotalAmount</td>
@@ -100,8 +108,8 @@
         $.ajax({
             url: '@Url.Action("OrderTable","Order")',
             data: {
-                pageNo: '@Model.Pager.CurrentPage',
-                status: $("#filterByStatus").val()
+                status: $("#filterByStatus").val(),
+                date: $("#selectDate").val(),
             },
         })
         .done(function (result) {
@@ -113,12 +121,55 @@
         })
     });
 
+    //select date, month and year
+    $(".date-picker").datepicker({
+        dateFormat: 'MM yy',
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        minDate: new Date(2018, 1-1),
+        maxDate: new Date(),
+
+        //after selected, send value to server
+        onClose: function (dateText, inst) {
+            debugger;
+            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
+
+            $.ajax({
+                url: '@Url.Action("OrderTable","Order")',
+                data: {
+                    date: $("#selectDate").val(),
+                    status: '@Model.Status',
+                },
+            }).done(function (result) {
+                $("#tableContainer").html(result);
+                focusElement("tableContainer");
+            })
+            .fail(function () {
+                alert("Fail");
+            })
+        },
+    });
+
+    //style calendar position
+    $(".date-picker").focus(function () {
+        $(".ui-datepicker-calendar").hide();
+        $("#ui-datepicker-div").position({
+            my: "center top",
+            at: "center bottom",
+            of: $(this)
+        });
+    });
+
     $(".pageButtons").click(function () {
         $.ajax({
             url: '@Url.Action("OrderTable","Order")',
             data: {
                 pageNo: $(this).attr("data-pageNo"),
-                status: '@Model.Status'
+                status: '@Model.Status',
+                date: $("#selectDate").val(),
             },
         })
         .done(function (result) {

@@ -28,18 +28,33 @@ namespace eCom.Services
         #endregion
 
         //get list of orders by status, pageNo
-        public List<Order> GetOrders(string status, int pageNo, int pageSize)
+        public List<Order> GetOrders(string status, int pageNo, string date, int pageSize)
         {
             using (var context = new eComContext())
             {
                 IQueryable<Order> orders = context.Orders;
 
-                if (!string.IsNullOrEmpty(status))
-                    orders = orders.Where(p => p.Status == status);
-                else
-                    orders = orders.Where(p => p.Status == "Pending");
+                if(!string.IsNullOrEmpty(date)) //linq-to-entities can't recognize convert datetime to satring then compare, so made this functioanlty.
+                {
+                    var ordersList = new List<Order>();
+                    foreach (var order in orders)
+                    {
+                        if (order.OrderedAt.ToString("y") == date)
+                        {
+                            ordersList.Add(order);
+                        }
+                    }
 
-                return orders.OrderBy(p => p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
+                    orders = ordersList.AsQueryable();
+                }
+
+                if (!string.IsNullOrEmpty(status))
+                    orders = orders.Where(o => o.Status == status);
+
+                if(string.IsNullOrEmpty(status) && string.IsNullOrEmpty(date))
+                    orders = orders.Where(o => o.Status == "Pending");
+
+                return orders.OrderBy(o => o.Id).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
             }
         }
 
@@ -48,21 +63,36 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
-                return context.Orders.Where(p => p.UserId ==  userId).OrderByDescending(p => p.Id).Skip((pageNo -1) * pageSize).Take(pageSize).ToList();
+                return context.Orders.Where(o => o.UserId ==  userId).OrderByDescending(o => o.Id).Skip((pageNo -1) * pageSize).Take(pageSize).ToList();
             }
         }
 
         //get count of list of orders
-        public int GetOrdersCount(string status)
+        public int GetOrdersCount(string status, string date)
         {
             using (var context = new eComContext())
             {
                 var orders = context.Orders.AsQueryable();
 
+                if (!string.IsNullOrEmpty(date))
+                {
+                    var ordersList = new List<Order>();
+                    foreach (var order in orders)
+                    {
+                        if (order.OrderedAt.ToString("y") == date)
+                        {
+                            ordersList.Add(order);
+                        }
+                    }
+
+                    orders = ordersList.AsQueryable();
+                }
+
                 if (!string.IsNullOrEmpty(status))
-                    orders = orders.Where(p => p.Status == status);
-                else
-                    orders = orders.Where(p => p.Status == "Pending");
+                    orders = orders.Where(o => o.Status == status);
+                
+                if(string.IsNullOrEmpty(status) && string.IsNullOrEmpty(date))
+                    orders = orders.Where(o => o.Status == "Pending");
 
                 return orders.Count();
             }
@@ -73,7 +103,7 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
-               return context.Orders.Where(p => p.UserId == userId).Count();
+               return context.Orders.Where(o => o.UserId == userId).Count();
             }
         }
 
