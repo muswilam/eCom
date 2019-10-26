@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/stylesheets/animate.css">
 
     <!-- Favicon and touch icons  -->
-    <link href="favicon.ico" rel="shortcut icon">
+    <link href="~/Content/icon/icon.png" rel="shortcut icon">
 
     <!--[if lt IE 9]>
         <script src="javascript/html5shiv.js"></script>
@@ -212,7 +212,7 @@
                         <div class="widget widget-link">
                             <ul>
                                 <li><a href="#">About Us</a></li>
-                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="@Url.Action("Contact","Home")">Contact Us</a></li>
                                 <li><a href="@Url.Action("FAQ","Home")">FAQs</a></li>
 
                             </ul>
@@ -231,7 +231,7 @@
                     <div class="col-sm-6 col-md-4">
                         <div class="widget widget-brand">
                             <div class="logo logo-footer">
-                                <a href="index.html"><img src="~/Content/images/logo@2x.png" alt="image" width="107" height="24"></a>
+                                <a href="@Url.Action("Index","Home")"><img src="~/Content/images/Bila.Q.png" alt="image" width="107" height="24"></a>
                             </div>
                             <ul class="flat-contact">
                                 <li class="address">@ConfigurationService.Instance.GetConfig("CompanyAddress").Value</li>

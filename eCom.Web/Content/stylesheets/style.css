@@ -2626,6 +2626,10 @@ article .more-link a:hover:after {
 	background-image: url('/Content/images/shop/FAQ.png');
 } 
 
+.contact {
+	background-image: url('/Content/images/shop/contact-us.jpg');
+} 
+
 .bg-section.row-1 {
 	background: url('/Content/images/shop/bags.jpg') no-repeat center center ;
 	background-size: cover;

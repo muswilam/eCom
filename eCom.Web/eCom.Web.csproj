@@ -209,6 +209,7 @@
   <ItemGroup>
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\icon\favicon.png" />
+    <Content Include="Content\icon\icon.png" />
     <Content Include="Content\images\avatar-1.png" />
     <Content Include="Content\images\avatar.png" />
     <Content Include="Content\images\bg-countdown-1-962x506.jpg" />
@@ -316,6 +317,7 @@
     <Content Include="Content\images\Shopping04.jpg" />
     <Content Include="Content\images\shop\bags.jpg" />
     <Content Include="Content\images\shop\checkout.jpg" />
+    <Content Include="Content\images\shop\contact-us.jpg" />
     <Content Include="Content\images\shop\FAQ.png" />
     <Content Include="Content\images\shop\orders.jpg" />
     <Content Include="Content\images\shop\s-01.jpg" />
