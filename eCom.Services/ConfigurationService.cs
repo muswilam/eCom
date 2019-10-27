@@ -69,5 +69,37 @@ namespace eCom.Services
                 return false;
             }
         }
+
+        //get all keys of configurations
+        public List<string> GetKeysConfig()
+        {
+            using (var context = new eComContext())
+            {
+                var keys = context.Configurations.Select(c => c.Key);
+
+                foreach (var key in keys)
+                {
+                    var exceptKeys = new List<string>();
+                    if (key.ToLower().Contains("image"))
+                    {
+                        exceptKeys.Add(key);
+                    }
+
+                    keys = keys.Except(exceptKeys);
+                }
+
+                return keys.ToList();
+            }
+        }
+
+        //edit config value
+        public bool EditConfig(Config config)
+        {
+            using (var context = new eComContext())
+            {
+                context.Entry(config).State = EntityState.Modified;
+                return context.SaveChanges() > 0;
+            }
+        }
     }
 }

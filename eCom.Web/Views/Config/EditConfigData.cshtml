@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "EditConfigData";
+}
+
+<div id="containerDiv" class="container">
+
+    <div class="col-md-12 mt-3 pt-5 pb-3">
+        <div class="title-section">
+            <h2 class="title">
+                Setting
+            </h2>
+        </div>
+    </div>
+
+    @if (ViewBag.ConfigKeys != null)
+    {
+        <form id="editConfigForm" class="pt-5 pb-5">
+            <div class="row mt-2">
+                <div class="col-md-12">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Key</label>
+                                <select name="Key" id="selectKey" class="form-control">
+                                    <option selected disabled>Select Key</option>
+                                    @foreach (var configKey in ViewBag.ConfigKeys)
+                                    {
+                                        <option value="@configKey">@configKey</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Value</label>
+                                <input name="Value" class="form-control" required placeholder="Configration value..." />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary float-right" id="saveBtn"><i class="fa fa-save"></i> Save</button>
+        </form>
+
+    <script>
+
+      @* validation form *@
+        $('#editConfigForm').validate({
+            rules: {
+                Key: {
+                    required: true,
+                },
+                Value: {
+                    required: true,
+                },
+            },
+            messages: {
+                Key: {
+                    required: 'Key is required.',
+                },
+                Value: {
+                    required: 'Value is required.'
+                },
+            },
+            errorClass: "text-danger"
+        });
+
+        $("#saveBtn").click(function () {
+
+            if ($('#editConfigForm').valid()) {
+
+                var name = $("#selectKey option:selected").text();
+                swal({
+                    title: "Confirm!",
+                    text: "Are you sure? wanna change " + name + ".",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then(function (willEdit) {
+                    if (willEdit) {
+
+                        $.ajax({
+                            url: '@Url.Action("EditConfigData", "Config")',
+                            data: $("#editConfigForm").serialize(),
+                            type: 'Post'
+                        })
+                        .done(function (result) {
+                            if (result.success) {
+                                swal(name + " Updated successfuly.", {
+                                    icon: "success",
+                                }).then(function () {
+                                    location.reload();
+                                });
+                            } else {
+                                swal("Failed", result.message, {
+                                    icon: "warning",
+                                })
+                            }
+                        })
+                    }
+                });
+            } else {
+                swal("Failed", "Invalid inputs.", {
+                    icon: "warning",
+                })
+            }
+    });
+    </script>
+        
+    }
+    else
+    {
+        <section class="flat-row main-shop shop-slidebar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            No Configurations are maded.
+                        </div>
+                    </div>
+                </div>
+            </div>>
+        </section>
+    }
+</div>
+
