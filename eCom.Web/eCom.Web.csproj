@@ -435,6 +435,7 @@
     <Content Include="Content\images\slider\slider-bg-5.jpg" />
     <Content Include="Content\images\slider\slider-bg-7.jpg" />
     <Content Include="Content\images\slider\slider-bg-8.jpg" />
+    <Content Include="Content\images\Sully.jpg" />
     <Content Include="Content\images\wordpress-version.png" />
     <Content Include="Content\javascript\bootstrap.min.js" />
     <Content Include="Content\javascript\equalize.min.js" />

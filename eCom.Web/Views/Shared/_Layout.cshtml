@@ -57,16 +57,6 @@
                     </div><!-- /.logo -->
                     <div class="mobile-button"><span></span></div>
                     <ul class="menu-extra">
-                        @*<li class="box-search">
-                                <a class="icon_search header-search-icon" href="#"></a>
-                                <form role="search" method="get" class="header-search-form" action="#">
-                                    <input type="text" value="" name="s" class="header-search-field" placeholder="Search...">
-                                    <button type="submit" class="header-search-submit" title="Search">Search</button>
-                                </form>
-                            </li>*@
-
-
-
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="box-login nav-top-cart-wrapper">
@@ -211,7 +201,7 @@
                     <div class="col-sm-6 col-md-4">
                         <div class="widget widget-link">
                             <ul>
-                                <li><a href="#">About Us</a></li>
+                                <li><a href="@Url.Action("About","Home")">About Us</a></li>
                                 <li><a href="@Url.Action("Contact","Home")">Contact Us</a></li>
                                 <li><a href="@Url.Action("FAQ","Home")">FAQs</a></li>
 
@@ -221,8 +211,7 @@
                     <div class="col-sm-6 col-md-4">
                         <div class="widget widget-link link-login">
                             <ul>
-                                <li><a href="@Url.Action("Register","Account")">Sign up</a></li>
-                                <li><a href="@Url.Action("Login","Account")">Log in</a></li>
+                                <li><a href="@Url.Action("Login", "Account")">Log in / Sign up</a></li>
                                 <li><a href="@Url.Action("Index","Wishlist")">Wishlist items</a></li>
                                 <li><a href="@Url.Action("Checkout", "Shop")">Your cart</a></li>
                             </ul>
