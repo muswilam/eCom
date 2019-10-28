@@ -64,5 +64,7 @@ namespace eCom.Web.ViewModels
         public bool IsProductWished { get; set; }
 
         public ApplicationUserManager User { get; set; }
+
+        public int? RatesAvarage { get; set; }
     }
 }

@@ -57,5 +57,24 @@ namespace eCom.Services
                 context.SaveChanges();
             }
         }
+
+        //get avarage of rates of specific product
+        public int GetRatesAvarage(int productId)
+        {
+            using (var context = new eComContext())
+            {
+                var reviews = context.Reviews.Where(r => r.ProductId == productId);
+
+                var rates = reviews.Select(r => r.Rate);
+
+                var multipliedRatesCount = (rates.Where(r => r == 5).Count() * 5 ) + 
+                    (rates.Where(r => r == 4).Count()*4) + 
+                    (rates.Where(r => r == 3).Count()*3) + 
+                    (rates.Where(r => r == 2).Count()*2) +
+                    (rates.Where(r => r == 1).Count()*1);
+
+                return multipliedRatesCount / rates.Count();
+            }
+        }
     }
 }
