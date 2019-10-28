@@ -32,7 +32,7 @@
                 foreach (var category in Model.Categories)
                 {
                     <tr>
-                        <td>@category.Name</td>
+                        <td class="font-weight-bold text-primary">@category.Name</td>
                         <td> <a href="@Url.Action("Index", "Product", new { categoryId = category.Id })"> @category.Products.Count </a></td>
                         <td>
                             <button class="editBtn" data-id="@category.Id"><i class="fa fa-pencil"></i> Edit</button>

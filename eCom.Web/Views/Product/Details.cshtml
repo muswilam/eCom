@@ -49,11 +49,6 @@
                                     <ins>$<span class="amount text-danger">@Model.Product.Price</span></ins>
                                 </div>
                                 <div class="product-quantity">
-                                    @*<div class="quantity">
-                                            <input type="text" value="1" name="quantity-number" class="quantity-number">
-                                            <span class="inc quantity-button">+</span>
-                                            <span class="dec quantity-button">-</span>
-                                        </div>*@
                                     @if (User.Identity.IsAuthenticated)
                                     {
                                         <div class="add-to-cart">
@@ -68,6 +63,7 @@
                                         </div>
                                     }
                                 </div>
+
                                 <div class="product-categories">
                                     <span>Category: </span><a href="@Url.Action("Index", "Shop", new { categoryId = Model.Product.CategoryId })">@Model.Product.Category.Name</a>
                                 </div>
@@ -81,8 +77,6 @@
 
     if (User.Identity.IsAuthenticated)
     {
-
-
         <section class="flat-row shop-detail-content">
             <div class="container">
                 <div class="row">

@@ -2,61 +2,55 @@
 
 
 <ul class="menu-tab">
-    <li class="active">Reviews</li>
+    <li class="active">
+        @if (Model.Reviews != null && Model.Reviews.Count() > 0)
+        {
+            <span class="badge badge-warning p-2">@Model.Reviews.Count()</span> 
+        }
+        Reviews
+    </li>
 </ul>
 <div class="content-tab">
     <div class="content-inner">
         <div class="inner max-width-83 padding-top-33">
-                        @if (Model.Reviews != null && Model.Reviews.Count() > 0)
-                        {
-                            <ol id="reviews" class="review-list">
-                                @foreach (var review in Model.Reviews)
-                                {
-                                    var userName = Model.User.Users.Where(u => u.Id == review.UserId).First().Name;
+            @if (Model.Reviews != null && Model.Reviews.Count() > 0)
+            {
+                <ol id="reviews" class="review-list">
+                    @foreach (var review in Model.Reviews)
+                    {
+                        var userName = Model.User.Users.Where(u => u.Id == review.UserId).First().Name;
 
-                                    <li class="review">
-                                        @if (User.IsInRole("Admin"))
+                        <li class="review">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <div class="mb-1 text-right">
+                                    <span class="delReview text-danger h5" data-id="@review.Id" data-name="@userName" style="cursor:pointer"><i class="fa fa-trash fa-lg"></i></span>
+                                </div>
+                            }
+                            <div class="text-wrap">
+                                <div class="review-meta">
+                                    <h5 class="name"><i class="fa fa-user fa-sm"></i> @userName</h5>
+
+                                    <div class="flat-star style-1">
+                                        @for (int i = 0; i < review.Rate; i++)
                                         {
-                                            <div class="mb-1 text-right">
-                                                <span class="delReview text-danger h5" data-id="@review.Id" data-name="@userName" style="cursor:pointer"><i class="fa fa-trash fa-lg"></i></span>
-                                            </div>
+                                            <i class="fa fa-star"></i>
                                         }
-                                        <div class="text-wrap">
-                                            <div class="review-meta">
-                                                <h5 class="name"><i class="fa fa-user fa-sm"></i> @userName</h5>
+                                    </div>
 
-                                                <div class="flat-star style-1">
-                                                    @for (int i = 0; i < review.Rate; i++)
-                                                    {
-                                                        <i class="fa fa-star"></i>
-                                                    }
-                                                </div>
+                                </div>
+                                <div class="review-text">
+                                    <p>@review.Body</p>
 
-                                            </div>
-                                            <div class="review-text">
-                                                <p>@review.Body</p>
+                                    <div class="float-right text-gray-dark">
+                                        <p>@review.ReviewedAt.ToString("yyyy-MMM, dd hh:mm tt")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li><!--  /.review    -->
 
-                                                <div class="float-right text-gray-dark">
-                                                    @if (review.ReviewedAt <= DateTime.Now)
-                                                    {
-                                                        var time = DateTime.Now - review.ReviewedAt;
-
-                                                        var fromTime = (time.Minutes < 60) ? time.Minutes + " mins" : time.Hours + " hrs";
-                                                       
-                                                        <p>From @fromTime</p>
-
-                                                    }
-                                                    else
-                                                    {
-                                                        <p>@review.ReviewedAt.ToString("yyyy-MMM,dd hh:mm tt")</p>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li><!--  /.review    -->
-
-                                }
-                            </ol><!-- /.review-list -->
+                    }
+                </ol><!-- /.review-list -->
             }
 
             <div class="comment-respond review-respond" id="respond">
@@ -71,13 +65,13 @@
                         <span class="fa fa-star-o" data-rating="3"></span>
                         <span class="fa fa-star-o" data-rating="4"></span>
                         <span class="fa fa-star-o" data-rating="5"></span>
-                        <input type="hidden" name="Rate" class="rating-value" value="0">
+                        <input type="hidden" name="Rate" class="rating-value" value=""> 
                     </div>
 
                     <h5>Write a review</h5>
 
                     <p class="comment-form-comment">
-                        <textarea class="form-control" tabindex="4" name="body" required> </textarea>
+                        <input type="text" class="form-control" name="Body" placeholder="Review...." />
                     </p>
 
                     <input type="hidden" name="UserId" value="@Model.AuthenticatedUser.Id" />
@@ -114,26 +108,56 @@
 
     SetRatingStar();
 
+    @* validation form *@
+    $('#reviewform').validate({
+        ignore: [], //enable validation for hidden fields
+        rules: {
+            Rate: {
+                required: true,
+            },
+            Body: {
+                required: true,
+            }
+        },
+        messages: {
+            Rate: {
+                required: 'Rate is required.',
+            },
+            Body: {
+                required: 'Review is required.'
+            }
+        },
+        errorClass: "text-danger"
+    });
+
 
     //create review
     $("#addReviewBtn").click(function () {
-        $.ajax({
-            url: '@Url.Action("AddReview","Review")',
-            data: $("#reviewform").serialize(),
-        })
-        .done(function (result) {
-            debugger;
-            if (result) {
-                $("#reviewsDiv").html(result);
-            } else {
-                swal("Failed", "Something went wrong.", {
+
+        if ($('#reviewform').valid()) {
+            $.ajax({
+                url: '@Url.Action("AddReview","Review")',
+                data: $("#reviewform").serialize(),
+            })
+            .done(function (result) {
+                if (result) {
+                    $("#reviewsDiv").html(result);
+                } else {
+                    swal("Failed", "Something went wrong.", {
+                        icon: "warning",
+                    });
+                };
+            })
+            .fail(function () {
+                swal("Failed", "Invalid inputs.", {
                     icon: "warning",
                 });
-            };
-        })
-        .fail(function () {
-            alert("Fail");
-        })
+            })
+        } else {
+            swal("Failed", "Invalid inputs.", {
+                icon: "warning",
+            });
+        }
     });
 
     //remove review by admin

@@ -18,7 +18,7 @@ namespace eCom.Web.ViewModels
 
         public DateTime ReviewedAt { get; set; }
 
-        [Range(0, 5)]
+        [Range(1, 5)]
         public byte Rate { get; set; }
 
         public int ProductId { get; set; }

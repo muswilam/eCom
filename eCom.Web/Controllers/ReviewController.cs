@@ -44,7 +44,11 @@ namespace eCom.Web.Controllers
 
         public ActionResult AddReview(AddReviewViewModel addReviewModel)
         {
-            
+            if(!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(500);
+            }
+
             bool result = false;
 
             var newReview = new Review();

@@ -66,6 +66,7 @@ namespace eCom.Web.Models
     {
         [Required(ErrorMessage = "Name is required.")]
         [Display(Name = "Name")]
+        [MinLength(10, ErrorMessage = "Name must be longer.")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Address is required.")]
