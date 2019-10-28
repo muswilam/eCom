@@ -90,7 +90,7 @@ namespace eCom.Services
             using (var context = new eComContext())
             {
                 var productsList = new List<Product>();
-                foreach (var category in context.Categories.Where(c => c.IsFeatured).Include(c => c.Products))
+                foreach (var category in context.Categories.Where(c => c.IsFeatured).Include(c => c.Products).Include("Products.Reviews"))
                 {
                     var products = category.Products.OrderByDescending(p => p.Id).Take(noOfProducts).ToList();
                     productsList.AddRange(products);
@@ -105,7 +105,7 @@ namespace eCom.Services
             using (var context = new eComContext())
             {
                 Random r =new Random();
-                var products = context.Products.Where(p => p.CategoryId == categoyId).Include(p => p.Category);
+                var products = context.Products.Where(p => p.CategoryId == categoyId).Include(p => p.Category).Include(p => p.Reviews);
                 var count = products.Count();
                 int ran = r.Next(0, count);
                 if (ran > 4) ran = 4;
@@ -118,7 +118,7 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
-                return context.Products.OrderByDescending(p => p.Id).Take(numberOfProducts).Include(p => p.Category).ToList();
+                return context.Products.OrderByDescending(p => p.Id).Take(numberOfProducts).Include(p => p.Category).Include(p => p.Reviews).ToList();
             }
         }
 
@@ -146,7 +146,7 @@ namespace eCom.Services
                     switch(sortBy.Value)
                     {
                         case 2: //popularity
-                            var reviews = products.OrderByDescending(p => p.Reviews.Count);
+                            products = products.OrderByDescending(p => p.Reviews.Count);
                             break;
                         case 3: //low to high
                             products = products.OrderBy(p => p.Price);

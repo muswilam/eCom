@@ -98,6 +98,10 @@
     <Compile Include="Migrations\201910181742334_ChangeUserIdFromIntToStringInReviewsTable.Designer.cs">
       <DependentUpon>201910181742334_ChangeUserIdFromIntToStringInReviewsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910281959162_SeedConfigData.cs" />
+    <Compile Include="Migrations\201910281959162_SeedConfigData.Designer.cs">
+      <DependentUpon>201910281959162_SeedConfigData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -149,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910181742334_ChangeUserIdFromIntToStringInReviewsTable.resx">
       <DependentUpon>201910181742334_ChangeUserIdFromIntToStringInReviewsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910281959162_SeedConfigData.resx">
+      <DependentUpon>201910281959162_SeedConfigData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

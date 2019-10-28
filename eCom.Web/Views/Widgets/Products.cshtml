@@ -45,6 +45,17 @@
                                 <span class="amount">$@product.Price</span>
                             </ins>
                         </div>
+                        @if (product.Reviews != null && product.Reviews.Count() > 0)
+                        {
+                            var ratesAverage = ReviewService.Instance.GetRatesAvarage(product.Id);
+                            <div class="flat-star style-1">
+                                @for (int i = 0; i < ratesAverage; i++)
+                                {
+                                    <i class="fa fa-star"></i>
+                                }
+                            </div>
+                        }
+
                     </div>
                 </li>
             }
