@@ -18,7 +18,7 @@ namespace eCom.Web.ViewModels
     public class ShopViewModel
     {
         public List<Product> Products { get; set; }
-        public List<Category> FeaturedCategories { get; set; }
+        public List<Category> FilledCategories { get; set; }
         public decimal MaximumPrice { get; set; }
 
         public byte? SortBy { get; set; }
@@ -43,7 +43,7 @@ namespace eCom.Web.ViewModels
 
         public ApplicationUser User { get; set; }
 
-        public List<Category> FeaturedCategories { get; set; }
+        public List<Category> FilledCategories { get; set; }
 
         public decimal MaximumPrice { get; set; }
     }

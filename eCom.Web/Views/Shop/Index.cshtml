@@ -43,10 +43,10 @@
                     </div><!-- /.widget-sort-by -->
                     <div class="widget widget_tag">
                         <h5 class="widget-title">
-                            Featured Categories
+                            Categories
                         </h5>
                         <div class="tag-list">
-                            @foreach (var category in Model.FeaturedCategories)
+                            @foreach (var category in Model.FilledCategories)
                             {
                                 <a data-href="@Url.Action("FilterProducts", "Shop", new { categoryId = category.Id })" class="dataLink" style="cursor:pointer">@category.Name</a>
                             }

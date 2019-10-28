@@ -48,7 +48,7 @@ namespace eCom.Web.Controllers
         {
             var shopModel = new ShopViewModel();
 
-            shopModel.FeaturedCategories = CategoriesService.Instance.GetFeaturedCategories();
+            shopModel.FilledCategories = CategoriesService.Instance.GetFilledCategories();
 
             shopModel.MaximumPrice = ProductService.Instance.GetMaxPrice();
             shopModel.CategoryId = categoryId;
@@ -67,7 +67,7 @@ namespace eCom.Web.Controllers
             filterModel.CategoryId = categoryId;
             filterModel.SearchTerm = searchTerm;
 
-            filterModel.FeaturedCategories = CategoriesService.Instance.GetFeaturedCategories();
+            filterModel.FilledCategories = CategoriesService.Instance.GetFilledCategories();
 
             filterModel.MaximumPrice = ProductService.Instance.GetMaxPrice();
             int totalRecords = ProductService.Instance.GetShopProductsCount(searchTerm, minPrice, maxPrice, categoryId, sortBy);

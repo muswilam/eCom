@@ -315,6 +315,7 @@
     <Content Include="Content\images\pattern\7.png" />
     <Content Include="Content\images\pattern\8.png" />
     <Content Include="Content\images\pattern\9.png" />
+    <Content Include="Content\images\second-image-shop.jpg" />
     <Content Include="Content\images\Shopping04.jpg" />
     <Content Include="Content\images\shop\bags.jpg" />
     <Content Include="Content\images\shop\checkout.jpg" />
