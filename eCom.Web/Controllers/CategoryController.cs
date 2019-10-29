@@ -37,8 +37,11 @@ namespace eCom.Web.Controllers
 
         #region Category Creation
         [HttpGet]
-        public PartialViewResult Create()
+        public ActionResult Create()
         {
+            if (!Request.IsAjaxRequest())
+                return RedirectToAction("PageNotFound","Error");
+
             return PartialView();
         }
 
@@ -64,8 +67,11 @@ namespace eCom.Web.Controllers
 
         #region Category Updation
         [HttpGet]
-        public PartialViewResult Edit(int id)
+        public ActionResult Edit(int id)
         {
+            if (!Request.IsAjaxRequest())
+                return RedirectToAction("PageNotFound", "Error");
+
             EditCategoryViewModel editModel = new EditCategoryViewModel();
 
             var categoryFromDb = CategoriesService.Instance.GetCategory(id);

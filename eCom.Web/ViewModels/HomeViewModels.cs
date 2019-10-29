@@ -9,7 +9,5 @@ namespace eCom.Web.ViewModels
     public class HomeViewModel
     {
         public List<Category> FeaturedCategories { get; set; }
-        public List<Product> FeaturedProducts { get; set; }
-
     }
 }

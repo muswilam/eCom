@@ -321,20 +321,24 @@
 </section>
 <!-- END ANIMATION BOX -->
 <!-- PRODUCT -->
-<section class="flat-row row-product-project style-1">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="title-section margin-bottom-41">
-                    <h2 class="title">Featured Products</h2>
+
+@if(Model.FeaturedCategories != null && Model.FeaturedCategories.Count() > 0)
+{
+    <section class="flat-row row-product-project style-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-section margin-bottom-41">
+                        <h2 class="title">Featured Products</h2>
+                    </div>
+                    @{
+                        Html.RenderAction("Products", "Widgets", new { isLatestProducts = false });
+                    }
                 </div>
-                @{
-                    Html.RenderAction("Products", "Widgets", new { isLatestProducts = false });
-                }
             </div>
         </div>
-    </div>
-</section>
+    </section>
+}
 <!-- END PRODUCT -->
 <!-- ICON BOX -->
 <section class="flat-row row-icon-box bg-section bg-color-f5f">

@@ -73,7 +73,9 @@ namespace eCom.Services
                     (rates.Where(r => r == 2).Count()*2) +
                     (rates.Where(r => r == 1).Count()*1);
 
-                return multipliedRatesCount / rates.Count();
+                decimal average = decimal.Divide(multipliedRatesCount , rates.Count());
+
+                return (Int32) Math.Round(average , MidpointRounding.AwayFromZero);
             }
         }
     }

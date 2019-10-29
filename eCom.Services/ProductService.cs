@@ -85,7 +85,7 @@ namespace eCom.Services
         }
 
         //get no of products from Featured category 
-        public List<Product> GetProducts(int noOfProducts)
+        public List<Product> GetFeaturedProducts(int noOfProducts)
         {
             using (var context = new eComContext())
             {

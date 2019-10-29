@@ -71,8 +71,11 @@ namespace eCom.Web.Controllers
 
         #region Product Creation
         [HttpGet]
-        public PartialViewResult Create()
+        public ActionResult Create()
         {
+            if (!Request.IsAjaxRequest())
+                return RedirectToAction("PageNotFound", "Error");
+
             NewProductViewModel productModel = new NewProductViewModel();
 
             productModel.AvailableCategories = CategoriesService.Instance.GetCategories();
@@ -103,8 +106,11 @@ namespace eCom.Web.Controllers
 
         #region Product Updation
         [HttpGet]
-        public PartialViewResult Edit(int id)
+        public ActionResult Edit(int id)
         {
+            if (!Request.IsAjaxRequest())
+                return RedirectToAction("PageNotFound", "Error");
+
             EditProductViewModel editModel = new EditProductViewModel();
 
             var productFromDb = ProductService.Instance.GetProduct(id);

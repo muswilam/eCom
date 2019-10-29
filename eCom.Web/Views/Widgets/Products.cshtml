@@ -4,9 +4,9 @@
     var defaultImgUrl = "/Content/Images/default.jpg";
 }
 
-@if (Model != null && Model.Products != null)
+@if (Model != null && Model.Products != null && Model.Products.Count() > 0)
 {
-    if(!Model.IsLatestProducts && !Model.isCategoryId) //filled categories with products 
+    if(!Model.IsLatestProducts && !Model.isCategoryId && Model.FeaturedCategories != null && Model.FeaturedCategories.Count() > 0) //featured categories 
     {
         <ul class="flat-filter style-1 text-center max-width-682 clearfix">
             <li class="active"><a href="#" data-filter="*">All Featured</a></li>
