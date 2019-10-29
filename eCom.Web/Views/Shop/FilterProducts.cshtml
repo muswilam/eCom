@@ -4,192 +4,210 @@
     var defaultImgUrl = "/Content/Images/default.jpg";
 }
 
-<div class="filter-shop clearfix">
-    <p class="showing-product float-right">
-        Showing @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + 1) – @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + (Model.Products.Count < Model.Pager.PageSize ? Model.Products.Count : Model.Pager.PageSize)) of @Model.Pager.TotalItems Products
-    </p>
-</div><!-- /.filte-shop -->
+@if (Model != null && Model.Products != null && Model.Products.Count() > 0)
+{
 
-<div class="product-content product-threecolumn product-slidebar clearfix">
-    <ul class="product style2 sd1">
-        @foreach (var product in Model.Products)
+    <div class="filter-shop clearfix">
+        <p class="showing-product float-right">
+            Showing @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + 1) – @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + (Model.Products.Count < Model.Pager.PageSize ? Model.Products.Count : Model.Pager.PageSize)) of @Model.Pager.TotalItems Products
+        </p>
+    </div><!-- /.filte-shop -->
+
+    <div class="product-content product-threecolumn product-slidebar clearfix">
+        <ul class="product style2 sd1">
+            @foreach (var product in Model.Products)
+            {
+                var imageUrl = string.IsNullOrEmpty(product.ImageUrl) ? defaultImgUrl : product.ImageUrl;
+
+                <li class="product-item">
+                    <div class="product-thumb clearfix">
+                        <a href="@Url.Action("Details","Product", new { id = product.Id})">
+                            <img src="@imageUrl" alt="image" class="img-thumbnail" style="height:250px;">
+                        </a>
+                    </div>
+                    <div class="product-info clearfix mt-2">
+                        <span class="product-title">@product.Name</span>
+                        <div class="price">
+                            <ins>
+                                <span class="amount">$@product.Price</span>
+                            </ins>
+                        </div>
+                    </div>
+
+                    @if (product.Reviews != null && product.Reviews.Count() > 0)
+                    {
+                        var ratesAverage = ReviewService.Instance.GetRatesAvarage(product.Id);
+                        <div class="flat-star style-1">
+                            @for (int i = 0; i < ratesAverage; i++)
+                            {
+                                <i class="fa fa-star"></i>
+                            }
+                        </div>
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="add-to-cart text-center">
+                            <a class="productAddToCart" data-id="@product.Id">ADD TO CART</a>
+                        </div>
+
+                        var likedClass = WishlistService.Instance.IsProductWished(Model.User.Id, product.Id) ? "fa fa-heart" : "fa fa-heart-o";
+
+                        <a data-id="@product.Id" class="like" style="cursor:pointer"><i id="wishHeart" class="@likedClass"></i></a>
+                    }
+                </li>
+
+            }
+        </ul><!-- /.product -->
+    </div><!-- /.product-content -->
+
+    @* Stop here !!! Pager  *@
+    <div id="paginationDiv" class="product-pagination text-center clearfix">
+        @if (Model.Pager != null && Model.Pager.TotalPages > 1)
         {
-            var imageUrl = string.IsNullOrEmpty(product.ImageUrl) ? defaultImgUrl : product.ImageUrl;
-
-            <li class="product-item">
-                <div class="product-thumb clearfix">
-                    <a href="@Url.Action("Details","Product", new { id = product.Id})">
-                        <img src="@imageUrl" alt="image" class="img-thumbnail" style="height:250px;">
-                    </a>
-                </div>
-                <div class="product-info clearfix mt-2">
-                    <span class="product-title">@product.Name</span>
-                    <div class="price">
-                        <ins>
-                            <span class="amount">$@product.Price</span>
-                        </ins>
-                    </div>
-                </div>
-
-                @if (product.Reviews != null && product.Reviews.Count() > 0)
+            <ul class="flat-pagination">
+                @if (Model.Pager.CurrentPage != 1)
                 {
-                    var ratesAverage = ReviewService.Instance.GetRatesAvarage(product.Id);
-                    <div class="flat-star style-1">
-                        @for (int i = 0; i < ratesAverage; i++)
-                        {
-                            <i class="fa fa-star"></i>
-                        }
-                    </div>
+                    <li class="prev">
+                        <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = 1, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-double-left"></i></a>
+                    </li>
+                    <li>
+                        <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = (Model.Pager.CurrentPage - 1), sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-left"></i></a>
+                    </li>
                 }
 
-                @if (User.Identity.IsAuthenticated)
+                @for (int page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
                 {
-                    <div class="add-to-cart text-center">
-                        <a class="productAddToCart" data-id="@product.Id">ADD TO CART</a>
-                    </div>
-                    
-                    var likedClass = WishlistService.Instance.IsProductWished(Model.User.Id,product.Id) ? "fa fa-heart" : "fa fa-heart-o";
-                    
-                    <a data-id="@product.Id" class="like" style="cursor:pointer"><i id="wishHeart" class="@likedClass"></i></a>
-                }
-            </li>
+                    string activeClass = Model.Pager.CurrentPage == page ? "active" : string.Empty;
 
+                    <li class="@activeClass">
+                        <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = page, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer">@page</a>
+                    </li>
+                }
+                @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                    <li>
+                        <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = (Model.Pager.CurrentPage + 1), sortBy = Model.SortBy, categoryId = Model.CategoryId  })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-right"></i></a>
+                    </li>
+                    <li>
+                        <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = Model.Pager.EndPage, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-double-right"></i></a>
+                    </li>
+                }
+            </ul>
         }
-    </ul><!-- /.product -->
-</div><!-- /.product-content -->
-
-@* Stop here !!! Pager  *@
-<div id="paginationDiv" class="product-pagination text-center clearfix">
-    @if (Model.Pager != null && Model.Pager.TotalPages > 1)
-    {
-        <ul class="flat-pagination">
-            @if (Model.Pager.CurrentPage != 1)
-            {
-                <li class="prev">
-                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = 1, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-double-left"></i></a>
-                </li>
-                <li>
-                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = (Model.Pager.CurrentPage - 1), sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-left"></i></a>
-                </li>
-            }
-
-            @for (int page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
-            {
-                string activeClass = Model.Pager.CurrentPage == page ? "active" : string.Empty;
-
-                <li class="@activeClass">
-                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = page, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer">@page</a>
-                </li>
-            }
-            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
-            {
-                <li>
-                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = (Model.Pager.CurrentPage + 1), sortBy = Model.SortBy, categoryId = Model.CategoryId  })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-right"></i></a>
-                </li>
-                <li>
-                    <a data-href="@Url.Action("FilterProducts", "Shop", new { pageNo = Model.Pager.EndPage, sortBy = Model.SortBy, categoryId = Model.CategoryId })" class="pageDataLink" style="cursor:pointer"><i class="fa fa-angle-double-right"></i></a>
-                </li>
-            }
-        </ul>
-    }
-</div>
+    </div>
 
 
-<input type="hidden" id="searchTerm" value="@Model.SearchTerm" />
-<input type="hidden" id="sortBy" value="@Model.SortBy" />
-<input type="hidden" id="categoryId" value="@Model.CategoryId" />
+    <input type="hidden" id="searchTerm" value="@Model.SearchTerm" />
+    <input type="hidden" id="sortBy" value="@Model.SortBy" />
+    <input type="hidden" id="categoryId" value="@Model.CategoryId" />
 
-@{
+   
     var name = Model.User != null ? Model.User.Name.Replace(" ", "") : string.Empty;
-}
+    
 
-<script>
-    $(".pageDataLink").click(function () {
-        var url = $(this).attr("data-href");
+    <script>
+        $(".pageDataLink").click(function () {
+            var url = $(this).attr("data-href");
 
-        if (url != "" || url != undefined) {
-            GetData(url);
-        }
-    });
-
-    //add to cart
-    var products;
-
-    $(".productAddToCart").click(function () {
-
-        var existingCookieData = $.cookie('@name' + 'CartProducts');
-
-        if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
-        {
-            products = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
-        } else {
-            products = ['@User.Identity.Name']; //initialize
-        }
-
-        var productId = $(this).attr("data-id");
-        products.push(productId);
-
-        $.cookie('@name' + 'CartProducts', products.join('-'), { expires: 1, path: '/' }); // { path: '/'} to allow cookie in others controllers
-
-        updateCartProducts($.cookie('@name' + 'CartProducts')); //count in layout (code in main.js)
-
-        swal("Added to cart successfuly.", {
-            icon: "success",
+            if (url != "" || url != undefined) {
+                GetData(url);
+            }
         });
-    });
 
-    $('.like').click(function () {
-        var productId = $(this).attr("data-id");
-        var likeElement = $(this).children("#wishHeart");
+        //add to cart
+        var products;
 
-        //add product to wishlist
-        if (likeElement.hasClass("fa fa-heart-o")) {
-            $.ajax({
-                url: '@Url.Action("AddWishlist", "Wishlist")',
-                data: {
-                    productId: productId
-                },
-            })
-            .done(function (result) {
-                if (result.success) {
-                    swal("Done", "Added to wishlist successfuly.", {
-                        icon: "success",
-                    });
-                    likeElement.removeClass("fa fa-heart-o");
-                    likeElement.addClass("fa fa-heart");
-                } else {
-                    swal("Failed", result.message, {
-                        icon: "warning",
-                    });
-                }
-            })
-            .fail(function () {
-                alert("Fail");
+        $(".productAddToCart").click(function () {
+
+            var existingCookieData = $.cookie('@name' + 'CartProducts');
+
+            if (existingCookieData != undefined && existingCookieData != "" && existingCookieData != null) //undefined: first time
+            {
+                products = existingCookieData.split('-'); //split('-'): every item in index of string , split(): all items in one index of string
+            } else {
+                products = ['@User.Identity.Name']; //initialize
+            }
+
+            var productId = $(this).attr("data-id");
+            products.push(productId);
+
+            $.cookie('@name' + 'CartProducts', products.join('-'), { expires: 1, path: '/' }); // { path: '/'} to allow cookie in others controllers
+
+            updateCartProducts($.cookie('@name' + 'CartProducts')); //count in layout (code in main.js)
+
+            swal("Added to cart successfuly.", {
+                icon: "success",
             });
-        } else { //remove product from wishlist
+        });
 
-            $.ajax({
-                url: '@Url.Action("RemoveProduct", "Wishlist")',
-                data: {
-                    productId: productId
-                },
-            })
-           .done(function (result) {
-               if (result.success) {
-                   swal("Done", "Removed from wishlist successfuly.", {
-                       icon: "success",
-                   });
-                   likeElement.removeClass("fa fa-heart");
-                   likeElement.addClass("fa fa-heart-o");
-               } else {
-                   swal("Failed", result.message, {
-                       icon: "warning",
-                   });
-               }
-           })
-           .fail(function () {
-               alert("Fail");
-           });
-        }
-    });
-</script>
+        $('.like').click(function () {
+            var productId = $(this).attr("data-id");
+            var likeElement = $(this).children("#wishHeart");
+
+            //add product to wishlist
+            if (likeElement.hasClass("fa fa-heart-o")) {
+                $.ajax({
+                    url: '@Url.Action("AddWishlist", "Wishlist")',
+                    data: {
+                        productId: productId
+                    },
+                })
+                .done(function (result) {
+                    if (result.success) {
+                        swal("Done", "Added to wishlist successfuly.", {
+                            icon: "success",
+                        });
+                        likeElement.removeClass("fa fa-heart-o");
+                        likeElement.addClass("fa fa-heart");
+                    } else {
+                        swal("Failed", result.message, {
+                            icon: "warning",
+                        });
+                    }
+                })
+                .fail(function () {
+                    alert("Fail");
+                });
+            } else { //remove product from wishlist
+
+                $.ajax({
+                    url: '@Url.Action("RemoveProduct", "Wishlist")',
+                    data: {
+                        productId: productId
+                    },
+                })
+               .done(function (result) {
+                   if (result.success) {
+                       swal("Done", "Removed from wishlist successfuly.", {
+                           icon: "success",
+                       });
+                       likeElement.removeClass("fa fa-heart");
+                       likeElement.addClass("fa fa-heart-o");
+                   } else {
+                       swal("Failed", result.message, {
+                           icon: "warning",
+                       });
+                   }
+               })
+               .fail(function () {
+                   alert("Fail");
+               });
+            }
+        });
+    </script>
+}
+else
+{
+    <section class="flat-row main-shop shop-slidebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger">
+                        <i class="fa fa-bell"></i> No Products have been added yet.
+                    </div>
+                </div>
+            </div>
+        </div>>
+    </section>
+}

@@ -158,7 +158,7 @@ namespace eCom.Web.Controllers
             productModel.AuthenticatedUser = UserManager.FindById(User.Identity.GetUserId());
             productModel.User = UserManager;
 
-            if (productModel.Product.Reviews != null && productModel.Product.Reviews.Count() > 0)
+            if (productModel.Product != null && productModel.Product.Reviews != null && productModel.Product.Reviews.Count() > 0)
                 productModel.RatesAvarage = ReviewService.Instance.GetRatesAvarage(id);
 
             if(productModel.AuthenticatedUser != null)

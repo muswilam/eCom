@@ -18,6 +18,7 @@ INSERT INTO [dbo].[Configs] ([Key], [Value]) VALUES (N'MainImage', N'/Content/Im
 INSERT INTO [dbo].[Configs] ([Key], [Value]) VALUES (N'SecondImage', N'/Content/Images/second-image-shop.jpg')
 INSERT INTO [dbo].[Configs] ([Key], [Value]) VALUES (N'TwitterUrl', N'https://www.twitter.com/muswilam')
 
+
 ");
         }
         

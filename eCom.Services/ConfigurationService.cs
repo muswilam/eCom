@@ -41,7 +41,7 @@ namespace eCom.Services
             {
                 var pageSizeConfig = context.Configurations.Find("PageSize");
 
-                return pageSizeConfig != null ? int.Parse(pageSizeConfig.Value) : 10;
+                return pageSizeConfig.Value != string.Empty ? int.Parse(pageSizeConfig.Value) : 10;
             }
         }
         public int ShopPageSize()
@@ -50,7 +50,7 @@ namespace eCom.Services
             {
                 var pageSizeConfig = context.Configurations.Find("ShopPageSize");
 
-                return pageSizeConfig != null ? int.Parse(pageSizeConfig.Value) : 6;
+                return pageSizeConfig.Value != string.Empty ? int.Parse(pageSizeConfig.Value) : 12;
             }
         }
 

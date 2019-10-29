@@ -102,6 +102,10 @@
     <Compile Include="Migrations\201910281959162_SeedConfigData.Designer.cs">
       <DependentUpon>201910281959162_SeedConfigData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910291024579_AddPageSizeSeedData.cs" />
+    <Compile Include="Migrations\201910291024579_AddPageSizeSeedData.Designer.cs">
+      <DependentUpon>201910291024579_AddPageSizeSeedData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -156,6 +160,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910281959162_SeedConfigData.resx">
       <DependentUpon>201910281959162_SeedConfigData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910291024579_AddPageSizeSeedData.resx">
+      <DependentUpon>201910291024579_AddPageSizeSeedData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
