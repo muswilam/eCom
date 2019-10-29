@@ -41,7 +41,12 @@ namespace eCom.Services
         {
             using (var context = new eComContext())
             {
-                return context.Products.Max(p => p.Price);
+                var products = context.Products.ToList();
+
+                if(products != null && products.Count() > 0)
+                  return products.Max(p => p.Price);
+
+                return 0.00M;
             }
         }
 
