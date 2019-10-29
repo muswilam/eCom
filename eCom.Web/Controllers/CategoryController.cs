@@ -28,16 +28,11 @@ namespace eCom.Web.Controllers
 
             var totalRecords = CategoriesService.Instance.GetCategoriesCount(search);
 
-            catModel.Categories = CategoriesService.Instance.GetCategories(search , pageNo.Value, pageSize);
+            catModel.Categories = CategoriesService.Instance.GetCategories(search, pageNo.Value, pageSize);
+       
+            catModel.Pager = new Pager(totalRecords, pageNo, pageSize);
 
-            if (catModel.Categories != null)
-            {
-                catModel.Pager = new Pager(totalRecords, pageNo, pageSize);
-
-                return PartialView("_CategoryTable", catModel);
-            }
-
-            return HttpNotFound();
+            return PartialView("_CategoryTable", catModel);
         }
 
         #region Category Creation

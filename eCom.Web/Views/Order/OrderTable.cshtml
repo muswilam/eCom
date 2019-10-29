@@ -1,8 +1,5 @@
 ﻿@model OrdersViewModels
 
-<link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css">
-
-
 <div>
     <form id="controlForm">
         <div class="input-group mt-5 mb-3">
@@ -24,6 +21,8 @@
     </form>
 </div>
 
+@if (Model.Orders != null && Model.Orders.Count > 0)
+{
 <div>
     <table id="ordersTable" class="table table-striped">
         <thead>
@@ -35,34 +34,28 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.Orders != null && Model.Orders.Count > 0)
+            @foreach (var order in Model.Orders)
             {
-                foreach (var order in Model.Orders)
-                {
-                    <tr>
-                        @switch (order.Status)
-                        {
-                            case "In Progress":
-                                <td class="text-warning font-weight-bold">@order.Status</td>
-                                break;
-                            case "Delivered":
-                                <td class="text-success font-weight-bold">@order.Status</td>
-                                break;
-                            default:
-                                <td class="text-primary font-weight-bold">@order.Status</td>
-                                break;
-                        }
-                        <td>$@order.TotalAmount</td>
-                        <td>@order.OrderedAt.ToString("f")</td>
-                        <td>
-                            <a class="btn btn-info" href="@Url.Action("Details", "Order", new { id = order.Id})"><i class="fa fa-info"></i> Details</a>
-                        </td>
-                    </tr>
-                }
+                <tr>
+                    @switch (order.Status)
+                    {
+                        case "In Progress":
+                            <td class="text-warning font-weight-bold">@order.Status</td>
+                            break;
+                        case "Delivered":
+                            <td class="text-success font-weight-bold">@order.Status</td>
+                            break;
+                        default:
+                            <td class="text-primary font-weight-bold">@order.Status</td>
+                            break;
+                    }
+                    <td>$@order.TotalAmount</td>
+                    <td>@order.OrderedAt.ToString("f")</td>
+                    <td>
+                        <a class="btn btn-info" href="@Url.Action("Details", "Order", new { id = order.Id})"><i class="fa fa-info"></i> Details</a>
+                    </td>
+                </tr>
             }
-            else
-            {
-                <tr><td colspan="4" class="text-danger">No orders found.</td></tr>}
         </tbody>
 
     </table>
@@ -102,7 +95,21 @@
         }
     </div>
 </div>
-
+}
+else
+{
+    <section class="flat-row main-shop shop-slidebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger">
+                        <i class="fa fa-bell"></i> No orders.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
 <script>
     $("#filterByStatus").change(function () {
         $.ajax({

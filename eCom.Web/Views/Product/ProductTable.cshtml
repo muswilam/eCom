@@ -8,14 +8,17 @@
     <form id="controlForm">
         <div class="input-group mt-3 mb-3">
             <input id="searchTxt" name="Search" class="form-control mr-1" value="@Model.SearchTerm" placeholder="Search..." />
-            <select name="selectCategory" id="selectCategory" class="form-control mr-1">
-                <option>Filter by category</option>
-                @foreach (var category in Model.Categories)
-                {
-                    var isSelected = category.Id == Model.CategoryId ? "selected" : string.Empty;
-                    <option value="@category.Id" @isSelected>@category.Name</option>
-                }
-            </select>
+            @if (Model.Categories != null && Model.Categories.Count() > 0)
+            {
+                <select name="selectCategory" id="selectCategory" class="form-control mr-1">
+                    <option>Filter by category</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        var isSelected = category.Id == Model.CategoryId ? "selected" : string.Empty;
+                        <option value="@category.Id" @isSelected>@category.Name</option>
+                    }
+                </select>
+            }
             <div class="input-group-append">
                 <button type="button" id="searchBtn" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
                 <button type="button" id="resetBtn" class="btn btn-primary"><i class="fa fa-refresh"></i> Reset</button>
@@ -25,6 +28,8 @@
     </form>
 </div>
 
+@if (Model.Products != null && Model.Products.Count > 0)
+{
 <div>
     <table id="productsTable" class="table table-striped">
         <thead>
@@ -35,34 +40,19 @@
                 <th class="font-weight-bold">Actions</th>
             </tr>
         </thead>
-        <tbody>
-            @if (Model.Products != null && Model.Products.Count > 0)
+        <tbody>    
+            @foreach (var product in Model.Products)
             {
-                foreach (var product in Model.Products)
-                {
-                    <tr>
-                        <td class="font-weight-bold text-primary">@product.Name</td>
-                        <td>
-                            @if (product.Category != null)
-                            {
-                                <text> @product.Category.Name </text>
-                            }
-                            else
-                            {
-                                <text> - </text>
-                            }
-                        </td>
-                        <td>@product.Price</td>
-                        <td>
-                            <button class="editBtn" data-id="@product.Id"><i class="fa fa-pencil"></i> Edit</button>
-                            <button class="deleteBtn" data-id="@product.Id" data-name="@product.Name"><i class="fa fa-trash"></i> Delete</button>
-                        </td>
-                    </tr>
-                }
+                <tr>
+                    <td class="font-weight-bold text-primary">@product.Name</td>
+                    <td> @product.Category.Name </td>
+                    <td>@product.Price</td>
+                    <td>
+                        <button class="editBtn" data-id="@product.Id"><i class="fa fa-pencil"></i> Edit</button>
+                        <button class="deleteBtn" data-id="@product.Id" data-name="@product.Name"><i class="fa fa-trash"></i> Delete</button>
+                    </td>
+                </tr>
             }
-            else
-            {
-                <tr><td colspan="4" class="text-danger">No products found.</td></tr>}
         </tbody>
 
     </table>
@@ -103,7 +93,21 @@
         }
     </div>
 </div>
-
+}
+else
+{
+    <section class="flat-row main-shop shop-slidebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger">
+                        <i class="fa fa-bell"></i> No products.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
 <script>
 
     $("#selectCategory").change(function () {

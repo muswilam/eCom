@@ -60,17 +60,13 @@ namespace eCom.Web.Controllers
             productModel.CategoryId = categoryId;
             var totalRecords = ProductService.Instance.GetProductsCount(search, categoryId);
 
-            productModel.Products = ProductService.Instance.GetProducts(search , categoryId, pageNo.Value, pageSize);
+            productModel.Products = ProductService.Instance.GetProducts(search, categoryId, pageNo.Value, pageSize);
             productModel.Categories = CategoriesService.Instance.GetCategories();
 
-            if(productModel.Products != null)
-            {
-                productModel.Pager = new Pager(totalRecords, pageNo.Value, pageSize);
+            productModel.Pager = new Pager(totalRecords, pageNo.Value, pageSize);
 
-                return PartialView(productModel);
-            }
+            return PartialView(productModel);
 
-            return HttpNotFound();
         }
 
         #region Product Creation
@@ -78,7 +74,7 @@ namespace eCom.Web.Controllers
         public PartialViewResult Create()
         {
             NewProductViewModel productModel = new NewProductViewModel();
-             
+
             productModel.AvailableCategories = CategoriesService.Instance.GetCategories();
 
             return PartialView(productModel);

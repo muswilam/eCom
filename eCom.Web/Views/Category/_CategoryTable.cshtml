@@ -17,6 +17,9 @@
     </form>
 </div>
 
+@if(Model != null && Model.Categories != null && Model.Categories.Count() > 0)
+{
+
 <div class=" table-responsive">
     <table class="table table-striped" >
         <thead>
@@ -85,6 +88,21 @@
         }
     </div>
 </div>
+}
+else
+{
+    <section class="flat-row main-shop shop-slidebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger">
+                        <i class="fa fa-bell"></i>No categories.
+                    </div>
+                </div>
+            </div>
+        </div>>
+    </section>
+}
 
 <script>
     $(".pageButtons").click(function () {
